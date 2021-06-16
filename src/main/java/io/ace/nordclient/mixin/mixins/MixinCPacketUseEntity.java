@@ -31,4 +31,10 @@ public abstract class MixinCPacketUseEntity implements ICPacketUseEntity {
     public void setEntityAction(CPacketUseEntity.Action action1) {
         action = action1;
     }
+
+    @Override
+    public void setHitVec(Vec3d hitVec1) {hitVec = hitVec1;}
+
+    @Override
+    public void setHand(EnumHand hand1) {hand = hand1;}
 }

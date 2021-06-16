@@ -319,5 +319,28 @@ public class HoleUtil {
         return retVal;
 
     }
+    public static boolean isTrapped(BlockPos pos) {
+        if (!mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR)) {
+            if (!mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR)) {
+                if (!mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR)) {
+                    if (!mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) {
+                        if (!mc.world.getBlockState(pos.north().up()).getBlock().equals(Blocks.AIR)) {
+                            if (!mc.world.getBlockState(pos.south().up()).getBlock().equals(Blocks.AIR)) {
+                                if (!mc.world.getBlockState(pos.east().up()).getBlock().equals(Blocks.AIR)) {
+                                    if (!mc.world.getBlockState(pos.west().up()).getBlock().equals(Blocks.AIR)) {
+                                        return !mc.world.getBlockState(pos.up().up()).getBlock().equals(Blocks.AIR);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return false;
+
+    }
 
 }

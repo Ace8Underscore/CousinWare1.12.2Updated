@@ -13,7 +13,7 @@ public class FOVchanger  extends Hack {
         super("FOVchanger",Category.RENDER,1);
         CousinWare.INSTANCE.settingsManager.rSetting(FOV = new Setting("FOV",this,100,10,150,true,"FOVchangerFOV"));
 
-    }
+    } //
 
     @Override
     public void onUpdate(){

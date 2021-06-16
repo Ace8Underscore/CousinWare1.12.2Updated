@@ -83,12 +83,12 @@ public class CrystalAura extends Hack {
 
     private BlockPos render;
     private Entity renderEnt;
-    private long systemTime = -1;
-    private static boolean togglePitch = false;
+    private final long systemTime = -1;
+    private static final boolean togglePitch = false;
     // we need this cooldown to not place from old hotbar slot, before we have switched to crystals
-    private boolean switchCooldown = false;
-    private boolean isAttacking = false;
-    private int oldSlot = -1;
+    private final boolean switchCooldown = false;
+    private final boolean isAttacking = false;
+    private final int oldSlot = -1;
     private int newSlot;
     BlockPos placePos;
     boolean offhand = false;
@@ -190,7 +190,7 @@ public class CrystalAura extends Hack {
                         .filter(entity -> mc.player.getDistance(entity) <= breakRange.getValDouble())
                         .filter(entity -> mc.player.canEntityBeSeen(entity))
                         .filter(entity -> calculateDamage(entity.posX, entity.posY, entity.posZ, mc.player) <= maxDmg.getValDouble())
-                        .filter(entity -> calculateDamage(entity.posX, entity.posY, entity.posZ, entity1) >= minDmg.getValDouble() + 4.5)
+                        .filter(entity -> calculateDamage(entity.posX, entity.posY, entity.posZ, entity1) >= minDmg.getValDouble() + 1)
                         .map(entity -> (EntityEnderCrystal) entity)
                         .max(Comparator.comparing(c -> calculateDamage(c.posX, c.posY, c.posZ, entity1)))
                         .orElse(null);
@@ -222,14 +222,11 @@ public class CrystalAura extends Hack {
     private boolean canPlaceCrystal(BlockPos blockPos) {
         BlockPos boost = blockPos.add(0, 1, 0);
         BlockPos boost2 = blockPos.add(0, 2, 0);
-        if ((mc.world.getBlockState(blockPos).getBlock() != Blocks.BEDROCK
-                && mc.world.getBlockState(blockPos).getBlock() != Blocks.OBSIDIAN)
-                || mc.world.getBlockState(boost).getBlock() != Blocks.AIR
-                || mc.world.getBlockState(boost2).getBlock() != Blocks.AIR
-                || !mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(boost)).isEmpty()) {
-            return false;
-        }
-        return true;
+        return (mc.world.getBlockState(blockPos).getBlock() == Blocks.BEDROCK
+                || mc.world.getBlockState(blockPos).getBlock() == Blocks.OBSIDIAN)
+                && mc.world.getBlockState(boost).getBlock() == Blocks.AIR
+                && mc.world.getBlockState(boost2).getBlock() == Blocks.AIR
+                && mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(boost)).isEmpty();
     }
 
     public static BlockPos getPlayerPos() {
@@ -273,7 +270,7 @@ public class CrystalAura extends Hack {
         final float damage = (float)(int)((v * v + v) / 2.0 * 7.0 * doubleExplosionSize + 1.0);
         double finald = 1.0;
         if (entity instanceof EntityLivingBase) {
-            finald = getBlastReduction((EntityLivingBase)entity, getDamageMultiplied(damage), new Explosion(mc.world, (Entity)null, posX, posY, posZ, 6.0f, false, true));
+            finald = getBlastReduction((EntityLivingBase)entity, getDamageMultiplied(damage), new Explosion(mc.world, null, posX, posY, posZ, 6.0f, false, true));
         }
         return (float)finald;
     }
@@ -286,11 +283,11 @@ public class CrystalAura extends Hack {
             if (entity instanceof EntityPlayer) {
                 if (!entity.isDead) {
                 if (mc.player.getDistance(entity) <= enemyRange.getValDouble()) {
-                    if (!(entity.getName() == mc.player.getName())) {
+                    if (!(entity.getName() == mc.player.getName()) && !FriendManager.isFriend(entity.getName())) {
                         for (BlockPos pos : findCrystalBlocks()) {
 
                             float dmgs = calculateDamage(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, entity);
-                            if (dmgs > minDmg.getValDouble() + 4.5 && dmgs > t && calculateDamage(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, mc.player) < maxDmg.getValDouble()) {
+                            if (dmgs > minDmg.getValDouble() + 1 && dmgs > t && calculateDamage(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, mc.player) < maxDmg.getValDouble()) {
                                 t = dmgs;
                                 retVal = pos;
                             }
@@ -375,7 +372,7 @@ public class CrystalAura extends Hack {
             try {
                 for (EntityPlayer entity : mc.world.playerEntities) {
                     if (mc.player.getDistance(entity) <= enemyRange.getValDouble() && mc.player.getDistance(packet.getX(), packet.getY(), packet.getZ()) <= breakRange.getValDouble())
-                    if (!entity.getName().equals(mc.player.getName())) {
+                    if (!entity.getName().equals(mc.player.getName()) && !FriendManager.isFriend(entity.getName())) {
                         if (calculateDamage(packet.getX(), packet.getY(), packet.getZ(), entity) >= minDmg.getValDouble() && calculateDamage(packet.getX(), packet.getY(), packet.getZ(), mc.player) <= maxDmg.getValDouble()) {
                             CPacketUseEntity fastPacket = new CPacketUseEntity();
                             if (findGreatestDamage() != null) {
@@ -402,7 +399,6 @@ public class CrystalAura extends Hack {
                 e.getCause();
             }
             if (event.getPacket() instanceof SPacketDestroyEntities) {
-                SPacketDestroyEntities packet_ = (SPacketDestroyEntities) event.getPacket();
 
                 try {
                     mc.world.removeEntityFromWorld(packet.getEntityID());

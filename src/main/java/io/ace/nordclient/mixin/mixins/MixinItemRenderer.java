@@ -4,18 +4,14 @@ import io.ace.nordclient.hacks.render.NoRender;
 import io.ace.nordclient.hacks.render.ViewModelChanger;
 import io.ace.nordclient.managers.HackManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,53 +25,6 @@ public abstract class MixinItemRenderer {
         this.renderManager = renderManager;
     }
 
-    /**
-     * @author Ace_______
-     */
-    @Overwrite
-    private void renderArm(EnumHandSide p_187455_1_) {
-        this.mc.getTextureManager().bindTexture(this.mc.player.getLocationSkin());
-        Render<AbstractClientPlayer> render = this.renderManager.getEntityRenderObject(this.mc.player);
-        RenderPlayer renderplayer = (RenderPlayer) render;
-        GlStateManager.pushMatrix();
-        float f = p_187455_1_ == EnumHandSide.RIGHT ? 1.0F : -1.0F;
-        GlStateManager.rotate(92.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
-        GlStateManager.rotate(f * -41.0F, 0.0F, 0.0F, 1.0F);
-        GlStateManager.translate(f * 0.3F, -1.1F, 0.45F);
-        if (p_187455_1_ == EnumHandSide.RIGHT) {
-            renderplayer.renderRightArm(this.mc.player);
-        } else {
-            renderplayer.renderLeftArm(this.mc.player);
-        }
-
-        GlStateManager.popMatrix();
-    }
-
-    /**
-     * @author
-     */
-    @Inject(method = "renderArms", at = @At("HEAD"), cancellable = true)
-    private void renderArms(CallbackInfo info) {
-        if (HackManager.getHackByName("QuickDrop").isEnabled()) {
-            if (!this.mc.player.isInvisible()) {
-                GlStateManager.disableCull();
-                GlStateManager.pushMatrix();
-                GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
-                this.renderArm(EnumHandSide.RIGHT);
-                this.renderArm(EnumHandSide.LEFT);
-                GlStateManager.popMatrix();
-                GlStateManager.enableCull();
-            }
-
-        } else {
-            info.cancel();
-        }
-
-    }
-    /**
-     * @author
-     */
   /*  @Inject(method = "renderItemInFirstPerson(F)V", at = @At("HEAD"), cancellable = true)
     public void renderItemInFirstPerson(float partialTicks, CallbackInfo info) {
         if (HackManager.getHackByName("QuickDrop").isEnabled()) {
@@ -135,7 +84,7 @@ public abstract class MixinItemRenderer {
                 GlStateManager.translate(0.0F, f3, 0.0F);
             }
 
-            f3 = 1.0F - (float) Math.pow((double) f1, 27.0D);
+            f3 = 1.0F - (float) Math.pow(f1, 27.0D);
             int i = hand == EnumHandSide.RIGHT ? 1 : -1;
             GlStateManager.translate(f3 * (ViewModelChanger.sizeX.getValDouble() * .6F) * (float) i, f3 * (-ViewModelChanger.sizeYMain.getValDouble() *.5), f3 * ViewModelChanger.sizeZMain.getValDouble());
             GlStateManager.rotate((float) i * f3 * 90.0F, 0.0F, 1.0F, 0.0F);

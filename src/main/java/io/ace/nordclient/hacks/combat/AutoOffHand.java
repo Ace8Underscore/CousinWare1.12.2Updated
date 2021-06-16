@@ -9,7 +9,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import org.lwjgl.input.Mouse;
@@ -26,7 +25,7 @@ public class AutoOffHand extends Hack {
     boolean moving = false;
     boolean returnI = false;
 
-    private boolean soft = false;
+    private final boolean soft = false;
     public Setting mode;
     public Setting switchToTotemCrystal;
     public Setting switchToTotemGap;
@@ -87,7 +86,7 @@ public class AutoOffHand extends Hack {
             }
 
             if (mode.getValString().equalsIgnoreCase("Crapple")) {
-                offhandItem = Item.getItemById(ItemAppleGold.getIdFromItem(Items.GOLDEN_APPLE));
+                offhandItem = Items.GOLDEN_APPLE;
             }
             if (mode.getValString().equalsIgnoreCase("Shield")) {
                 offhandItem = Items.SHIELD;
@@ -127,7 +126,7 @@ public class AutoOffHand extends Hack {
             returnI = false;
         }
         totems = Minecraft.getMinecraft().player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == offhandItem).mapToInt(ItemStack::getCount).sum();
-        if (Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() == offhandItem) totems++;
+        if (Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() == offhandItem && mode.getValString().equalsIgnoreCase("crapple") ? Minecraft.getMinecraft().player.getHeldItemOffhand().getItemDamage() != 1 : Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() == offhandItem) totems++;
         else {
             if (soft && !Minecraft.getMinecraft().player.getHeldItemOffhand().isEmpty()) return;
             if (moving) {
@@ -140,7 +139,7 @@ public class AutoOffHand extends Hack {
                 if (totems == 0) return;
                 int t = -1;
                 for (int i = onlyInventory.getValBoolean() ? 9 : 0;onlyInventory.getValBoolean() ? i < 36 : i < 45; i++)
-                    if (Minecraft.getMinecraft().player.inventory.getStackInSlot(i).getItem() == offhandItem) {
+                    if (Minecraft.getMinecraft().player.inventory.getStackInSlot(i).getItem() == offhandItem && mode.getValString().equalsIgnoreCase("crapple") ? Minecraft.getMinecraft().player.inventory.getStackInSlot(i).getItemDamage() != 1 : Minecraft.getMinecraft().player.inventory.getStackInSlot(i).getItem() == offhandItem) {
                         t = i;
                         break;
                     }

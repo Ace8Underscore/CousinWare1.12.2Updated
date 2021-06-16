@@ -3,6 +3,7 @@ package io.ace.nordclient.hacks.misc;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.hacks.Hack;
+import io.ace.nordclient.hacks.exploit.SecretMine;
 import io.ace.nordclient.managers.HackManager;
 import io.ace.nordclient.managers.RotationManager;
 import io.ace.nordclient.mixin.accessor.ICPacketPlayer;
@@ -12,10 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityShulkerBox;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
@@ -40,16 +39,13 @@ public class AntiRegear extends Hack {
     public void onUpdate() {
         if (getTargetBlock() != null) {
             if (autoSwitch.getValBoolean() && InventoryUtil.findItemInHotbar(Items.DIAMOND_PICKAXE) != -1) {
-                int pickSlot = InventoryUtil.findItemInHotbar(Items.DIAMOND_PICKAXE);
-                mc.player.inventory.currentItem = pickSlot;
             }
             if (rotate.getValBoolean()) {
                 isSpoofing = true;
                 lookAtPacket(getTargetBlock().getPos().getX() + .5, getTargetBlock().getPos().getY() - 1, getTargetBlock().getPos().getZ() + .5, mc.player);
             }
             mc.player.swingArm(HackManager.getHackByName("Swing").isEnabled() ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
-            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, getTargetBlock().getPos(), EnumFacing.SOUTH));
-            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, getTargetBlock().getPos(), EnumFacing.SOUTH));
+            SecretMine.secretSwap(getTargetBlock().getPos());
 
         }
         if (rotate.getValBoolean()) {

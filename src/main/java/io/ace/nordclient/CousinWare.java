@@ -11,7 +11,6 @@ import io.ace.nordclient.hacks.client.ClickGuiHack2;
 import io.ace.nordclient.hacks.client.ClickGuiHudHack;
 import io.ace.nordclient.hacks.client.Core;
 import io.ace.nordclient.hacks.combat.*;
-import io.ace.nordclient.hacks.exploit.SpeedMine;
 import io.ace.nordclient.hacks.exploit.*;
 import io.ace.nordclient.hacks.misc.*;
 import io.ace.nordclient.hacks.movement.*;
@@ -49,7 +48,7 @@ public class CousinWare
 {
     public static final String MODID = "cousinware";
     public static final String NAME = "CousinWare";
-    public static final String VERSION = "v1.6.5";
+    public static final String VERSION = "v1.7.1";
 
     public static final Logger log = LogManager.getLogger(NAME);
     private EventManager eventManager;
@@ -93,7 +92,10 @@ public class CousinWare
         cousinWareGui = new CousinWareGui();
         clickGui2 = new ClickGUI2();
         clickGuiHUD = new ClickGuiHUD();
-        configUtils = new ConfigUtils();
+        ConfigUtils.startUp();
+
+
+
         Runtime.getRuntime().addShutdownHook(new ShutDown());
 
     }
@@ -122,6 +124,7 @@ public class CousinWare
         if (!HWID.isGoodHWID(currentHWID)) {
             FMLCommonHandler.instance().exitJava(0, true);
         }
+        //ConfigUtils.loadAll();
         //
 
     }
@@ -150,6 +153,9 @@ public class CousinWare
         CommandManager.addCommand(new RideEntity());
         CommandManager.addCommand(new io.ace.nordclient.command.commands.Font());
         CommandManager.addCommand(new Xray());
+        CommandManager.addCommand(new SaveConfig());
+        CommandManager.addCommand(new LoadConfig());
+        CommandManager.addCommand(new ConfigFolder());
 
     }
 
@@ -183,6 +189,7 @@ public class CousinWare
         HackManager.addHack(new AutoTntMinecart());
         HackManager.addHack(new AutoTotem());
         HackManager.addHack(new AutoTrap());
+        HackManager.addHack(new AutoTrapRewrite());
         HackManager.addHack(new Burrow());
         HackManager.addHack(new Criticals());
         HackManager.addHack(new CrystalAura());
@@ -204,7 +211,6 @@ public class CousinWare
         HackManager.addHack(new NoBreakLoss());
         HackManager.addHack(new NoSlowBypass());
         HackManager.addHack(new SecretMine());
-        HackManager.addHack(new SpeedMine());
         //misc
         //
         HackManager.addHack(new AntiRegear());
@@ -212,6 +218,8 @@ public class CousinWare
         //HackManager.addHack(new BedrockFinder());
         //HackManager.addHack(new BoatBypass());
         HackManager.addHack(new ChatSuffix());
+        HackManager.addHack(new ChestStealer());
+        HackManager.addHack(new ChestSwap());
         HackManager.addHack(new DonkeyAlert());
         HackManager.addHack(new DungannonSpammer());
         HackManager.addHack(new EnchantColor());
@@ -245,7 +253,9 @@ public class CousinWare
         HackManager.addHack(new Strafe());
         HackManager.addHack(new Velocity());
         //player
+       // HackManager.addHack(new AfkGhast());
         HackManager.addHack(new AntiVoid());
+        //HackManager.addHack(new AutoEGapFinder());
         HackManager.addHack(new Freecam());
         HackManager.addHack(new GhostGap());
         HackManager.addHack(new NoSlow());
@@ -259,13 +269,14 @@ public class CousinWare
         HackManager.addHack(new BlockHighlight());
         HackManager.addHack(new ClientName());
         HackManager.addHack(new Crystal());
+        HackManager.addHack(new CsgoOverlay());
         HackManager.addHack(new FOVchanger());
         HackManager.addHack(new FriendTab());
         HackManager.addHack(new FullBright());
         HackManager.addHack(new HoleESP());
         HackManager.addHack(new InfiniteChatlength());
         //HackManager.addHack(new ItemESP());
-        //HackManager.addHack(new NameTags());
+        HackManager.addHack(new NameTags());
         HackManager.addHack(new NoRender());
         HackManager.addHack(new Overlay());
         HackManager.addHack(new PlayerESP());

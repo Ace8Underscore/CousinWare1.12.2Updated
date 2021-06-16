@@ -22,6 +22,10 @@ public abstract class MixinEntity implements IEntity {
 
     @Shadow public double motionZ;
 
+    @Shadow public boolean inPortal;
+
+    @Accessor @Override public abstract boolean isInPortal();
+
     @Accessor @Override public abstract boolean getIsInWeb();
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;motionY:D"),cancellable = true)

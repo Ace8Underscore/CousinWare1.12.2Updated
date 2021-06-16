@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +34,7 @@ public class AutoBedBombDumb extends Hack {
     Setting range;
     Setting spoofPlace;
     Setting autoSwitch;
+    Setting silentSwitch;
     Setting rotate;
     Setting placeDelay;
     Setting breakDelay;
@@ -54,12 +56,14 @@ public class AutoBedBombDumb extends Hack {
     public boolean west;
     public boolean north;
     public boolean south;
+    int currentItem = -1;
 
     public AutoBedBombDumb() {
         super("AutoBedBomb", Category.COMBAT, 11043230);
         CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 1, 0, 7, false, "AutoBedBombRange"));
         CousinWare.INSTANCE.settingsManager.rSetting(spoofPlace = new Setting("SpoofPlace", this, true, "AutoBedBombSpoofPlace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, true, "AutoBedBombAutoSwitch"));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, false, "AutoBedBombAutoSwitch"));
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, true, "AutoBedBombSilentSwitch"));
         CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AutoBedBombRotate"));
         CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 1, 0, 20, false, "AutoBedBombPlaceDelay"));
         CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 1, 0, 10, false, "AutoBedBombBreakDelay"));
@@ -91,6 +95,9 @@ public class AutoBedBombDumb extends Hack {
                         }
                         BlockPos eLocation = new BlockPos(e.posX, e.posY, e.posZ);
                         if (mc.world.getBlockState(eLocation).getBlock().canPlaceBlockAt(mc.world, eLocation)) {
+                            if (InventoryUtil.findItemInHotbar(Items.BED) != -1 && silentSwitch.getValBoolean()) {
+                                mc.player.connection.sendPacket(new CPacketHeldItemChange(InventoryUtil.findItemInHotbar(Items.BED)));
+                            } //
                             placing = eLocation;
                             if (mc.world.getBlockState(eLocation.south()).getBlock().canPlaceBlockAt(mc.world, eLocation.south()) && mc.world.getBlockState(eLocation.south().down()).getBlock() != Blocks.AIR) {
                                 if (delay >= placeDelay.getValInt()) {
@@ -172,7 +179,9 @@ public class AutoBedBombDumb extends Hack {
                                     yaw = 90;
                                 }
                             }
+
                         }
+
                         if (breakMode.getValString().equalsIgnoreCase("own")) {
                             if (mc.world.getBlockState(eLocation).getBlock().equals(Blocks.BED)) {
                                 if (delayBreak >= breakDelay.getValInt()) {
@@ -194,6 +203,7 @@ public class AutoBedBombDumb extends Hack {
                 }
             }
         }
+        if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
         if (rainbow.getValBoolean()) {
             RainbowUtil.settingRainbow(r, g, b);
         }
@@ -238,7 +248,7 @@ public class AutoBedBombDumb extends Hack {
         //North = 180
         //EAST = 0
         // West = 180
-    }
+    } //
 
     public void onEnable() {
         south = false;

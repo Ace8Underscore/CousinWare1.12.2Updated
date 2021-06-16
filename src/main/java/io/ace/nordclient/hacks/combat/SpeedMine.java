@@ -14,10 +14,13 @@ import io.ace.nordclient.utilz.TpsUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 import java.awt.*;
@@ -51,6 +54,7 @@ public class SpeedMine extends Hack {
 
         this.timer = new Timer();
 
+
     }
 
     @Override
@@ -68,14 +72,25 @@ public class SpeedMine extends Hack {
             if (mc.player.onGround)
                 --mc.player.motionY;
         }//
+        if (breakPos != null && mc.world.getBlockState(breakPos).getBlock().equals(Blocks.AIR)) {
+            breakPos = null;
+        }
+
+    }
+
+    @SubscribeEvent
+    public void onBlockEvent(BlockEvent event) {
 
     }
 
     @Override
     public void onWorldRender(RenderEvent event) {
         if (this.render.getValBoolean() && this.breakPos != null) {
-            final Color color = new Color(this.timer.passedMs((int) (2000.0f * TpsUtils.getTickRate())) ? 0 : 255, this.timer.passedMs((int) (2000.0f * TpsUtils.getTickRate())) ? 255 : 0, 0, 255);
-            NordTessellator.drawBoundingBoxBlockPos(this.breakPos, 1, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            Color color = new Color(this.timer.passedMs((int)(2000.0f * (20 / TpsUtils.getTickRate()))) ? 0 : 255, this.timer.passedMs((int)(2000.0f * (20 / TpsUtils.getTickRate()))) ? 255 : 0, 0, 125);
+            //Color color = new Color(((2000.0f * (20 / TpsUtils.getTickRate())) / 255) - (timer.getPassedTimeMs() / 255), (timer.getPassedTimeMs() / 255) - ((2000.0f * (20 / TpsUtils.getTickRate())) / 255), 0, 255);
+            NordTessellator.prepare(7);
+            NordTessellator.drawBox(this.breakPos, color.getRed(), color.getGreen(), color.getBlue(), 30, 63);
+            NordTessellator.release();
         }
     }
 
@@ -100,6 +115,10 @@ public class SpeedMine extends Hack {
 
     @Listener
     public void damageBlock(EventPlayerDamageBlock event) {
+        if (breakPos != event.getPos()) {
+            breakPos = event.getPos();
+            this.timer.reset();
+        }
         if (canBreak(event.getPos())) {
             if (event.getPos() != null) {
                 //timer.reset();

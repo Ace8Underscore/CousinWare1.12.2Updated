@@ -16,7 +16,8 @@ public abstract class Command {
     public abstract String getClientSyntax();
     public abstract void onClientCommand(String command, String[] args) throws Exception;
 
-    public static void sendClientSideMessage(String message) { mc.player.sendMessage(new TextComponentString(ChatFormatting.DARK_RED + "[CousinWare]"+ " " + ChatFormatting.WHITE + message)); }
+    public static void sendClientSideMessage(String message) { if (mc.player == null || mc.world == null) return;
+        mc.player.sendMessage(new TextComponentString(ChatFormatting.DARK_RED + "[CousinWare]"+ " " + ChatFormatting.WHITE + message)); }
 
     public static String getClientPrefix(){
         return prefix;

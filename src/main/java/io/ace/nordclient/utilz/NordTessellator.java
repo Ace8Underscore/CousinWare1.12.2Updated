@@ -25,17 +25,17 @@ public class NordTessellator
     }
 
     public static void prepareGL() {
-        GL11.glBlendFunc((int)770, (int)771);
-        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor) GlStateManager.SourceFactor.SRC_ALPHA, (GlStateManager.DestFactor) GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, (GlStateManager.SourceFactor) GlStateManager.SourceFactor.ONE, (GlStateManager.DestFactor) GlStateManager.DestFactor.ZERO);
-        GlStateManager.glLineWidth((float)1.5f);
+        GL11.glBlendFunc(770, 771);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.glLineWidth(1.5f);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
+        GlStateManager.depthMask(false);
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
         GlStateManager.disableLighting();
         GlStateManager.disableCull();
         GlStateManager.enableAlpha();
-        GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f);
+        GlStateManager.color(1.0f, 1.0f, 1.0f);
     }
 
     public static void begin(int mode2) {
@@ -53,7 +53,7 @@ public class NordTessellator
 
     public static void releaseGL() {
         GlStateManager.enableCull();
-        GlStateManager.depthMask((boolean)true);
+        GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.enableDepth();
@@ -132,52 +132,52 @@ public class NordTessellator
 
     public static void drawLines(BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, int sides) {
         if ((sides & 17) != 0) {
-            buffer.pos((double)x, (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 18) != 0) {
-            buffer.pos((double)x, (double)(y + h), (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 33) != 0) {
-            buffer.pos((double)(x + w), (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 34) != 0) {
-            buffer.pos((double)(x + w), (double)(y + h), (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 5) != 0) {
-            buffer.pos((double)x, (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)y, (double)z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
         }
         if ((sides & 6) != 0) {
-            buffer.pos((double)x, (double)(y + h), (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)(y + h), (double)z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z).color(r, g, b, a).endVertex();
         }
         if ((sides & 9) != 0) {
-            buffer.pos((double)x, (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 10) != 0) {
-            buffer.pos((double)x, (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 20) != 0) {
-            buffer.pos((double)x, (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)(y + h), (double)z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z).color(r, g, b, a).endVertex();
         }
         if ((sides & 36) != 0) {
-            buffer.pos((double)(x + w), (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)(y + h), (double)z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z).color(r, g, b, a).endVertex();
         }
         if ((sides & 24) != 0) {
-            buffer.pos((double)x, (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x, y + h, z + d).color(r, g, b, a).endVertex();
         }
         if ((sides & 40) != 0) {
-            buffer.pos((double)(x + w), (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)(y + h), (double)(z + d)).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
         }
     }
 
@@ -190,12 +190,12 @@ public class NordTessellator
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)1, (int)0);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        bufferbuilder.pos((double)x, (double)h, 0.0).color(r, g, b, a).endVertex();
-        bufferbuilder.pos((double)w, (double)h, 0.0).color(r, g, b, a).endVertex();
-        bufferbuilder.pos((double)w, (double)y, 0.0).color(r, g, b, a).endVertex();
-        bufferbuilder.pos((double)x, (double)y, 0.0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos(x, h, 0.0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos(w, h, 0.0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos(w, y, 0.0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos(x, y, 0.0).color(r, g, b, a).endVertex();
         tessellator.draw();
         GlStateManager.disableBlend();
         GlStateManager.enableTexture2D();
@@ -206,12 +206,12 @@ public class NordTessellator
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)0, (int)1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
-        GL11.glEnable((int)2848);
-        GL11.glHint((int)3154, (int)4354);
-        GL11.glLineWidth((float)width);
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glLineWidth(width);
         Minecraft mc = Minecraft.getMinecraft();
         double x = (double)bp.getX() - mc.getRenderManager().viewerPosX;
         double y = (double)bp.getY() - mc.getRenderManager().viewerPosY;
@@ -243,8 +243,8 @@ public class NordTessellator
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, alpha).endVertex();
         bufferbuilder.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, alpha).endVertex();
         tessellator.draw();
-        GL11.glDisable((int)2848);
-        GlStateManager.depthMask((boolean)true);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -419,12 +419,12 @@ public class NordTessellator
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)0, (int)1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
-        GL11.glEnable((int)2848);
-        GL11.glHint((int)3154, (int)4354);
-        GL11.glLineWidth((float)width);
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glLineWidth(width);
         Minecraft mc = Minecraft.getMinecraft();
         double x = (double)bp.getX() - mc.getRenderManager().viewerPosX;
         double y = (double)bp.getY() - mc.getRenderManager().viewerPosY;
@@ -456,8 +456,8 @@ public class NordTessellator
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, alpha).endVertex();
         bufferbuilder.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, alpha).endVertex();
         tessellator.draw();
-        GL11.glDisable((int)2848);
-        GlStateManager.depthMask((boolean)true);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -467,12 +467,12 @@ public class NordTessellator
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)0, (int)1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
-        GL11.glEnable((int)2848);
-        GL11.glHint((int)3154, (int)4354);
-        GL11.glLineWidth((float)width);
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glLineWidth(width);
         Minecraft mc = Minecraft.getMinecraft();
         double x = (double)bp.getX() - mc.getRenderManager().viewerPosX;
         double y = (double)bp.getY() - mc.getRenderManager().viewerPosY;
@@ -504,8 +504,8 @@ public class NordTessellator
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, alpha).endVertex();
         bufferbuilder.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, alpha).endVertex();
         tessellator.draw();
-        GL11.glDisable((int)2848);
-        GlStateManager.depthMask((boolean)true);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -516,12 +516,12 @@ public class NordTessellator
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)0, (int)1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
-        GL11.glEnable((int)2848);
-        GL11.glHint((int)3154, (int)4354);
-        GL11.glLineWidth((float)width);
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glLineWidth(width);
         Minecraft mc = Minecraft.getMinecraft();
         double x = (double)bp.getX() + .06 - mc.getRenderManager().viewerPosX;
         double y = (double)bp.getY() - mc.getRenderManager().viewerPosY;
@@ -553,8 +553,8 @@ public class NordTessellator
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, alpha).endVertex();
         bufferbuilder.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, alpha).endVertex();
         tessellator.draw();
-        GL11.glDisable((int)2848);
-        GlStateManager.depthMask((boolean)true);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -565,16 +565,16 @@ public class NordTessellator
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
-        GlStateManager.tryBlendFuncSeparate((int)770, (int)771, (int)0, (int)1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.depthMask((boolean)false);
-        GL11.glEnable((int)2848);
-        GL11.glHint((int)3154, (int)4354);
-        GL11.glLineWidth((float)width);
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glLineWidth(width);
         Minecraft mc = Minecraft.getMinecraft();
-        double x = (double)xloc - .2 - mc.getRenderManager().viewerPosX;
-        double y = (double)yloc - mc.getRenderManager().viewerPosY;
-        double z = (double)zloc - .2 - mc.getRenderManager().viewerPosZ;
+        double x = xloc - .2 - mc.getRenderManager().viewerPosX;
+        double y = yloc - mc.getRenderManager().viewerPosY;
+        double z = zloc - .2 - mc.getRenderManager().viewerPosZ;
         AxisAlignedBB bb = new AxisAlignedBB(x, y, z, x + .4, y + .4, z + .4);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -602,8 +602,8 @@ public class NordTessellator
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, alpha).endVertex();
         bufferbuilder.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, alpha).endVertex();
         tessellator.draw();
-        GL11.glDisable((int)2848);
-        GlStateManager.depthMask((boolean)true);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -667,10 +667,10 @@ public class NordTessellator
 
     public static void drawFace(final BufferBuilder buffer, final float x, final float y, final float z, final float w, final float h, final float d, final int r, final int g, final int b, final int a, final int sides) {
         if ((sides & 0x1) != 0x0) {
-            buffer.pos((double)(x + w), (double)y, (double)z).color(r, g, b, a).endVertex();
-            buffer.pos((double)(x + w), (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)y, (double)(z + d)).color(r, g, b, a).endVertex();
-            buffer.pos((double)x, (double)y, (double)z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
+            buffer.pos(x + w, y, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z + d).color(r, g, b, a).endVertex();
+            buffer.pos(x, y, z).color(r, g, b, a).endVertex();
         }
     }
 
@@ -686,5 +686,68 @@ public class NordTessellator
                 (entity.posY - entity.lastTickPosY) * y,
                 (entity.posZ - entity.lastTickPosZ) * z
         );
+    }
+
+    public static void drawBorderedRect(double x, double y, double x1, double y1, double width, int internalColor, int borderColor) {
+        enableGL2D();
+        fakeGuiRect(x + width, y + width, x1 - width, y1 - width, internalColor);
+        fakeGuiRect(x + width, y, x1 - width, y + width, borderColor);
+        fakeGuiRect(x, y, x + width, y1, borderColor);
+        fakeGuiRect(x1 - width, y, x1, y1, borderColor);
+        fakeGuiRect(x + width, y1 - width, x1 - width, y1, borderColor);
+        disableGL2D();
+    }
+
+
+    public static void fakeGuiRect(double left, double top, double right, double bottom, int color) {
+        if (left < right) {
+            double i = left;
+            left = right;
+            right = i;
+        }
+
+        if (top < bottom) {
+            double j = top;
+            top = bottom;
+            bottom = j;
+        }
+
+        float f3 = (float)(color >> 24 & 255) / 255.0F;
+        float f = (float)(color >> 16 & 255) / 255.0F;
+        float f1 = (float)(color >> 8 & 255) / 255.0F;
+        float f2 = (float)(color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(f, f1, f2, f3);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+        bufferbuilder.pos(left, bottom, 0.0D).endVertex();
+        bufferbuilder.pos(right, bottom, 0.0D).endVertex();
+        bufferbuilder.pos(right, top, 0.0D).endVertex();
+        bufferbuilder.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    private static void enableGL2D() {
+        GL11.glDisable(2929);
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glBlendFunc(770, 771);
+        GL11.glDepthMask(true);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glHint(3155, 4354);
+    }
+
+    private static void disableGL2D() {
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glHint(3154, 4352);
+        GL11.glHint(3155, 4352);
     }
 }

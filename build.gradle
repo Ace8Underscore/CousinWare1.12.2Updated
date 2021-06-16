@@ -69,6 +69,8 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
+    compile "com.github.cabaletta:baritone:1.2.14"
+    compile "cabaletta:baritone-api:1.2"
     compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
     compile group: "com.googlecode.json-simple", name: "json-simple", version: "1.1.1"
     compile group: 'com.github.oshi', name: 'oshi-core', version: '5.3.4'
@@ -102,6 +104,7 @@ shadowJar {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('net.jodah:typetools'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
+        include(dependency('cabaletta:baritone-api:1.2'))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'

@@ -74,8 +74,7 @@ public class Aura extends Hack {
             if (mc.player.getCooledAttackStrength(0) == 1) {
                 delay++;
                 if (delay >= ((20 - TpsUtils.getTickRate()) * tpsDelay)) {
-                    if (rotate.getValBoolean()) spoofing = true;
-                    else spoofing = false;
+                    spoofing = rotate.getValBoolean();
                     attackTaget();
                     delay = 0;
                 } else {
@@ -85,8 +84,7 @@ public class Aura extends Hack {
                 }
             }
             } else {
-                if (rotate.getValBoolean()) spoofing = true;
-                else spoofing = false;
+                spoofing = rotate.getValBoolean();
                 attackTaget();
             }
             if (spoofing) {
@@ -111,8 +109,9 @@ public class Aura extends Hack {
                 .filter(entity -> mc.player.getDistance(entity) <= range.getValDouble())
                 .filter(entity -> !entity.isDead)
                 .filter(entity -> entity instanceof EntityPlayer)
-                .filter(entity -> ((EntityPlayer) entity).getHealth() > 0)
+                .filter(entity -> entity.getHealth() > 0)
                 .filter(entity -> !FriendManager.isFriend(entity.getName()))
+                .filter(entityPlayer -> !entityPlayer.getName().equals(mc.player.getName()))
                 .min(Comparator.comparing(e -> mc.player.getDistance(e)))
                 .orElse(null);
 
@@ -120,7 +119,7 @@ public class Aura extends Hack {
             attackTarget = targets;
 
     return attackTarget;
-    }
+    } //
 
     public Entity getTargetHealth() {
         EntityPlayer targets = mc.world.playerEntities.stream()
@@ -128,9 +127,10 @@ public class Aura extends Hack {
                 .filter(entity -> mc.player.getDistance(entity) <= range.getValDouble())
                 .filter(entity -> !entity.isDead)
                 .filter(entity -> entity instanceof EntityPlayer)
-                .filter(entity -> ((EntityPlayer) entity).getHealth() > 0)
+                .filter(entity -> entity.getHealth() > 0)
                 .filter(entity -> !FriendManager.isFriend(entity.getName()))
-                .min(Comparator.comparing(e -> ((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()))
+                .filter(entityPlayer -> !entityPlayer.getName().equals(mc.player.getName()))
+                .min(Comparator.comparing(e -> e.getHealth() + e.getAbsorptionAmount()))
                 .orElse(null);
         attackTarget = targets;
 

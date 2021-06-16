@@ -9,6 +9,7 @@ import io.ace.nordclient.hacks.client.Core;
 import io.ace.nordclient.utilz.FontRenderUtil;
 import io.ace.nordclient.utilz.Setting;
 import io.ace.nordclient.utilz.TpsUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -37,6 +38,7 @@ public class Overlay extends Hack {
     Setting tps;
     Setting packetLoss;
     Setting potion;
+
 
     int pingPlayer;
     int tick = 0;
@@ -80,7 +82,7 @@ public class Overlay extends Hack {
 
         AtomicInteger yOffset = new AtomicInteger();
         String tpsString = "Tps " + Math.round(TpsUtils.getTickRate() * 10) / 10.0;
-        String fpsString = "Fps " + mc.getDebugFPS();
+        String fpsString = "Fps " + Minecraft.getDebugFPS();
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
         if (!Core.customFont.getValBoolean()) {
             yOffset.set(0);
@@ -128,13 +130,13 @@ public class Overlay extends Hack {
                 yOffset.getAndIncrement();
             }
             if (fps.getValBoolean()) {
-                FontRenderUtil.drawLeftStringWithShadow("Fps " + mc.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+                FontRenderUtil.drawLeftStringWithShadow("Fps " + Minecraft.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                 yOffset.getAndIncrement();
             }
 
         } else {
             if (fps.getValBoolean()) {
-                FontRenderUtil.drawLeftStringWithShadow("Fps " + mc.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+                FontRenderUtil.drawLeftStringWithShadow("Fps " + Minecraft.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                 yOffset.getAndIncrement();
             }
             if (tps.getValBoolean()) {
@@ -193,13 +195,13 @@ public class Overlay extends Hack {
                     yOffset.getAndIncrement();
                 }
                 if (fps.getValBoolean()) {
-                    FontRenderUtil.drawLeftStringWithShadowCustom("Fps " + mc.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+                    FontRenderUtil.drawLeftStringWithShadowCustom("Fps " + Minecraft.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                     yOffset.getAndIncrement();
                 }
 
             } else {
                 if (fps.getValBoolean()) {
-                    FontRenderUtil.drawLeftStringWithShadowCustom("Fps " + mc.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+                    FontRenderUtil.drawLeftStringWithShadowCustom("Fps " + Minecraft.getDebugFPS(), x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                     yOffset.getAndIncrement();
                 }
                 if (tps.getValBoolean()) {

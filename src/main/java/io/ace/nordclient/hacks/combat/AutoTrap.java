@@ -10,7 +10,6 @@ import io.ace.nordclient.utilz.BlockInteractionHelper;
 import io.ace.nordclient.utilz.InventoryUtil;
 import io.ace.nordclient.utilz.Setting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
@@ -103,7 +102,7 @@ public class AutoTrap extends Hack {
                                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
                                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
                             }
-                        }
+                        } //
                     }
 
                         BlockInteractionHelper.placeBlockScaffold(pos);
@@ -232,7 +231,7 @@ public class AutoTrap extends Hack {
         return new double[]{yaw,pitch};
     }
     private void findClosestTarget() {
-        final List<EntityPlayer> playerList = (List<EntityPlayer>)mc.world.playerEntities;
+        final List<EntityPlayer> playerList = mc.world.playerEntities;
         this.closestTarget = null;
         for (final EntityPlayer target : playerList) {
             if (target == mc.player) {
@@ -248,7 +247,7 @@ public class AutoTrap extends Hack {
                 this.closestTarget = target;
             }
             else {
-                if (mc.player.getDistance((Entity)target) >= mc.player.getDistance((Entity)this.closestTarget)) {
+                if (mc.player.getDistance(target) >= mc.player.getDistance(this.closestTarget)) {
                     continue;
                 }
                 this.closestTarget = target;

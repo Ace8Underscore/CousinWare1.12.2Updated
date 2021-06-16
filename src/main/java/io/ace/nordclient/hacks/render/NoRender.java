@@ -13,6 +13,7 @@ public class NoRender extends Hack {
     public static Setting fire;
     public static Setting blockBreakEffect;
     public static Setting blockMineEffect;
+    public static Setting map;
 
     public NoRender() {
         super("NoRender", Category.RENDER, 13466128);
@@ -24,6 +25,7 @@ public class NoRender extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(fire = new Setting("Fire", this, false, "NoRenderFire"));
         CousinWare.INSTANCE.settingsManager.rSetting(blockBreakEffect = new Setting("BreakParticles", this, true, "NoRenderBreakParticles"));
         CousinWare.INSTANCE.settingsManager.rSetting(blockMineEffect = new Setting("MineParticles", this, true, "NoRenderMineParticles"));
+        CousinWare.INSTANCE.settingsManager.rSetting(map = new Setting("Map", this, false, "NoRenderMap"));
 
 
     }

@@ -82,15 +82,15 @@ public class Burrow extends Hack {
                 BlockInteractionHelper.placeBlockScaffold(pos);
                 mc.player.inventory.currentItem = startingHand;
             }
-                if (lagMode.getValString().equalsIgnoreCase("Fly")) {
-                    mc.player.motionY = lagBackPower.getValDouble();
-                } else if (lagMode.getValString().equalsIgnoreCase("Packet")) {
-                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + lagBackPower.getValDouble(), mc.player.posZ, false));
-                } else if (lagMode.getValString().equalsIgnoreCase("Smart")){
-                    if (mc.player.posY >= 118) mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 10, mc.player.posZ, false));
-                    else mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, findTpBlocks().getY(), mc.player.posY + 3 , false));
-                }
-                if (!noForceRotate.getValBoolean()) this.disable();
+            if (lagMode.getValString().equalsIgnoreCase("Fly")) {
+                mc.player.motionY = lagBackPower.getValDouble();
+            } else if (lagMode.getValString().equalsIgnoreCase("Packet")) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + lagBackPower.getValDouble(), mc.player.posZ, false));
+            } else if (lagMode.getValString().equalsIgnoreCase("Smart")){
+                if (mc.player.posY >= 118) mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 10, mc.player.posZ, false));
+                else mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, findTpBlocks().getY(), mc.player.posY + 3 , false));
+            }
+            if (!noForceRotate.getValBoolean()) this.disable();
 
 
         }
@@ -181,11 +181,8 @@ public class Burrow extends Hack {
     private boolean canTpBlock(BlockPos blockPos) {
         BlockPos boost = blockPos.add(0, 1, 0);
         BlockPos boost2 = blockPos.add(0, 2, 0);
-        if ((mc.world.getBlockState(boost).getBlock() != Blocks.AIR
-                || mc.world.getBlockState(boost2).getBlock() != Blocks.AIR)) {
-            return false;
-        }
-        return true;
+        return mc.world.getBlockState(boost).getBlock() == Blocks.AIR
+                && mc.world.getBlockState(boost2).getBlock() == Blocks.AIR;
     }
 
     public static BlockPos getPlayerPos() {

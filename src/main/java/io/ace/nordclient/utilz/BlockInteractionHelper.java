@@ -8,11 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public class BlockInteractionHelper
             final BlockPos neighbor = pos.offset(side);
             final EnumFacing side2 = side.getOpposite();
             if (canBeClicked(neighbor)) {
-                final Vec3d hitVec = new Vec3d((Vec3i)neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+                final Vec3d hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
                 if (eyesPos.squareDistanceTo(hitVec) <= 18.0625) {
                     faceVectorPacketInstant(hitVec);
                     processRightClickBlock(neighbor, side2, hitVec);
@@ -88,7 +90,7 @@ public class BlockInteractionHelper
 
         RayTraceResult result = mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double) mc.player.getEyeHeight(), mc.player.posZ), new Vec3d((double) neighbor.getX() + .5, (double) pos.north().getY() + y, (double) neighbor.getZ() + .5));
 
-            final Vec3d hitVec = new Vec3d((Vec3i) neighbor).add(.5, y, .5).add(new Vec3d(result.sideHit.getDirectionVec()).scale(0.5));
+            final Vec3d hitVec = new Vec3d(neighbor).add(.5, y, .5).add(new Vec3d(result.sideHit.getDirectionVec()).scale(0.5));
             faceVectorPacketInstant(hitVec);
             processRightClickBlock(neighbor, side2, hitVec);
             mc.player.swingArm(EnumHand.MAIN_HAND);
@@ -120,7 +122,7 @@ public class BlockInteractionHelper
             side2 = EnumFacing.NORTH;
 
         }
-        final Vec3d hitVec = new Vec3d((Vec3i) neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+        final Vec3d hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
         faceVectorPacketInstant(hitVec);
         processRightClickBlock(neighbor, side2, hitVec);
         mc.player.swingArm(EnumHand.MAIN_HAND);
@@ -235,8 +237,8 @@ public class BlockInteractionHelper
             final EnumFacing side2 = side.getOpposite();
             final EnumFacing side2Look = side.getOpposite();
             if (canBeClicked(neighbor)) {
-                final Vec3d hitVec = new Vec3d((Vec3i)neighbor).add(0.9, 0.1, 0.9).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
-                final Vec3d hitVecLook = new Vec3d((Vec3i)neighborLook).add(0.9, 0.1, 0.9).add(new Vec3d(side2Look.getDirectionVec()).scale(0.5));
+                final Vec3d hitVec = new Vec3d(neighbor).add(0.9, 0.1, 0.9).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+                final Vec3d hitVecLook = new Vec3d(neighborLook).add(0.9, 0.1, 0.9).add(new Vec3d(side2Look.getDirectionVec()).scale(0.5));
                 if (eyesPos.squareDistanceTo(hitVec) <= 18.0625) {
                     faceVectorPacketInstant(hitVecLook);
                     processRightClickBlock(neighbor, side2, hitVec);
@@ -248,13 +250,22 @@ public class BlockInteractionHelper
         }
     }
 
+    public static boolean canBlockBePlaced(Vec3d vec) {
+        BlockPos pos = new BlockPos(vec.x, vec.y, vec.z);
+        //if (mc.world.checkNoEntityCollision(mc.world.getBlockState(pos).getSelectedBoundingBox(mc.world, pos))) {
+        //    if (!mc.world.checkBlockCollision(new AxisAlignedBB(pos))) {
+        //    }
+        // }
+        return mc.world.mayPlace(Blocks.OBSIDIAN, pos, false, EnumFacing.UP, mc.player);
+
+    }
+
     public static void placeBlockScaffoldNoRotate(final BlockPos pos) {
-        final Vec3d eyesPos = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
         for (final EnumFacing side : EnumFacing.values()) {
             final BlockPos neighbor = pos.offset(side);
             final EnumFacing side2 = side.getOpposite();
             if (canBeClicked(neighbor)) {
-                final Vec3d hitVec = new Vec3d((Vec3i)neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+                final Vec3d hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
                     processRightClickBlock(neighbor, side2, hitVec);
                     mc.player.swingArm(EnumHand.MAIN_HAND);
                     //mc.rightClickDelayTimer = 4;
@@ -314,7 +325,7 @@ public class BlockInteractionHelper
 
     public static void faceVectorPacketInstant(final Vec3d vec) {
         final float[] rotations = getLegitRotations(vec);
-        mc.player.connection.sendPacket((Packet)new CPacketPlayer.Rotation(rotations[0], rotations[1], mc.player.onGround));
+        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0], rotations[1], mc.player.onGround));
     }
 
     private static void processRightClickBlock(final BlockPos pos, final EnumFacing side, final Vec3d hitVec) {
@@ -417,13 +428,13 @@ public class BlockInteractionHelper
     }
 
     static {
-        blackList = Arrays.asList(Blocks.ENDER_CHEST, (Block) Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, (Block) Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
+        blackList = Arrays.asList(Blocks.ENDER_CHEST, Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
         shulkerList = Arrays.asList(Blocks.WHITE_SHULKER_BOX, Blocks.ORANGE_SHULKER_BOX, Blocks.MAGENTA_SHULKER_BOX, Blocks.LIGHT_BLUE_SHULKER_BOX, Blocks.YELLOW_SHULKER_BOX, Blocks.LIME_SHULKER_BOX, Blocks.PINK_SHULKER_BOX, Blocks.GRAY_SHULKER_BOX, Blocks.SILVER_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX, Blocks.BLUE_SHULKER_BOX, Blocks.BROWN_SHULKER_BOX, Blocks.GREEN_SHULKER_BOX, Blocks.RED_SHULKER_BOX, Blocks.BLACK_SHULKER_BOX);
         mc = Minecraft.getMinecraft();
     }
 
     public static boolean rayTracePlaceCheck(BlockPos pos, boolean shouldCheck, float height) {
-        return !shouldCheck || mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double)mc.player.getEyeHeight(), mc.player.posZ), new Vec3d((double)pos.getX(), (double)((float)pos.getY() + height), (double)pos.getZ()), false, true, false) == null;
+        return !shouldCheck || mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double)mc.player.getEyeHeight(), mc.player.posZ), new Vec3d(pos.getX(), (float)pos.getY() + height, pos.getZ()), false, true, false) == null;
     }
 
     public static boolean rayTracePlaceCheck(BlockPos pos, boolean shouldCheck) {

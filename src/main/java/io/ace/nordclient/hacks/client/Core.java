@@ -4,6 +4,7 @@ import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
 
+
 public class Core extends Hack {
 
     public static Setting saturation;
@@ -13,6 +14,11 @@ public class Core extends Hack {
     public static Setting antiAlias;
     public static Setting fractionalMetrics;
     public static Setting essentials;
+
+    int i = 0;
+    int j = 0;
+    boolean switchingSlot = false;
+    int delaySlot = 0;
 
     public Core() {
         super("Core", Category.CLIENT, 10989199);
@@ -27,4 +33,6 @@ public class Core extends Hack {
 
     }
 
-}
+
+    }
+
