@@ -23,8 +23,8 @@ public class ClientName extends Hack {
     public void onRenderWorld(RenderGameOverlayEvent.Text event) {
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
 
-       if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow("CousinWare", 1, 1, c.getRGB());
-        else  CousinWare.INSTANCE.fontRenderer.drawStringWithShadow("CousinWare", 1, 1, c.getRGB());
+       if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(CousinWare.NAME + " " + CousinWare.VERSION, 1, 1, c.getRGB());
+        else  CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(CousinWare.NAME + " " + CousinWare.VERSION, 1, 1, c.getRGB());
     }
     //
 }

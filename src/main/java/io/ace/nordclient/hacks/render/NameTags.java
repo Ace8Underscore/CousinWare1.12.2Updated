@@ -14,12 +14,15 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketEntityStatus;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
@@ -53,6 +56,7 @@ public class NameTags extends Hack {
     Setting ping;
     Setting health;
     Setting totemPop;
+    Setting burrowed;
 
     public NameTags() {
         super("NameTags", Category.RENDER, 10955851);
@@ -83,12 +87,13 @@ public class NameTags extends Hack {
         friendColors.add("LIGHT_PURPLE");
         CousinWare.INSTANCE.settingsManager.rSetting(friendColor = new Setting("FriendColor", this, "BLUE", friendColors, "NameTagsFriendColor"));
         CousinWare.INSTANCE.settingsManager.rSetting(scale = new Setting("Scale", this, 0.05, 0.01, 0.09, false, "NameTagsScale"));
+        CousinWare.INSTANCE.settingsManager.rSetting(burrowed = new Setting("Burrow", this, true,  "NameTagsBurrowed"));
         CousinWare.INSTANCE.settingsManager.rSetting(totemPop = new Setting("TotemPops", this, true, ""));
     }
 
     public void onUpdate() {
         for (final EntityPlayer player : mc.world.playerEntities) {
-            if (player.getHealth() == 0) {
+            if (player.getHealth() == 0 || player.isDead) {
                 this.popMap.remove(player);
             }
         }
@@ -129,7 +134,7 @@ public class NameTags extends Hack {
             GlStateManager.pushMatrix();
             int ping = this.ping.getValBoolean() ? ((mc.getConnection() != null && mc.player != null && mc.getConnection().getPlayerInfo(entityPlayer.getUniqueID()) != null) ? Integer.valueOf(mc.getConnection().getPlayerInfo(entityPlayer.getGameProfile().getId()).getResponseTime()) : -1) : 0;
             int health = this.health.getValBoolean() ? getHealth(entityPlayer) : 0;
-            String nameTag = getFriendColor(entityPlayer.getName()) + (gamemode.getValBoolean() ? getGamemode(entityPlayer) + " " : "") + entityPlayer.getName() + " " + (this.ping.getValBoolean() ? (getPingColor(ping) + "" + ping + "ms ") : "") + (this.health.getValBoolean() ? getHealthColor(health) + "" + health : "") + ((popMap.containsKey(entityPlayer) && totemPop.getValBoolean()) ? (" " + ChatFormatting.DARK_RED + "-" + popMap.get(entityPlayer)) : "");
+            String nameTag = (burrowed.getValBoolean() ? (isBurrowed(entityPlayer) ? ChatFormatting.GREEN + "B " : ChatFormatting.RED + "B ") : "") + getFriendColor(entityPlayer.getName()) + (gamemode.getValBoolean() ? getGamemode(entityPlayer) + " " : "") + entityPlayer.getName() + " " + (this.ping.getValBoolean() ? (getPingColor(ping) + "" + ping + "ms ") : "") + (this.health.getValBoolean() ? getHealthColor(health) + "" + health : "") + ((popMap.containsKey(entityPlayer) && totemPop.getValBoolean()) ? (" " + ChatFormatting.DARK_RED + "-" + popMap.get(entityPlayer)) : "");
             final float distance = mc.player.getDistance(entityPlayer);
             final float var14 = (float) (((distance / 5.0f <= 2.0f) ? 2.0f : (distance / 5.0f * (this.scale.getValDouble() * 10.0f + 1.0f))) * 2.5f * (this.scale.getValDouble() / 10.0f));
             final float var15 = (float) (this.scale.getValDouble() * this.getNametagSize(entityPlayer));
@@ -312,6 +317,10 @@ public class NameTags extends Hack {
             GL11.glPopMatrix();
 
         }
+    }
+
+    public boolean isBurrowed(Entity entity) {
+        return mc.world.getBlockState(new BlockPos(entity.posX, entity.posY, entity.posZ)).getBlock().equals(Blocks.OBSIDIAN) || mc.world.getBlockState(new BlockPos(entity.posX, entity.posY, entity.posZ)).getBlock().equals(Blocks.BEDROCK) || mc.world.getBlockState(new BlockPos(entity.posX, entity.posY + .25, entity.posZ)).getBlock().equals(Blocks.ENDER_CHEST);
     }
 
 

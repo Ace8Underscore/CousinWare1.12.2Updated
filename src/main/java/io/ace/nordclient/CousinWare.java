@@ -20,6 +20,7 @@ import io.ace.nordclient.hacks.render.*;
 import io.ace.nordclient.hud.ClickGuiHUD;
 import io.ace.nordclient.hud.hudcomponets.*;
 import io.ace.nordclient.hwid.HWID;
+import io.ace.nordclient.hwid.UID;
 import io.ace.nordclient.managers.*;
 import io.ace.nordclient.utilz.TpsUtils;
 import io.ace.nordclient.utilz.configz.ConfigUtils;
@@ -48,7 +49,7 @@ public class CousinWare
 {
     public static final String MODID = "cousinware";
     public static final String NAME = "CousinWare";
-    public static final String VERSION = "v1.7.1";
+    public static final String VERSION = "v1.7.2";
 
     public static final Logger log = LogManager.getLogger(NAME);
     private EventManager eventManager;
@@ -71,7 +72,7 @@ public class CousinWare
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws MalformedURLException {
-        Display.setTitle("CousinWare " + VERSION);
+        Display.setTitle("CousinWare " + VERSION + " - " + UID.getUID());
         hwid = new HWID();
 
 //
@@ -88,7 +89,7 @@ public class CousinWare
         friends = new FriendManager();
         loadHuds();
         loadHacks();
-        fontRenderer = new CFontRenderer(new Font("Verdana", Font.PLAIN, 17), true, false);
+        fontRenderer = new CFontRenderer(new Font("Verdana", Font.PLAIN, 18), true, false);
         cousinWareGui = new CousinWareGui();
         clickGui2 = new ClickGUI2();
         clickGuiHUD = new ClickGuiHUD();
@@ -195,6 +196,7 @@ public class CousinWare
         HackManager.addHack(new CrystalAura());
         HackManager.addHack(new FastXp());
         HackManager.addHack(new HoleFiller());
+        HackManager.addHack(new Replenish());
         HackManager.addHack(new KeyPearl());
         HackManager.addHack(new PacketXp());
         HackManager.addHack(new PistonAura2());
@@ -210,6 +212,7 @@ public class CousinWare
         HackManager.addHack(new Lagger());
         HackManager.addHack(new NoBreakLoss());
         HackManager.addHack(new NoSlowBypass());
+        HackManager.addHack(new PhaseWalk());
         HackManager.addHack(new SecretMine());
         //misc
         //

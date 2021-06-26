@@ -86,7 +86,7 @@ public class SpeedMine extends Hack {
     @Override
     public void onWorldRender(RenderEvent event) {
         if (this.render.getValBoolean() && this.breakPos != null) {
-            Color color = new Color(this.timer.passedMs((int)(2000.0f * (20 / TpsUtils.getTickRate()))) ? 0 : 255, this.timer.passedMs((int)(2000.0f * (20 / TpsUtils.getTickRate()))) ? 255 : 0, 0, 125);
+            Color color = new Color(this.timer.passedMs((int)(getHardness(breakPos) * 23 * (20 / TpsUtils.getTickRate()))) ? 0 : 255, this.timer.passedMs((int)(2000.0f * (20 / TpsUtils.getTickRate()))) ? 255 : 0, 0, 125);
             //Color color = new Color(((2000.0f * (20 / TpsUtils.getTickRate())) / 255) - (timer.getPassedTimeMs() / 255), (timer.getPassedTimeMs() / 255) - ((2000.0f * (20 / TpsUtils.getTickRate())) / 255), 0, 255);
             NordTessellator.prepare(7);
             NordTessellator.drawBox(this.breakPos, color.getRed(), color.getGreen(), color.getBlue(), 30, 63);
@@ -115,13 +115,13 @@ public class SpeedMine extends Hack {
 
     @Listener
     public void damageBlock(EventPlayerDamageBlock event) {
-        if (breakPos != event.getPos()) {
-            breakPos = event.getPos();
-            this.timer.reset();
-        }
+
         if (canBreak(event.getPos())) {
+            if (breakPos != event.getPos()) {
+                breakPos = event.getPos();
+                this.timer.reset();
+            }
             if (event.getPos() != null) {
-                //timer.reset();
                 breakPos = event.getPos();
             }
             if (this.reset.getValBoolean()) {
@@ -201,7 +201,15 @@ public class SpeedMine extends Hack {
         final IBlockState blockState = mc.world.getBlockState(pos);
         final Block block = blockState.getBlock();
 
+
         return block.getBlockHardness(blockState, Minecraft.getMinecraft().world, pos) != -1;
+    }
+    private float getHardness(BlockPos pos) {
+        final IBlockState blockState = mc.world.getBlockState(pos);
+        final Block block = blockState.getBlock();
+
+
+        return block.getBlockHardness(blockState, Minecraft.getMinecraft().world, pos);
     }
 
 }

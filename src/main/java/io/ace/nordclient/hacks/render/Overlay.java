@@ -15,6 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
@@ -38,6 +39,7 @@ public class Overlay extends Hack {
     Setting tps;
     Setting packetLoss;
     Setting potion;
+    Setting speed;
 
 
     int pingPlayer;
@@ -47,6 +49,8 @@ public class Overlay extends Hack {
     int cc = 0;
     boolean t = false;
     int tick2 = 0;
+    public double speedometerCurrentSpeed = 0.0;
+
 
     public Overlay() {
         super("Overlay", Category.RENDER, 1687568);
@@ -56,13 +60,19 @@ public class Overlay extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(server = new Setting("Server", this, true, "OverlayServer"));
         CousinWare.INSTANCE.settingsManager.rSetting(fps = new Setting("Fps", this, true, "OverlayFps"));
         CousinWare.INSTANCE.settingsManager.rSetting(tps = new Setting("Tps", this, true, "OverlayTps"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, true, "OverlaySpeed"));
         CousinWare.INSTANCE.settingsManager.rSetting(packetLoss = new Setting("PacketLoss", this, true, "OverlayPacketLoss"));
         CousinWare.INSTANCE.settingsManager.rSetting(potion = new Setting("PotionEffects", this, true, "OverlayPotion"));
-//
     }
     @Override
     public void onUpdate() {
         pingPlayer = mc.getConnection().getPlayerInfo(mc.player.getUniqueID()).getResponseTime();
+
+        if (speed.getValBoolean()) {
+            double distTraveledLastTickX = mc.player.posX - mc.player.prevPosX;
+            double distTraveledLastTickZ = mc.player.posZ - mc.player.prevPosZ;
+            speedometerCurrentSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
+        }
     }
 
     @SubscribeEvent
@@ -109,6 +119,11 @@ public class Overlay extends Hack {
                 FontRenderUtil.drawLeftStringWithShadow("Server " + mc.getCurrentServerData().serverIP, sr.getScaledWidth() - mc.fontRenderer.getStringWidth("Server " + mc.getCurrentServerData().serverIP) + x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                 yOffset.getAndIncrement();
             }
+        }
+
+        if (speed.getValBoolean()) {
+            FontRenderUtil.drawLeftStringWithShadow("Speed " + getSpeedKpH() + " km/h", sr.getScaledWidth() - mc.fontRenderer.getStringWidth("Speed " + getSpeedKpH() + " km/h") + x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+            yOffset.getAndIncrement();
         }
 
         if (ping.getValBoolean()) {
@@ -171,6 +186,11 @@ public class Overlay extends Hack {
                     FontRenderUtil.drawLeftStringWithShadowCustom("Server " + mc.getCurrentServerData().serverIP, x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
                     yOffset.getAndIncrement();
                 }
+            }
+
+            if (speed.getValBoolean()) {
+                FontRenderUtil.drawLeftStringWithShadowCustom("Speed " + getSpeedKpH() + " km/h", x.getValInt(), sr.getScaledHeight() - y.getValInt() + yOffset.get() * -10, c.getRGB());
+                yOffset.getAndIncrement();
             }
 
             if (packetLoss.getValBoolean()) {
@@ -259,6 +279,16 @@ public class Overlay extends Hack {
 
 
         return ret;
+    }
+
+    public double turnIntoKpH(double input) {
+        return (double) MathHelper.sqrt(input) * 71.2729367892;
+    }
+
+    public double getSpeedKpH() {
+        double speedometerkphdouble = this.turnIntoKpH(this.speedometerCurrentSpeed);
+        speedometerkphdouble = (double)Math.round(10.0 * speedometerkphdouble) / 10.0;
+        return speedometerkphdouble;
     }
 
 

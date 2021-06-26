@@ -3,6 +3,7 @@ package io.ace.nordclient.gui;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.hacks.client.ClickGuiHack;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.io.IOException;
@@ -38,6 +39,8 @@ public class ClickGUI2 extends GuiScreen
                 comp.updateComponent(mouseX, mouseY);
             }
         }
+        ScaledResolution sr = new ScaledResolution(mc);
+        drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 0).getRGB(), new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.gradiant.getValInt()).getRGB());
 
         }
 
@@ -71,7 +74,7 @@ public class ClickGUI2 extends GuiScreen
             }
         }
         if (keyCode == 1) {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
     }
 

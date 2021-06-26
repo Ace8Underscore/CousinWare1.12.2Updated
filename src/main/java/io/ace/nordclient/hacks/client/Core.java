@@ -33,6 +33,5 @@ public class Core extends Hack {
 
     }
 
-
-    }
+}
 

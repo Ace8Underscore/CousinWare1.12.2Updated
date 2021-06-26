@@ -3,6 +3,7 @@ package io.ace.nordclient.hacks.client;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
+import io.ace.nordclient.utilz.configz.ConfigUtils;
 import org.lwjgl.input.Keyboard;
 
 public class ClickGuiHack extends Hack {
@@ -15,6 +16,7 @@ public class ClickGuiHack extends Hack {
     public static Setting descriptions;
     public static Setting noise;
     public static Setting rainbow;
+    public static Setting gradiant;
 
     public ClickGuiHack() {
         super("ClickGUI", Category.CLIENT, "Opens the ClickGUI", 12126976);
@@ -26,6 +28,7 @@ public class ClickGuiHack extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(green = new Setting("Green", this, 147, 0, 255, true, "ClickGuiHackGreen"));
         CousinWare.INSTANCE.settingsManager.rSetting(blue = new Setting("Blue", this, 44, 0, 255, true, "ClickGuiHackBlue"));
         CousinWare.INSTANCE.settingsManager.rSetting(alpha = new Setting("Alpha", this, 255, 0, 255, true, "ClickGuiHackAlpha"));
+        CousinWare.INSTANCE.settingsManager.rSetting(gradiant = new Setting("Gradiant", this, 50, 0, 255, true, "ClickGuiHackGradiant"));
         CousinWare.INSTANCE.settingsManager.rSetting(descriptions = new Setting("Descriptions", this, true, "ClickGuiHackDescriptions"));
         CousinWare.INSTANCE.settingsManager.rSetting(noise = new Setting("Sound", this, true, "ClickGuiHackSound"));
         CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "ClickGuiHackRainbow"));
@@ -41,8 +44,8 @@ public class ClickGuiHack extends Hack {
             if (CousinWare.INSTANCE.fontRenderer.getFontName().equalsIgnoreCase("null")) {
                 CousinWare.INSTANCE.fontRenderer.setFontName("Arial");
                 CousinWare.INSTANCE.fontRenderer.setFontSize(18);
-                CousinWare.INSTANCE.configUtils.saveFont();
-                CousinWare.INSTANCE.configUtils.loadFont();
+                ConfigUtils.saveFont();
+                ConfigUtils.loadFont();
             }
         } catch (Exception ignored) {
 

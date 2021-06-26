@@ -59,6 +59,9 @@ public class AutoOffHand extends Hack {
         if (mc.player.getHealth() + mc.player.getAbsorptionAmount() <= switchToTotemGap.getValDouble() && mode.getValString().equalsIgnoreCase("Gapple") || mode.getValString().equalsIgnoreCase("Crapple")) {
             offhandItem = Items.TOTEM_OF_UNDYING;
         }
+        if (mc.player.getHealth() + mc.player.getAbsorptionAmount() <= switchToTotemGap.getValDouble() && mode.getValString().equalsIgnoreCase("Shield")) {
+            offhandItem = Items.TOTEM_OF_UNDYING;
+        }
         if (mode.getValString().equalsIgnoreCase("GapRightClick")) {
             if (holeCheck.getValBoolean()) {
                 if (!mc.player.onGround || mc.player.getHealth() + mc.player.getAbsorptionAmount() <= switchToTotemGap.getValDouble() || !HoleUtil.isPlayerInHole() || !(mc.player.getHeldItemMainhand().getItem() instanceof ItemSword) || !Mouse.isButtonDown(1)) {

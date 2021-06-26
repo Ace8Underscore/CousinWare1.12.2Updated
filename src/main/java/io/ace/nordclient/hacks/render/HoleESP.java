@@ -24,6 +24,7 @@ public class HoleESP extends Hack {
     static Setting alpha;
     static Setting outlineAlpha;
     static Setting width;
+    static Setting fruitRender;
     Thread thread;
 
     private static HoleESP instance;
@@ -31,6 +32,7 @@ public class HoleESP extends Hack {
 
     public HoleESP() {
         super("HoleESP", Category.RENDER, 3639503);
+        CousinWare.INSTANCE.settingsManager.rSetting(fruitRender = new Setting("FruitRender", this, false, "HoleESPFruitRender"));
         CousinWare.INSTANCE.settingsManager.rSetting(doubleHole = new Setting("DoubleHole", this, true, "HoleESPDoubleHole"));
         CousinWare.INSTANCE.settingsManager.rSetting(radius = new Setting("Radius", this, 5, 1, 20, false, "HoleESPRadius"));
         CousinWare.INSTANCE.settingsManager.rSetting(rObi = new Setting("RedObi", this, 255, 0, 255, true, "HoleESPRedObi"));
@@ -70,12 +72,20 @@ public class HoleESP extends Hack {
                 NordTessellator.drawBoxBottom(block, rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), alpha.getValInt());
                 NordTessellator.release();
                 NordTessellator.drawBoundingBoxBottomBlockPos(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                if (fruitRender.getValBoolean()) {
+                    NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+
+                }
             }
             if (HoleUtil.isObiHole(block)) {
                 NordTessellator.prepare(7);
                 NordTessellator.drawBoxBottom(block, rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), alpha.getValInt());
                 NordTessellator.release();
                 NordTessellator.drawBoundingBoxBottomBlockPos(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+
             }
             if (doubleHole.getValBoolean()) {
                 if (HoleUtil.isBedrockEastHole(block) && HoleUtil.isBedrockWestHole(block.west())) {
@@ -85,6 +95,10 @@ public class HoleESP extends Hack {
                     NordTessellator.release();
                     NordTessellator.drawBoundingBoxBottomBlockPosEast(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
                     NordTessellator.drawBoundingBoxBottomBlockPosWest(block.west(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.west(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.west(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
 
                 }
                 if (HoleUtil.isBedrockNorthHole(block) && HoleUtil.isBedrockSouthHole(block.south())) {
@@ -94,6 +108,11 @@ public class HoleESP extends Hack {
                     NordTessellator.release();
                     NordTessellator.drawBoundingBoxBottomBlockPosNorth(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
                     NordTessellator.drawBoundingBoxBottomBlockPosSouth(block.south(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.south(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.south(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+
 
                 }
                 if (HoleUtil.isObiEastHole(block) && HoleUtil.isObiWestHole(block.west())) {
@@ -102,8 +121,9 @@ public class HoleESP extends Hack {
                     NordTessellator.drawBoxBottom(block, rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), alpha.getValInt());
                     NordTessellator.release();
                     NordTessellator.drawBoundingBoxBottomBlockPosEast(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
-                    NordTessellator.drawBoundingBoxBottomBlockPosWest(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
-//
+                    NordTessellator.drawBoundingBoxBottomBlockPosWest(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());if (fruitRender.getValBoolean()) if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                 }
 
                 if (HoleUtil.isObiNorthHole(block) && HoleUtil.isObiSouthHole(block.south())) {
@@ -113,8 +133,10 @@ public class HoleESP extends Hack {
                     NordTessellator.release();
                     NordTessellator.drawBoundingBoxBottomBlockPosNorth(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                     NordTessellator.drawBoundingBoxBottomBlockPosSouth(block.south(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
-
-
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.south(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                    if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.south(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                 }
                 if (!(HoleUtil.isObiNorthHole(block) && HoleUtil.isObiSouthHole(block.south())) && !(HoleUtil.isObiEastHole(block) && HoleUtil.isObiWestHole(block.west())) && !(HoleUtil.isBedrockNorthHole(block) && HoleUtil.isBedrockSouthHole(block.south())) && !(HoleUtil.isBedrockEastHole(block) && HoleUtil.isBedrockWestHole(block.west()))) {
 
@@ -125,7 +147,10 @@ public class HoleESP extends Hack {
                         NordTessellator.release();
                         NordTessellator.drawBoundingBoxBottomBlockPosNorth(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                         NordTessellator.drawBoundingBoxBottomBlockPosSouth(block.south(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
-
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.south(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.south(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                     }
 
                     if ((HoleUtil.isObiEastHole(block) || HoleUtil.isBedrockEastHole(block)) && (HoleUtil.isObiWestHole(block.west()) || HoleUtil.isBedrockWestHole(block.west()))) {
@@ -135,7 +160,10 @@ public class HoleESP extends Hack {
                         NordTessellator.release();
                         NordTessellator.drawBoundingBoxBottomBlockPosEast(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                         NordTessellator.drawBoundingBoxBottomBlockPosWest(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
-
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block, width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block.west(), width.getValInt(), rRock.getValInt(), gRock.getValInt(), bRock.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle(block.west(), width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
+                        if (fruitRender.getValBoolean()) NordTessellator.drawBoundingBoxBottomBlockPosXInMiddle2(block, width.getValInt(), rObi.getValInt(), gObi.getValInt(), bObi.getValInt(), outlineAlpha.getValInt());
                     }
                 }
             }

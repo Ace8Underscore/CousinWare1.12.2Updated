@@ -3,6 +3,7 @@ package io.ace.nordclient.hacks.render;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.hacks.client.Core;
+import io.ace.nordclient.hwid.UID;
 import io.ace.nordclient.utilz.RainbowUtil;
 import io.ace.nordclient.utilz.Setting;
 import net.minecraft.client.gui.ScaledResolution;
@@ -10,11 +11,13 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
 public class Welcomer extends Hack {
 
+    Setting mode;
     Setting r;
     Setting g;
     Setting b;
@@ -22,10 +25,14 @@ public class Welcomer extends Hack {
 
     public Welcomer() {
         super("Welcomer", Category.RENDER,3093151);
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "ArrayListRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "ArrayListGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "ArrayListBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "ArrayListRainbow"));
+        ArrayList<String> modes = new ArrayList();
+        modes.add("Name");
+        modes.add("UID");
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "UID", modes, "WelcomerModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "WelcomerRed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "WelcomerGreen"));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "WelcomerBlue"));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "WelcomerRainbow"));
 
     }
 
@@ -42,7 +49,7 @@ public class Welcomer extends Hack {
         //
 
 
-        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(timeMessage + mc.player.getName(), (sr.getScaledWidth() - mc.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 0, c.getRGB());
-        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(timeMessage + mc.player.getName(), (sr.getScaledWidth() - CousinWare.INSTANCE.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 0, c.getRGB());
+        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - mc.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 1, c.getRGB());
+        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - CousinWare.INSTANCE.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 1, c.getRGB());
     }
 }
