@@ -1,9 +1,9 @@
 package io.ace.nordclient.hacks.combat;
 
+import com.mojang.realmsclient.util.Pair;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
-import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
@@ -23,8 +23,8 @@ public class Replenish extends Hack {
 
     public Replenish() {
         super("HotBarFiller", Category.COMBAT, 13496818);
-        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 2, 0, 10, true, "ReplenishDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(threshold = new Setting("Threshold", this, 32, 0, 63, true, "ReplenishThreshikd"));
+        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 2, 0, 10, true, "ReplenishDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(threshold = new Setting("Threshold", this, 32, 0, 63, true, "ReplenishThreshikd", true));
     }
 
     @Override
@@ -41,8 +41,8 @@ public class Replenish extends Hack {
         final Pair<Integer, Integer> slots = findReplenishableHotbarSlot();
         if (slots == null) return;
 
-        final int inventorySlot = slots.getKey();
-        final int hotbarSlot = slots.getValue();
+        final int inventorySlot = slots.first();
+        final int hotbarSlot = slots.second();
         mc.playerController.windowClick(0, inventorySlot, 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, hotbarSlot, 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, inventorySlot, 0, ClickType.PICKUP, mc.player);
@@ -70,7 +70,7 @@ public class Replenish extends Hack {
                 if (inventorySlot == -1) {
                     continue;
                 }
-                returnPair = new Pair<>(inventorySlot, hotbarSlot.getKey());
+                //returnPair = new Pair<>(inventorySlot, hotbarSlot.getKey());
             }
         }
         return returnPair;

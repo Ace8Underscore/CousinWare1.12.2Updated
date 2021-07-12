@@ -2,6 +2,7 @@ package io.ace.nordclient.utilz;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,61 @@ public class InventoryUtil {
 
         return slot;
 
+    }
+
+    public static int findBlockInHotbarObiEchestRandom() {
+
+        // search blocks in hotbar
+        int slot = -1;
+        for (int i = 0; i < 9; i++) {
+
+            // filter out non-block items
+            ItemStack stack = mc.player.inventory.getStackInSlot(i);
+
+            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {
+                continue;
+            }
+
+            Block block = ((ItemBlock) stack.getItem()).getBlock();
+            if (block.equals(Blocks.OBSIDIAN)) {
+                return i;
+            }
+
+        }
+
+        for (int i = 0; i < 9; i++) {
+
+            // filter out non-block items
+            ItemStack stack = mc.player.inventory.getStackInSlot(i);
+
+            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {
+                continue;
+            }
+
+            Block block = ((ItemBlock) stack.getItem()).getBlock();
+            if (block.equals(Blocks.ENDER_CHEST)) {
+                return i;
+            }
+
+        }
+        for (int i = 0; i < 9; i++) {
+
+            // filter out non-block items
+            ItemStack stack = mc.player.inventory.getStackInSlot(i);
+
+            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {
+                continue;
+            }
+
+            Block block = ((ItemBlock) stack.getItem()).getBlock();
+
+            return i;
+
+
+
+
+        }
+        return slot;
     }
 
     public static int findItemInHotbar(Item itemToFind) {

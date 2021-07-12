@@ -64,20 +64,20 @@ public class PistonAura2 extends Hack {
         ArrayList<String> pistonModes = new ArrayList<String>();
         pistonModes.add("Piston");
         pistonModes.add("StickyPiston");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("PowerMode", this, "RedstoneBlock", modes, "PistonAura2Modes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(pistonMode = new Setting("PisonMode", this, "Piston", pistonModes, "PistonAura2PistonModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("Delay", this, 1, 0, 20, true, "PistonAura2Delay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(redstoneDelay = new Setting("RedstoneDelay", this, 1, 0, 20, true, "PistonAura2RedstoneDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(twobtwot = new Setting("2b2t", this, true, "PistionAura22b2t"));
-        CousinWare.INSTANCE.settingsManager.rSetting(strict = new Setting("StrictPlace", this, false, "PistonAura2Strict"));
-        CousinWare.INSTANCE.settingsManager.rSetting(check = new Setting("Check", this, true, "PistonAura2Check"));
-        CousinWare.INSTANCE.settingsManager.rSetting(lagComp = new Setting("LagComp", this, 1, 0, 20, true, "PistonAura2LagComp"));
-        CousinWare.INSTANCE.settingsManager.rSetting(pistonRotate = new Setting("PistonRotate", this, true, "PistonAura2Rotate"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoBreak = new Setting("CrystalBreak", this, true, "PistonAuraAutoBreak"));
-        CousinWare.INSTANCE.settingsManager.rSetting(crystalBreakRange = new Setting("BreakRange", this, 3, 0, 6, true, "PistonAura2BreakRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rotateBreak = new Setting("RotateBreak", this, true, "PistonAuraRotateBreak"));
-        CousinWare.INSTANCE.settingsManager.rSetting(swing = new Setting("Swing", this, false, "PistonAuraSwing"));
-        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 3, 0, 20, true, "PistonAura2BreakDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("PowerMode", this, "RedstoneBlock", modes, "PistonAura2Modes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(pistonMode = new Setting("PisonMode", this, "Piston", pistonModes, "PistonAura2PistonModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("Delay", this, 1, 0, 20, true, "PistonAura2Delay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(redstoneDelay = new Setting("RedstoneDelay", this, 1, 0, 20, true, "PistonAura2RedstoneDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(twobtwot = new Setting("2b2t", this, true, "PistionAura22b2t", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(strict = new Setting("StrictPlace", this, false, "PistonAura2Strict", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(check = new Setting("Check", this, true, "PistonAura2Check", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(lagComp = new Setting("LagComp", this, 1, 0, 20, true, "PistonAura2LagComp", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(pistonRotate = new Setting("PistonRotate", this, true, "PistonAura2Rotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoBreak = new Setting("CrystalBreak", this, true, "PistonAuraAutoBreak", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(crystalBreakRange = new Setting("BreakRange", this, 3, 0, 6, true, "PistonAura2BreakRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotateBreak = new Setting("RotateBreak", this, true, "PistonAuraRotateBreak", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(swing = new Setting("Swing", this, false, "PistonAuraSwing", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 3, 0, 20, true, "PistonAura2BreakDelay", true));
 
     }
 
@@ -361,7 +361,7 @@ public class PistonAura2 extends Hack {
     }
 
     private void findClosestTarget() {
-        final List<EntityPlayer> playerList = (List<EntityPlayer>)mc.world.playerEntities;
+        final List<EntityPlayer> playerList = mc.world.playerEntities;
         this.closestTarget = null;
         for (final EntityPlayer target : playerList) {
             if (target == mc.player) {
@@ -377,7 +377,7 @@ public class PistonAura2 extends Hack {
                 this.closestTarget = target;
             }
             else {
-                if (mc.player.getDistance((Entity)target) >= mc.player.getDistance((Entity)this.closestTarget)) {
+                if (mc.player.getDistance(target) >= mc.player.getDistance(this.closestTarget)) {
                     continue;
                 }
                 this.closestTarget = target;

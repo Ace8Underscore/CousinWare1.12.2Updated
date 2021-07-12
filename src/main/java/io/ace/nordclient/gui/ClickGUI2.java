@@ -31,6 +31,8 @@ public class ClickGUI2 extends GuiScreen
     }
     @Override
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
+        ScaledResolution sr = new ScaledResolution(mc);
+        drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 0).getRGB(), new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.gradiant.getValInt()).getRGB());
         ClickGUI2.color = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.alpha.getValInt()).getRGB();
         for (final io.ace.nordclient.gui.Frame frame : ClickGUI2.frames) {
             frame.renderFrame(this.fontRenderer);
@@ -39,9 +41,6 @@ public class ClickGUI2 extends GuiScreen
                 comp.updateComponent(mouseX, mouseY);
             }
         }
-        ScaledResolution sr = new ScaledResolution(mc);
-        drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 0).getRGB(), new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.gradiant.getValInt()).getRGB());
-
         }
 
 

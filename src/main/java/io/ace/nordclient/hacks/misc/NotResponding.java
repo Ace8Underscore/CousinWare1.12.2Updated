@@ -18,6 +18,8 @@ public class NotResponding extends Hack {
 
     int counter = 0;
 
+    static int timeNotRespondPublic = 0;
+
     Setting r;
     Setting g;
     Setting b;
@@ -25,10 +27,10 @@ public class NotResponding extends Hack {
 
     public NotResponding() {
         super("NotResponding", Category.MISC, 14707765);
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "ArrayListRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "ArrayListGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "ArrayListBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "ArrayListRainbow"));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "NotRespondingRed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "NotRespondingGreen", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "NotRespondingBlue", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "NotRespondingRainbow", true));
 
     }
 
@@ -46,6 +48,7 @@ public class NotResponding extends Hack {
         if (rainbow.getValBoolean()) RainbowUtil.settingRainbow(r, g, b);
         double counterRemainder = (counter % 20) / 2;
         double timeNotRespond = counter / 20 + (counterRemainder / 10);
+        timeNotRespondPublic = counter;
 
         if (counter >= 20) {
             if (!HackManager.getHackByName("Welcomer").isEnabled()) {
@@ -71,5 +74,9 @@ public class NotResponding extends Hack {
             counter = 0;
 
 
+    }
+
+    public static int spontNotTime() {
+        return timeNotRespondPublic;
     }
 }

@@ -39,18 +39,18 @@ public class SpeedMine extends Hack {
 
     public SpeedMine() {
         super("SpeedMine", Category.COMBAT, "Mine blocks faster", 15763555);
-        CousinWare.INSTANCE.settingsManager.rSetting(reset = new Setting("Reset", this, true, "SpeedMineReset"));
-        CousinWare.INSTANCE.settingsManager.rSetting(fastFall = new Setting("FastFall", this, false, "SpeedMineFastFall"));
-        CousinWare.INSTANCE.settingsManager.rSetting(doubleBreak = new Setting("DoubleBreak", this, true, "SpeedMineDoubleBreak"));
-        CousinWare.INSTANCE.settingsManager.rSetting(onlyPic = new Setting("OnlyPic", this, true, "SpeedMineOnlyPic"));
+        CousinWare.INSTANCE.settingsManager.rSetting(reset = new Setting("Reset", this, true, "SpeedMineReset", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(fastFall = new Setting("FastFall", this, false, "SpeedMineFastFall", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(doubleBreak = new Setting("DoubleBreak", this, false, "SpeedMineDoubleBreak", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(onlyPic = new Setting("OnlyPic", this, false, "SpeedMineOnlyPic", true));
 
         ArrayList<String> modes = new ArrayList<>();
         modes.add("Packet");
         modes.add("Insta");
         modes.add("Damage");
         modes.add("Instant");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Packet", modes, "SpeedMineMode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(render = new Setting("Render", this, true, "SpeedMineRender"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Packet", modes, "SpeedMineMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(render = new Setting("Render", this, true, "SpeedMineRender", true));
 
         this.timer = new Timer();
 

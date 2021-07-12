@@ -13,7 +13,8 @@ public class NordMixinLoader implements IFMLLoadingPlugin {
     private static boolean isObfuscatedEnvironment = false;
 
     public NordMixinLoader() {
-        CousinWare.log.info("Nord mixin initialized");
+        CousinWare.log.info("CousinWare mixin initialized");
+        CousinWare.log.info("Mixins Created By Ace");
         MixinBootstrap.init();
         Mixins.addConfiguration("mixin.nordclient.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");

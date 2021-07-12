@@ -19,9 +19,9 @@ public class Button extends io.ace.nordclient.cousingui.Component
     public io.ace.nordclient.cousingui.Frame parent;
     public int offset;
     private boolean isHovered;
-    private ArrayList<io.ace.nordclient.cousingui.Component> subcomponents;
+    private final ArrayList<io.ace.nordclient.cousingui.Component> subcomponents;
     public boolean open;
-    private int height;
+    private final int height;
 
     public Button(final Hack hack, final io.ace.nordclient.cousingui.Frame parent, final int offset) {
         this.hack = hack;
@@ -79,20 +79,20 @@ public class Button extends io.ace.nordclient.cousingui.Component
     public void renderComponent() {
 
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
-        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + 16 + this.offset, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
-        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + this.offset + 1, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
+        Gui.drawRect(this.parent.getX() + 95, this.offset + 1 + 5, this.parent.getX() + 95 + this.parent.getWidth(),  16 + this.offset + 5, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
+        Gui.drawRect(this.parent.getX() + 95, this.offset + 5, this.parent.getX() + 95 + this.parent.getWidth(), this.offset + 1 + 5, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.mod.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
 
         if (!Core.customFont.getValBoolean()) {
             if (this.hack.isEnabled())
-                mc.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, c.getRGB());
+                mc.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2 + 95 + 2, this.offset + 2 + 2 + 5, c.getRGB());
             else
-                mc.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
+                mc.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2 + 95 + 2, this.offset + 2 + 2 + 5, -1);
         } else {
             if (this.hack.isEnabled())
-                CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, c.getRGB());
+                CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2 + 95 + 2, this.offset + 2 + 2 + 5, c.getRGB());
             else
-                CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
+                CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.hack.getName(), this.parent.getX() + 2 + 95 + 2, this.offset + 2 + 2 + 5, -1);
 
         }
 
@@ -100,11 +100,11 @@ public class Button extends io.ace.nordclient.cousingui.Component
             GlStateManager.pushMatrix();
             GlStateManager.color(1, 1, 1);
             GlStateManager.translate(0, 0, 4);
-            GlStateManager.glLineWidth(100);
+            GlStateManager.glLineWidth(95);
             GlStateManager.popMatrix();
             //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.open ? "-" : "+", this.parent.getX() + this.parent.getWidth() - 10, this.parent.getY() + this.offset + 2 + 2, -1);
-            if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(this.open ? "v" : ">", this.parent.getX() + this.parent.getWidth() - 10, this.parent.getY() + this.offset + 2 + 2, -1);
-            else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.open ? "v" : ">", this.parent.getX() + this.parent.getWidth() - 10, this.parent.getY() + this.offset + 2 + 2, -1);
+            if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(this.open ? "v" : ">", this.parent.getX() + this.parent.getWidth() - 10 + 95, this.offset + 2 + 2 + 5, -1);
+            else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.open ? "v" : ">", this.parent.getX() + this.parent.getWidth() - 10 + 95, this.offset + 2 + 2 + 5, -1);
         }
         if (this.open && !this.subcomponents.isEmpty()) {
             for (final io.ace.nordclient.cousingui.Component comp : this.subcomponents) {
@@ -169,6 +169,6 @@ public class Button extends io.ace.nordclient.cousingui.Component
     }
 
     public boolean isMouseOnButton(final int x, final int y) {
-        return x > this.parent.getX() && x < this.parent.getX() + this.parent.getWidth() && y > this.parent.getY() + this.offset && y < this.parent.getY() + 16 + this.offset;
+        return x > this.parent.getX() + 95 && x < this.parent.getX() + this.parent.getWidth() + 95 && y > this.offset + 5 && y < 16 + this.offset  +5;
     }
 }

@@ -37,8 +37,8 @@ public class FastWeb extends Hack {
         downModes.add("Timer");
         downModes.add("Other");
         downModes.add("Float");
-        CousinWare.INSTANCE.settingsManager.rSetting(downMode = new Setting("DownMode", this, "float", downModes, "FastWebDownMode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 10, 1, 50, false, "FastWebSpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(downMode = new Setting("DownMode", this, "float", downModes, "FastWebDownMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 10, 1, 50, false, "FastWebSpeed", downMode.getValString().equals("Other")));
 
     }
 

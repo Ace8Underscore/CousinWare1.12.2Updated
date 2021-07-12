@@ -21,7 +21,7 @@ public class FullBright extends Hack {
         java.util.ArrayList<String> modes = new ArrayList<>();
         modes.add("Gamma");
         modes.add("NightVision");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Gamma", modes, "FullBrightModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Gamma", modes, "FullBrightModes", true));
     }
 
     @Override

@@ -15,7 +15,7 @@ public class QuickDrop extends Hack {
 
     public QuickDrop() {
         super("QuickDrop", Category.MISC, "When Holding Q items will contine to drop", 2877341);
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 5, 0, 5, true, "QuickDropSpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 5, 0, 5, true, "QuickDropSpeed", true));
 
     }
 

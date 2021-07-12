@@ -23,29 +23,27 @@ public class AutoTrapRewrite extends Hack {
 
     Setting range;
     Setting delay;
-    public Setting multiThread;
-    Setting threadSleepTime;
     Setting debug;
     Setting trappedCheck;
     Setting toggleTicks;
     Setting extraHead;
     Setting headFixMode;
+    Setting rotate;
 
     public AutoTrapRewrite() {
         super("AutoTrapRewrite", Category.COMBAT, 679631);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 1, 7, false, "AutoTrapRewriteRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 1, 0, 6, true, "AutoTrapRewriteDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(trappedCheck = new Setting("TrappedCheck", this, true, "AutoTrapRewriteTrapCheck"));
-        CousinWare.INSTANCE.settingsManager.rSetting(extraHead = new Setting("ExtraHead", this, true, "AutoTrapRewriteExtraHead"));
-        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 8, 0, 20, true, "AutoTrapRewriteToggleTicks"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 1, 7, false, "AutoTrapRewriteRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 1, 0, 6, true, "AutoTrapRewriteDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AutoTrapRewriteRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(trappedCheck = new Setting("TrappedCheck", this, true, "AutoTrapRewriteTrapCheck", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(extraHead = new Setting("ExtraHead", this, true, "AutoTrapRewriteExtraHead", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 8, 0, 20, true, "AutoTrapRewriteToggleTicks", true));
         ArrayList<String> headFixModes = new ArrayList<>();
         headFixModes.add("Off");
         headFixModes.add("On");
         headFixModes.add("Auto");
-        CousinWare.INSTANCE.settingsManager.rSetting(headFixMode = new Setting("HeadFix", this, "Auto", headFixModes, "AutoTrapHeadFixModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(multiThread = new Setting("MultiThread", this, true, "AutoTrapRewriteMultithread"));
-        CousinWare.INSTANCE.settingsManager.rSetting(threadSleepTime = new Setting("ThreadMsSleep", this, 50, 0, 1000, true, "AutoTrapThreadSleepTime"));
-        CousinWare.INSTANCE.settingsManager.rSetting(debug = new Setting("Debug", this, false, "AutoTrapRewriteDebug"));
+        CousinWare.INSTANCE.settingsManager.rSetting(headFixMode = new Setting("HeadFix", this, "Auto", headFixModes, "AutoTrapRewriteHeadFixModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(debug = new Setting("Debug", this, false, "AutoTrapRewriteDebug", true));
     }
 
     static Thread thread;
@@ -57,7 +55,6 @@ public class AutoTrapRewrite extends Hack {
     int obsidianSlot = 0;
 
     public void onUpdate() {
-        if (!multiThread.getValBoolean()) {
             toggleTick++;
             t++;
             for (Vec3d vec : placeNoDirection) {
@@ -82,7 +79,8 @@ public class AutoTrapRewrite extends Hack {
                                     }
                                 }
                             }
-                            BlockInteractionHelper.placeBlockScaffold(place);
+                            if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(place);
+                            else BlockInteractionHelper.placeBlockScaffoldNoRotate(place);
                             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
                             mc.player.inventory.currentItem = startingHand;
 
@@ -98,7 +96,7 @@ public class AutoTrapRewrite extends Hack {
                 }
 
             }
-        }
+
 
         public void onDisable() {
             placeNoDirection.clear();
@@ -113,8 +111,9 @@ public class AutoTrapRewrite extends Hack {
         }
 
         public void onEnable() {
+        if (mc.world == null || mc.player == null) return;
             startingHand = mc.player.inventory.currentItem;
-            int obsidianHand = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+            int obsidianHand = InventoryUtil.findBlockInHotbarObiEchestRandom();
             if (obsidianHand == -1) {
                 Command.sendClientSideMessage("No Obsidian Toggling!");
                 this.disable();
@@ -122,32 +121,10 @@ public class AutoTrapRewrite extends Hack {
                 obsidianSlot = obsidianHand;
             }
             getPlaceArea();
-            if (multiThread.getValBoolean()) {
-                thread = new Thread(AutoTrapRewrite.TAutoTrapRewrite.getInstance(this));
-                doMultiThreading();
-            }
+
 
         }
 
-        public void postTick() {
-            if (multiThread.getValBoolean()) {
-                doMultiThreading();
-            }
-        }
-
-        public void doMultiThreading() {
-            if (thread != null && (thread.isInterrupted() || !thread.isAlive())) {
-                thread = new Thread(TAutoTrapRewrite.getInstance(this));
-            }
-
-            if (thread != null && thread.getState() == Thread.State.NEW) {
-                try {
-                    thread.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
 
         public void getPlaceArea() {
@@ -224,51 +201,6 @@ public class AutoTrapRewrite extends Hack {
                 }
                 closestTarget = target;
             }
-        }
-    }
-
-    private static class TAutoTrapRewrite
-            implements Runnable {
-
-        private static AutoTrapRewrite.TAutoTrapRewrite instance;
-        private AutoTrapRewrite autoTrapRewrite;
-
-        public static AutoTrapRewrite.TAutoTrapRewrite getInstance(AutoTrapRewrite autoTrap) {
-            if (instance == null) {
-                instance = new AutoTrapRewrite.TAutoTrapRewrite();
-                TAutoTrapRewrite.instance.autoTrapRewrite = autoTrap;
-            }
-            return instance;
-        }
-
-
-        @Override
-        public void run() {
-            if (autoTrapRewrite.multiThread.getValBoolean()) {
-                t++;
-                toggleTick++;
-                for (Vec3d vec : placeNoDirection) {
-                    if (t >= autoTrapRewrite.delay.getValInt()) {
-                        if (BlockInteractionHelper.canBlockBePlaced(closestTarget.getPositionVector().add(vec))) {
-                            BlockPos place = new BlockPos(closestTarget.getPositionVector().add(vec).x, closestTarget.getPositionVector().add(vec).y, closestTarget.getPositionVector().add(vec).z);
-                            BlockInteractionHelper.placeBlockScaffoldNoRotate(place);
-                            t = 0;
-                        }
-                    }
-                }
-                if (autoTrapRewrite.debug.getValBoolean()) Command.sendClientSideMessage("Multi");
-                if (toggleTick >= autoTrapRewrite.toggleTicks.getValInt()) {
-                    toggleTick = 0;
-                    autoTrapRewrite.disable();
-                }
-                try {
-                    Thread.sleep(autoTrapRewrite.threadSleepTime.getValInt());
-                } catch (InterruptedException e) {
-                    thread.interrupt();
-                    e.printStackTrace();
-                }
-            }
-
         }
     }
 

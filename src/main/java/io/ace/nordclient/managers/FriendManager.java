@@ -1,5 +1,6 @@
 package io.ace.nordclient.managers;
 
+import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hwid.HWID;
 import io.ace.nordclient.utilz.FriendUtil;
 import io.ace.nordclient.utilz.NordTessellator;
@@ -30,6 +31,7 @@ public class  FriendManager {
             NordTessellator.prepare(1);
             NordTessellator.drawBox(null, 1, 1, 1, 1, 1);
             NordTessellator.release();
+            CousinWare.log.info("Invalid Hwid!");
         }
 
     }

@@ -28,7 +28,7 @@ public class Scaffold extends Hack {
         ArrayList<String> placeModes = new ArrayList<>();
         placeModes.add("Old");
         placeModes.add("New");
-        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "New", placeModes, "ScaffoldPlaceModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "New", placeModes, "ScaffoldPlaceModes", true));
 
     }
 

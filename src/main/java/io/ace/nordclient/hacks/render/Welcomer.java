@@ -28,11 +28,11 @@ public class Welcomer extends Hack {
         ArrayList<String> modes = new ArrayList();
         modes.add("Name");
         modes.add("UID");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "UID", modes, "WelcomerModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "WelcomerRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "WelcomerGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "WelcomerBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "WelcomerRainbow"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "UID", modes, "WelcomerModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "WelcomerRainbow", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "WelcomerRed", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "WelcomerGreen", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "WelcomerBlue", !rainbow.getValBoolean()));
 
     }
 
@@ -49,7 +49,7 @@ public class Welcomer extends Hack {
         //
 
 
-        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - mc.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 1, c.getRGB());
-        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - CousinWare.INSTANCE.fontRenderer.getStringWidth(timeMessage + mc.player.getName())) / 2, 1, c.getRGB());
+        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - mc.fontRenderer.getStringWidth(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()))) / 2, 1, c.getRGB());
+        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()), (sr.getScaledWidth() - CousinWare.INSTANCE.fontRenderer.getStringWidth(timeMessage + (mode.getValString().equalsIgnoreCase("name") ? mc.player.getName() : UID.getUID()))) / 2, 1, c.getRGB());
     }
 }

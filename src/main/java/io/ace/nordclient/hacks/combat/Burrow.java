@@ -41,24 +41,27 @@ public class Burrow extends Hack {
     Setting blockMode;
     Setting lagMode;
     Setting noJump;
+    Setting rotate;
 
 
 
     public Burrow() {
         super("Burrow", Category.COMBAT, 5254300);
-        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 4, 0, 8, true, "BurrowDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(lagBackPower = new Setting("LagBackPower", this,1, .5,10, true, "BurrowLagBack"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noForceRotate = new Setting("NoForceRotate", this, true, "BurrowNoForceRotate"));
+        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 4, 0, 8, true, "BurrowDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(lagBackPower = new Setting("LagBackPower", this,1, .5,10, true, "BurrowLagBack", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noForceRotate = new Setting("NoForceRotate", this, true, "BurrowNoForceRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "BurrowRotate", true));
         ArrayList<String> blockModes = new ArrayList<>();
         blockModes.add("Obi");
         blockModes.add("EChest");
-        CousinWare.INSTANCE.settingsManager.rSetting(blockMode = new Setting("BlockMode", this, "Obi", blockModes, "BurrowBlockMode"));
+        blockModes.add("All");
+        CousinWare.INSTANCE.settingsManager.rSetting(blockMode = new Setting("BlockMode", this, "Obi", blockModes, "BurrowBlockMode", true));
         ArrayList<String> lagModes = new ArrayList<>();
         lagModes.add("Packet");
         lagModes.add("Fly");
         lagModes.add("Smart");
-        CousinWare.INSTANCE.settingsManager.rSetting(lagMode = new Setting("LagMode", this, "Packet", lagModes, "BurrowLagMode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noJump = new Setting("NoJump", this, true, "BurrowNoJump"));
+        CousinWare.INSTANCE.settingsManager.rSetting(lagMode = new Setting("LagMode", this, "Packet", lagModes, "BurrowLagMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noJump = new Setting("NoJump", this, true, "BurrowNoJump", true));
 
     }
 
@@ -79,7 +82,8 @@ public class Burrow extends Hack {
                 mc.player.inventory.currentItem = startingHand;
             } else  {
                 mc.player.inventory.currentItem = useItem;
-                BlockInteractionHelper.placeBlockScaffold(pos);
+                if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(pos);
+                else BlockInteractionHelper.placeBlockScaffoldNoRotate(pos);
                 mc.player.inventory.currentItem = startingHand;
             }
             if (lagMode.getValString().equalsIgnoreCase("Fly")) {
@@ -117,6 +121,18 @@ public class Burrow extends Hack {
                 this.disable();
             } else {
                 useItem = InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST);
+                blockPlaced = false;
+                noForce = false;
+                if (!noJump.getValBoolean()) mc.player.jump();
+                delayPlace = 0;
+            }
+        }
+        if (blockMode.getValString().equalsIgnoreCase("all")) {
+            if (InventoryUtil.findBlockInHotbarObiEchestRandom() == -1) {
+                Command.sendClientSideMessage("No Blocks Found");
+                this.disable();
+            } else {
+                useItem = InventoryUtil.findBlockInHotbarObiEchestRandom();
                 blockPlaced = false;
                 noForce = false;
                 if (!noJump.getValBoolean()) mc.player.jump();

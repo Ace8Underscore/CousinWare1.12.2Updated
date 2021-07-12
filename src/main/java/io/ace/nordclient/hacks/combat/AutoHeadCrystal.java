@@ -34,7 +34,7 @@ public class AutoHeadCrystal extends Hack {
 
     public AutoHeadCrystal() {
         super("AutoHeadCrystal", Category.COMBAT, 641800);
-        CousinWare.INSTANCE.settingsManager.rSetting(delayS = new Setting("Delay", this, 1, 0, 20, true, "AutoHeadCrystalDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(delayS = new Setting("Delay", this, 1, 0, 20, true, "AutoHeadCrystalDelay", true));
 
     }
 
@@ -113,7 +113,7 @@ public class AutoHeadCrystal extends Hack {
     }
 
     private void findClosestTarget() {
-        final List<EntityPlayer> playerList = (List<EntityPlayer>)mc.world.playerEntities;
+        final List<EntityPlayer> playerList = mc.world.playerEntities;
         this.closestTarget = null;
         for (final EntityPlayer target : playerList) {
             if (target == mc.player) {
@@ -129,7 +129,7 @@ public class AutoHeadCrystal extends Hack {
                 this.closestTarget = target;
             }
             else {
-                if (mc.player.getDistance((Entity)target) >= mc.player.getDistance((Entity)this.closestTarget)) {
+                if (mc.player.getDistance(target) >= mc.player.getDistance(this.closestTarget)) {
                     continue;
                 }
                 this.closestTarget = target;

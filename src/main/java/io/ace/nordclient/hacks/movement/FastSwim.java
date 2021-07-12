@@ -15,7 +15,7 @@ public class FastSwim extends Hack {
 
     public FastSwim() {
         super("FastSwim", Category.MOVEMENT, 4264952);
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .7, 0, 1, false, "FastSwimSpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .7, 0, 1, false, "FastSwimSpeed", true));
 
     }
     int divider = 5;

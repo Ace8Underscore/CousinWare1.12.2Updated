@@ -25,4 +25,4 @@ public class Xray extends Hack {
     public void onDisable() {
         mc.renderGlobal.loadRenderers();
     }
-}
+} //

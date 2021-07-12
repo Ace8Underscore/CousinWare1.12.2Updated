@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class ReverseStep extends Hack {
 
     Setting fallMode;
-    public static Setting speed;
     private Double y;
     int delay = 0;
     Packet lastPacket;
@@ -24,8 +23,7 @@ public class ReverseStep extends Hack {
         fallModes.add("Slow");
         fallModes.add("2b");
 
-        CousinWare.INSTANCE.settingsManager.rSetting(fallMode = new Setting("FallModes", this, "Slow", fallModes, "ReverseStepFallModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 2, 0, 10, false, "ReverseStepFallsPeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(fallMode = new Setting("FallModes", this, "Slow", fallModes, "ReverseStepFallModes", true));
 
     }
 

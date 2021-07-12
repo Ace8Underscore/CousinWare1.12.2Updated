@@ -22,10 +22,10 @@ public class SkyColor extends Hack {
     public SkyColor() {
         super("SkyColor", Category.RENDER, "Changes the sky's color.", 12657369);
         //
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 1, 0, 255, false, "SkyColorRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "SkyColorGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 1, 0, 255, false, "SkyColorBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "SkyColorRainbow"));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "SkyColorRainbow", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 1, 0, 255, false, "SkyColorRed", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "SkyColorGreen", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 1, 0, 255, false, "SkyColorBlue", !rainbow.getValBoolean()));
 
     }
 

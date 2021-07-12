@@ -29,13 +29,13 @@ public class CsgoOverlay extends Hack {
 
     public CsgoOverlay() {
         super("CsgoOverlay", Category.RENDER, 12329109);
-        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 959, 0, 2000, false, "CsgoOverlayX"));
-        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 530, 0, 2000, false, "CsgoOverlayY"));
-        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "CsgoOverlayPing"));
-        CousinWare.INSTANCE.settingsManager.rSetting(fps = new Setting("Fps", this, true, "CsgoOverlayFps"));
-        CousinWare.INSTANCE.settingsManager.rSetting(tps = new Setting("Tps", this, true, "CsgoOverlayTps"));
-        CousinWare.INSTANCE.settingsManager.rSetting(name = new Setting("Name", this, true, "CsgoOverlayName"));
-        CousinWare.INSTANCE.settingsManager.rSetting(clientName = new Setting("ClientName", this, true, "CsgoOverlayClientName"));
+        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 959, 0, 2000, false, "CsgoOverlayX", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 530, 0, 2000, false, "CsgoOverlayY", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "CsgoOverlayPing", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(fps = new Setting("Fps", this, true, "CsgoOverlayFps", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(tps = new Setting("Tps", this, true, "CsgoOverlayTps", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(name = new Setting("Name", this, true, "CsgoOverlayName", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(clientName = new Setting("ClientName", this, true, "CsgoOverlayClientName", true));
     }
     @SubscribeEvent
     public void onRenderWorld(RenderGameOverlayEvent.Text event) {
@@ -86,7 +86,7 @@ public class CsgoOverlay extends Hack {
 
     public static void glColor(int color) {
 
-        GlStateManager.color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, (float) 75 / 255F);
+        GlStateManager.color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, 255F);
     }
 
 

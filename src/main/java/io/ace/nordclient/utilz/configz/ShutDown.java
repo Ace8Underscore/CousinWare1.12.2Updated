@@ -1,7 +1,5 @@
 package io.ace.nordclient.utilz.configz;
 
-import io.ace.nordclient.CousinWare;
-
 public class ShutDown extends Thread {
 
     /**
@@ -15,16 +13,16 @@ public class ShutDown extends Thread {
     }
 
     public static void saveConfig(){
-        CousinWare.INSTANCE.configUtils.saveMods();
-        CousinWare.INSTANCE.configUtils.saveBinds();
-        CousinWare.INSTANCE.configUtils.saveDrawn();
-        CousinWare.INSTANCE.configUtils.savePrefix();
-        CousinWare.INSTANCE.configUtils.saveFriends();
-        CousinWare.INSTANCE.configUtils.saveSettingsList();
-        CousinWare.INSTANCE.configUtils.saveFont();
-        CousinWare.INSTANCE.configUtils.saveHuds();
-        CousinWare.INSTANCE.configUtils.saveHudPos();
-       // CousinWare.INSTANCE.configUtils.saveXray();
+        ConfigUtils.saveMods();
+        ConfigUtils.saveBinds();
+        ConfigUtils.saveDrawn();
+        ConfigUtils.savePrefix();
+        ConfigUtils.saveFriends();
+        ConfigUtils.saveSettingsList();
+        ConfigUtils.saveFont();
+        ConfigUtils.saveHuds();
+        ConfigUtils.saveHudPos();
+       // ConfigUtils.saveXray();
 
     }
 }

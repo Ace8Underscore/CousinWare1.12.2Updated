@@ -11,7 +11,7 @@ public class FOVchanger  extends Hack {
 
     public FOVchanger(){
         super("FOVchanger",Category.RENDER,1);
-        CousinWare.INSTANCE.settingsManager.rSetting(FOV = new Setting("FOV",this,100,10,150,true,"FOVchangerFOV"));
+        CousinWare.INSTANCE.settingsManager.rSetting(FOV = new Setting("FOV",this,100,10,150,true,"FOVchangerFOV", true));
 
     } //
 

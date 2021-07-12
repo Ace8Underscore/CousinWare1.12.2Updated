@@ -25,8 +25,8 @@ public class NoSlow2b extends Hack {
         ArrayList<String> modes = new ArrayList<>();
         modes.add("Spam");
         modes.add("Constant");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Constant", modes, "NoSlow2bMode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("SwitchDelay", this, 5, 0, 20, true, "NoSlow2bSpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Constant", modes, "NoSlow2bMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("SwitchDelay", this, 5, 0, 20, true, "NoSlow2bSpeed", mode.getValString().equals("spam")));
 
     }
 

@@ -61,13 +61,13 @@ public class NameTags extends Hack {
     public NameTags() {
         super("NameTags", Category.RENDER, 10955851);
         popMap = new ConcurrentHashMap<EntityPlayer, Integer>();
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 100, 0, 1000, false, "NameTagsRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(reversed = new Setting("Reversed", this, false, "NametagsReversed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(armor = new Setting("Armor", this, true, "NametagsArmor"));
-        CousinWare.INSTANCE.settingsManager.rSetting(hands = new Setting("HeldItems", this, true, "NametagsHeldItems"));
-        CousinWare.INSTANCE.settingsManager.rSetting(gamemode = new Setting("Gamemode", this, true, "NametagsGamemode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "NametagsPing"));
-        CousinWare.INSTANCE.settingsManager.rSetting(health = new Setting("Health", this, true, "NametagsHealth"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 100, 0, 1000, false, "NameTagsRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(reversed = new Setting("Reversed", this, false, "NametagsReversed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(armor = new Setting("Armor", this, true, "NametagsArmor", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(hands = new Setting("HeldItems", this, true, "NametagsHeldItems", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(gamemode = new Setting("Gamemode", this, true, "NametagsGamemode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "NametagsPing", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(health = new Setting("Health", this, true, "NametagsHealth", true));
         java.util.ArrayList<String> friendColors = new ArrayList<>();
         friendColors.add("BLACK");
         friendColors.add("RED");
@@ -85,10 +85,10 @@ public class NameTags extends Hack {
         friendColors.add("DARK_GREEN");
         friendColors.add("DARK_PURPLE");
         friendColors.add("LIGHT_PURPLE");
-        CousinWare.INSTANCE.settingsManager.rSetting(friendColor = new Setting("FriendColor", this, "BLUE", friendColors, "NameTagsFriendColor"));
-        CousinWare.INSTANCE.settingsManager.rSetting(scale = new Setting("Scale", this, 0.05, 0.01, 0.09, false, "NameTagsScale"));
-        CousinWare.INSTANCE.settingsManager.rSetting(burrowed = new Setting("Burrow", this, true,  "NameTagsBurrowed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(totemPop = new Setting("TotemPops", this, true, ""));
+        CousinWare.INSTANCE.settingsManager.rSetting(friendColor = new Setting("FriendColor", this, "BLUE", friendColors, "NameTagsFriendColor", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(scale = new Setting("Scale", this, 0.05, 0.01, 0.09, false, "NameTagsScale", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(burrowed = new Setting("Burrow", this, true,  "NameTagsBurrowed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(totemPop = new Setting("TotemPops", this, true, "", true));
     }
 
     public void onUpdate() {

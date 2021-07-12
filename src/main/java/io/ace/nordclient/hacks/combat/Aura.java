@@ -42,22 +42,22 @@ public class Aura extends Hack {
 
     public Aura() {
         super("Aura", Category.COMBAT, 16562801);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 0, 7, false, "AuraRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, true, "AuraRotate"));
-        CousinWare.INSTANCE.settingsManager.rSetting(raytrace = new Setting("Raytrace", this, false, "AuraRaytrace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(hitDelay = new Setting("HitDelay", this, true, "AuraHitDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 0, 7, false, "AuraRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, true, "AuraRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(raytrace = new Setting("Raytrace", this, false, "AuraRaytrace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(hitDelay = new Setting("HitDelay", this, true, "AuraHitDelay", true));
         ArrayList<String> prioModes = new ArrayList<>();
         prioModes.add("Distance");
         prioModes.add("Health");
-        CousinWare.INSTANCE.settingsManager.rSetting(priority = new Setting("Priority", this, "Distance", prioModes, "AuraPrioModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(stopSprint = new Setting("StopSprinting", this, true, "AuraStopSprint"));
-        CousinWare.INSTANCE.settingsManager.rSetting(swordCheck = new Setting("SwordCheck", this, true, "AuraSwordCheck"));
+        CousinWare.INSTANCE.settingsManager.rSetting(priority = new Setting("Priority", this, "Distance", prioModes, "AuraPrioModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(stopSprint = new Setting("StopSprinting", this, true, "AuraStopSprint", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(swordCheck = new Setting("SwordCheck", this, true, "AuraSwordCheck", true));
         //CousinWare.INSTANCE.settingsManager.rSetting(player = new Setting("Player", this, true, "AuraPlayer"));
         ArrayList<String> tpsModes = new ArrayList<>();
         tpsModes.add("None");
         tpsModes.add("Average");
         tpsModes.add("AboveAvg");
-        CousinWare.INSTANCE.settingsManager.rSetting(tpsSync = new Setting("TpsSync", this, "Average", tpsModes, "AuraTpsSync"));
+        CousinWare.INSTANCE.settingsManager.rSetting(tpsSync = new Setting("TpsSync", this, "Average", tpsModes, "AuraTpsSync", true));
     }
     @Override
     public void onUpdate() {

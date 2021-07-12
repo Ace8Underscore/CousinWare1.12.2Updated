@@ -38,6 +38,7 @@ public class AutoTrap extends Hack {
     Setting noGhostBlocks;
     Setting directionalTrap;
     Setting headFixMode;
+    Setting rotate;
 
 
     boolean packetsBeingSent;
@@ -46,16 +47,17 @@ public class AutoTrap extends Hack {
 
     public AutoTrap() {
         super("AutoTrap", Category.COMBAT, 13648212);
-        CousinWare.INSTANCE.settingsManager.rSetting(placeRange = new Setting("PlaceRange", this, 5.5, 0, 8, false, "AutoTrapPlaceRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 2, 0, 20, true, "AutoTrapPlaceDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 8, 0, 20, true, "AutoTrapToggleTicks"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "AutoTrapNoGhostBlocks"));
-        CousinWare.INSTANCE.settingsManager.rSetting(directionalTrap = new Setting("DirectionTrap", this, true, "AutoTrapDirectionalTrap"));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeRange = new Setting("PlaceRange", this, 5.5, 0, 8, false, "AutoTrapPlaceRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 2, 0, 20, true, "AutoTrapPlaceDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 8, 0, 20, true, "AutoTrapToggleTicks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AutoTrapRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "AutoTrapNoGhostBlocks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(directionalTrap = new Setting("DirectionTrap", this, true, "AutoTrapDirectionalTrap", true));
         ArrayList<String> headFixModes = new ArrayList<>();
         headFixModes.add("Off");
         headFixModes.add("On");
         headFixModes.add("Auto");
-        CousinWare.INSTANCE.settingsManager.rSetting(headFixMode = new Setting("HeadFix", this, "Auto", headFixModes, "AutoTrapHeadFixModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(headFixMode = new Setting("HeadFix", this, "Auto", headFixModes, "AutoTrapHeadFixModes", true));
 
 
     }
@@ -105,7 +107,8 @@ public class AutoTrap extends Hack {
                         } //
                     }
 
-                        BlockInteractionHelper.placeBlockScaffold(pos);
+                        if (rotate.getValBoolean())BlockInteractionHelper.placeBlockScaffold(pos);
+                        else BlockInteractionHelper.placeBlockScaffoldNoRotate(pos);
                     mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
                     mc.player.inventory.currentItem = startingHand;
                     if (noGhostBlocks.getValBoolean()) {
@@ -146,9 +149,9 @@ public class AutoTrap extends Hack {
         delayToggle = 0;
         delay = 0;
         packetsBeingSent = true;
-        int obsidianHand = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+        int obsidianHand = InventoryUtil.findBlockInHotbarObiEchestRandom();
         if (obsidianHand == -1) {
-            Command.sendClientSideMessage("No Obsidian Toggling!");
+            Command.sendClientSideMessage("No Blocks Found Toggling!");
         } else {
             obsidianSlot = obsidianHand;
         }

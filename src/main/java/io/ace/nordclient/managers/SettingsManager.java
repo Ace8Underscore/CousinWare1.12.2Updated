@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class SettingsManager {
 
-    private ArrayList<Setting> settings;
+    private final ArrayList<Setting> settings;
 
     public SettingsManager(){
         this.settings = new ArrayList<>();
@@ -61,6 +61,10 @@ public class SettingsManager {
         }
         System.err.println("[Nord] Error Setting NOT found: '" + id +"'!");
         return null;
+    }
+
+    public boolean isShown(Setting setting) {
+        return setting.isShown();
     }
 
 }

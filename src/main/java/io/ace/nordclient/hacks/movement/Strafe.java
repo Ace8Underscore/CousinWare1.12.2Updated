@@ -27,9 +27,9 @@ public class Strafe extends Hack {
         speedModes.add("Strafe");
         speedModes.add("StrafeAcel");
         speedModes.add("LowHop");
-        CousinWare.INSTANCE.settingsManager.rSetting(speedMode = new Setting("Mode", this,"Launch" ,speedModes, "StrafeMode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .5, 0, .6, false, "StrafeSpeed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(smartFall = new Setting("SmartFall", this, true, "StrafeSmartFall"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speedMode = new Setting("Mode", this,"Launch" ,speedModes, "StrafeMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .5, 0, .6, false, "StrafeSpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(smartFall = new Setting("SmartFall", this, true, "StrafeSmartFall", true));
     }
 
     @Override

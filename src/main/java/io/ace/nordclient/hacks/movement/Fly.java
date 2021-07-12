@@ -10,7 +10,7 @@ public class Fly extends Hack {
 
     public Fly() {
         super("Fly", Category.MOVEMENT, 11813813);
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 1, 0, 3, false, "FlySpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 1, 0, 3, false, "FlySpeed", true));
     }
 
     @Override

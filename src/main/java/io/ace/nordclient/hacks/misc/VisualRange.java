@@ -18,7 +18,7 @@ public class VisualRange extends Hack {
     public VisualRange() {
         super("VisualRange", Category.MISC, 1);
         //CousinWare.INSTANCE.settingsManager.rSetting(noFriend = new Setting("NoFriend", this, true, "VisualRangeNoFriend"));
-        CousinWare.INSTANCE.settingsManager.rSetting(antiSpam = new Setting("AntiSpam", this, true, "VisualRangeAntiSpam"));
+        CousinWare.INSTANCE.settingsManager.rSetting(antiSpam = new Setting("AntiSpam", this, true, "VisualRangeAntiSpam", true));
     }
 
     ArrayList<String> seenPlayers = new ArrayList<>();

@@ -13,8 +13,8 @@ public abstract class MixinLayerArmorBase {
     /**
      * @author Ace_______
      */
-    @Redirect(method = "renderEnchantedGlint", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;color(FFFF)V"))
-    private static void armorGlint(final float red, final float green, final float blue, final float alpha) {
+    @Redirect(method = "renderEnchantedGlint", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;tryBlendFuncSeparate(Lnet/minecraft/client/renderer/GlStateManager$SourceFactor;Lnet/minecraft/client/renderer/GlStateManager$DestFactor;Lnet/minecraft/client/renderer/GlStateManager$SourceFactor;Lnet/minecraft/client/renderer/GlStateManager$DestFactor;)V"))
+    private static void armorGlint(GlStateManager.SourceFactor srcFactor, GlStateManager.DestFactor dstFactor, GlStateManager.SourceFactor srcFactorAlpha, GlStateManager.DestFactor dstFactorAlpha) {
         if (HackManager.getHackByName("EnchantColor").isEnabled()) {
             GlStateManager.color((float) EnchantColor.r.getValDouble() / 255, (float) EnchantColor.g.getValDouble() / 255, (float) EnchantColor.b.getValDouble() / 255, 1.0F);
         } else {

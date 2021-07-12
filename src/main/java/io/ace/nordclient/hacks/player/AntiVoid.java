@@ -26,7 +26,7 @@ public class AntiVoid extends Hack {
         downModes.add("LagBack");
         downModes.add("Strict");
         downModes.add("Float");
-        CousinWare.INSTANCE.settingsManager.rSetting(downMode = new Setting("Mode", this, "lagBack", downModes, "AntiVoidDownMode"));
+        CousinWare.INSTANCE.settingsManager.rSetting(downMode = new Setting("Mode", this, "lagBack", downModes, "AntiVoidDownMode", true));
 
     }
 

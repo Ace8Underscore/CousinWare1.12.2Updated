@@ -54,15 +54,15 @@ public class Overlay extends Hack {
 
     public Overlay() {
         super("Overlay", Category.RENDER, 1687568);
-        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 959, 0, 2000, false, "OverlayX"));
-        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 530, 0, 2000, false, "OverlayY"));
-        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "OverlayPing"));
-        CousinWare.INSTANCE.settingsManager.rSetting(server = new Setting("Server", this, true, "OverlayServer"));
-        CousinWare.INSTANCE.settingsManager.rSetting(fps = new Setting("Fps", this, true, "OverlayFps"));
-        CousinWare.INSTANCE.settingsManager.rSetting(tps = new Setting("Tps", this, true, "OverlayTps"));
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, true, "OverlaySpeed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(packetLoss = new Setting("PacketLoss", this, true, "OverlayPacketLoss"));
-        CousinWare.INSTANCE.settingsManager.rSetting(potion = new Setting("PotionEffects", this, true, "OverlayPotion"));
+        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 959, 0, 2000, false, "OverlayX", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 530, 0, 2000, false, "OverlayY", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "OverlayPing", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(server = new Setting("Server", this, true, "OverlayServer", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(fps = new Setting("Fps", this, true, "OverlayFps", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(tps = new Setting("Tps", this, true, "OverlayTps", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, true, "OverlaySpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(packetLoss = new Setting("PacketLoss", this, true, "OverlayPacketLoss", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(potion = new Setting("PotionEffects", this, true, "OverlayPotion", true));
     }
     @Override
     public void onUpdate() {

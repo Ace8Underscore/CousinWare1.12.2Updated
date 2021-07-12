@@ -4,6 +4,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
+import io.ace.nordclient.utilz.configz.ConfigUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ClickGuiHudHack extends Hack {
         modes.add("LIGHT_PURPLE");
 
 
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "DonkeyAlertColorModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "DonkeyAlertColorModes" , true));
 
     }
 
@@ -47,8 +48,8 @@ public class ClickGuiHudHack extends Hack {
             if (CousinWare.INSTANCE.fontRenderer.getFontName().equalsIgnoreCase("null")) {
                 CousinWare.INSTANCE.fontRenderer.setFontName("Arial");
                 CousinWare.INSTANCE.fontRenderer.setFontSize(18);
-                CousinWare.INSTANCE.configUtils.saveFont();
-                CousinWare.INSTANCE.configUtils.loadFont();
+                ConfigUtils.saveFont();
+                ConfigUtils.loadFont();
             }
         } catch (Exception ignored) {
 

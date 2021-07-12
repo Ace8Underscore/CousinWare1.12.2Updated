@@ -22,14 +22,14 @@ public class PacketCanceller extends Hack {
 
     public PacketCanceller() {
         super("PacketCanceller", Category.PLAYER, 1125279);
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketEntityMetadata = new Setting("SPacketEntityMetadata", this, false, "SPacketEntityMetadata"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketMoveVehicle = new Setting("SPacketMoveVehicle", this, false, "SPacketMoveVehicle"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketCollectItem = new Setting("SPacketCollectItem", this, false, "SPacketCollectItem"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketCloseWindow = new Setting("SPacketCloseWindow", this, false, "SPacketCloseWindow"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketSetPassengers = new Setting("SPacketSetPassengers", this, false, "SPacketSetPassengers"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketEntityTeleport = new Setting("SPacketEntityTeleport", this, false, "SPacketEntityTeleport"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketPlayerAbilities = new Setting("SPacketPlayerAbilities", this, false, "SPacketEntityTeleport"));
-        CousinWare.INSTANCE.settingsManager.rSetting(SPacketChat = new Setting("SPacketChat", this, false, "SPacketEntityTeleport"));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketEntityMetadata = new Setting("SPacketEntityMetadata", this, false, "SPacketEntityMetadata", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketMoveVehicle = new Setting("SPacketMoveVehicle", this, false, "SPacketMoveVehicle", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketCollectItem = new Setting("SPacketCollectItem", this, false, "SPacketCollectItem", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketCloseWindow = new Setting("SPacketCloseWindow", this, false, "SPacketCloseWindow", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketSetPassengers = new Setting("SPacketSetPassengers", this, false, "SPacketSetPassengers", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketEntityTeleport = new Setting("SPacketEntityTeleport", this, false, "SPacketEntityTeleport", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketPlayerAbilities = new Setting("SPacketPlayerAbilities", this, false, "SPacketEntityTeleport", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(SPacketChat = new Setting("SPacketChat", this, false, "SPacketEntityTeleport", true));
 
     }
     @Listener

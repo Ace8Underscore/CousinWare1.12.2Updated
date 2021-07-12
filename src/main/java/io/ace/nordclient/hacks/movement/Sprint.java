@@ -13,7 +13,7 @@ public class Sprint extends Hack {
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT, 11592432);
-        CousinWare.INSTANCE.settingsManager.rSetting(strict = new Setting("Strict", this, true, ""));
+        CousinWare.INSTANCE.settingsManager.rSetting(strict = new Setting("Strict", this, true, "", true));
     }
 
     @Override

@@ -31,10 +31,10 @@ public DonkeyAlert() {
 
         super("DonkeyAlert", Category.MISC, "Announces the location of any donkeys in the players render distance", 15726257);
 
-    CousinWare.INSTANCE.settingsManager.rSetting(donkeyAlert = new Setting("DonkeyAlert", this, true, "DonkeyAlertDonkeyAlert"));
-    CousinWare.INSTANCE.settingsManager.rSetting(muleAlert = new Setting("MuleAlert", this, true, "DonkeyAlertMuleAlert"));
-    CousinWare.INSTANCE.settingsManager.rSetting(llamaAlert = new Setting("LlamaAlert", this, true, "DonkeyAlertLlamaAlert"));
-    CousinWare.INSTANCE.settingsManager.rSetting(horseAlert = new Setting("HorseAlert", this, true, "DonkeyAlertHorseAlert"));
+    CousinWare.INSTANCE.settingsManager.rSetting(donkeyAlert = new Setting("DonkeyAlert", this, true, "DonkeyAlertDonkeyAlert", true));
+    CousinWare.INSTANCE.settingsManager.rSetting(muleAlert = new Setting("MuleAlert", this, true, "DonkeyAlertMuleAlert", true));
+    CousinWare.INSTANCE.settingsManager.rSetting(llamaAlert = new Setting("LlamaAlert", this, true, "DonkeyAlertLlamaAlert", true));
+    CousinWare.INSTANCE.settingsManager.rSetting(horseAlert = new Setting("HorseAlert", this, true, "DonkeyAlertHorseAlert", true));
 
     ArrayList<String> modes = new ArrayList<>();
     modes.add("BLACK");
@@ -56,7 +56,7 @@ public DonkeyAlert() {
     
 
 
-    CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "DonkeyAlertColorModes"));
+    CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "DonkeyAlertColorModes", true));
 
 }
 

@@ -37,24 +37,24 @@ public class WebFiller extends Hack {
 
     public WebFiller() {
         super("WebFiller", Category.COMBAT, 1616480);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5, 1, 8, false, "WebFillerRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(yRange = new Setting("Y-Range", this, 3, 1, 5, true, "WebFillerY-Range"));
-        CousinWare.INSTANCE.settingsManager.rSetting(sDelay = new Setting("Delay", this, 1, 0, 20, true, "WebFillerDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5, 1, 8, false, "WebFillerRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(yRange = new Setting("Y-Range", this, 3, 1, 5, true, "WebFillerY-Range", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(sDelay = new Setting("Delay", this, 1, 0, 20, true, "WebFillerDelay", true));
         ArrayList<String> placeModes = new ArrayList<>();
         placeModes.add("NoRotate");
         placeModes.add("Rotate");
         placeModes.add("Strict");
         placeModes.add("Raytrace");
-        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "Strict", placeModes, "WebFillerPlaceModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "Strict", placeModes, "WebFillerPlaceModes", true));
 
         ArrayList<String> webModes = new ArrayList<>();
         webModes.add("HoleFill");
         webModes.add("Self");
         webModes.add("Enemy");
         webModes.add("Slackin");
-        CousinWare.INSTANCE.settingsManager.rSetting(webMode = new Setting("WebModes", this, "HoleFill", webModes, "WebFillerModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "WebFilleToggleTicks"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "WebFillerNoGhostBlocks"));
+        CousinWare.INSTANCE.settingsManager.rSetting(webMode = new Setting("WebModes", this, "HoleFill", webModes, "WebFillerModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "WebFilleToggleTicks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "WebFillerNoGhostBlocks", true));
 
     }
 

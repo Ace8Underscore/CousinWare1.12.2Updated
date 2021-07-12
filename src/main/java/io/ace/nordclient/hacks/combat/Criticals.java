@@ -21,7 +21,7 @@ public class Criticals extends Hack {
         critModes.add("Strict");
         critModes.add("John");
         critModes.add("Extra");
-        CousinWare.INSTANCE.settingsManager.rSetting(critMode = new Setting("CritMode", this, "Strict", critModes, "CriticalsCritMode"));
+        CousinWare.INSTANCE.settingsManager.rSetting(critMode = new Setting("CritMode", this, "Strict", critModes, "CriticalsCritMode", true));
 
     }
 

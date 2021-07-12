@@ -19,7 +19,7 @@ public class EventCancellable extends EventStageable {
     public EventCancellable(EventStage stage, boolean canceled) {
         super(stage);
         this.canceled = canceled;
-    }
+    } //
 
     public boolean isCanceled() {
         return canceled;

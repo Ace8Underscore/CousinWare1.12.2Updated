@@ -15,10 +15,11 @@ import java.util.ArrayList;
  */
 public class Setting {
 
-    private String displayName;
-    private String id;
-    private Hack parent;
-    private String mode;
+    private final String displayName;
+    private final String id;
+    private final Hack parent;
+    private final String mode;
+    private final boolean shown;
 
     private String sval;
     private ArrayList<String> options;
@@ -34,24 +35,26 @@ public class Setting {
 
     private String customVal;
 
-    public Setting(String displayName, Hack parent, String sval, ArrayList<String> options, String id){
+    public Setting(String displayName, Hack parent, String sval, ArrayList<String> options, String id, boolean shown){
         this.displayName = displayName;
         this.parent = parent;
         this.sval = sval;
         this.options = options;
         this.mode = "Combo";
         this.id = id;
+        this.shown = shown;
     }
 
-    public Setting(String displayName, Hack parent, boolean bval, String id){
+    public Setting(String displayName, Hack parent, boolean bval, String id, boolean shown){
         this.displayName = displayName;
         this.parent = parent;
         this.bval = bval;
         this.mode = "Check";
         this.id = id;
+        this.shown = shown;
     }
 
-    public Setting(String displayName, Hack parent, final double dval, final double min, final double max, final boolean onlyint, String id){
+    public Setting(String displayName, Hack parent, final double dval, final double min, final double max, final boolean onlyint, String id, boolean shown){
         this.displayName = displayName;
         this.parent = parent;
         this.dval = dval;
@@ -60,22 +63,25 @@ public class Setting {
         this.onlyint = onlyint;
         this.mode = "Slider";
         this.id = id;
+        this.shown = shown;
     }
 
-    public Setting(String displayName, Hack parent, Color color, String id){
+    public Setting(String displayName, Hack parent, Color color, String id, boolean shown){
         this.displayName = displayName;
         this.parent = parent;
         this.color = color;
         this.mode = "ColorPicker";
         this.id = id;
+        this.shown = shown;
     }
 
-    public Setting(String displayName, Hack parent, String customVal, String id){
+    public Setting(String displayName, Hack parent, String customVal, String id, boolean shown){
         this.displayName = displayName;
         this.parent = parent;
         this.customVal = customVal;
         this.mode = "CustomString";
         this.id = id;
+        this.shown = shown;
     }
 
     public String getDisplayName(){
@@ -116,6 +122,8 @@ public class Setting {
         }
         return this.dval;
     }
+
+    public boolean isShown() { return this.shown;}
 
     public int getValInt(){
         return (int)getValDouble();

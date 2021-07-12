@@ -14,10 +14,10 @@ public class EnchantColor extends Hack {
 
     public EnchantColor() {
         super("EnchantColor", Category.MISC, 9300540);
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, false, "EnchantColorRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "EnchantColorGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 255, 0, 255, false, "EnchantColorBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "EnchantColorRainbow"));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "EnchantColorRainbow", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, false, "EnchantColorRed", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "EnchantColorGreen", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 255, 0, 255, false, "EnchantColorBlue", !rainbow.getValBoolean()));
 
     }
 

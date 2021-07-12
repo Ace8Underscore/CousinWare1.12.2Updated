@@ -58,27 +58,29 @@ public class CrystalAura extends Hack {
     Setting enemyRange;
     Setting renderPlace;
     Setting renderBreak;
+    Setting spamPlace;
 
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT, 2794140);
-        CousinWare.INSTANCE.settingsManager.rSetting(place = new Setting("Place", this, true, "CrystalAuraPlace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(explode = new Setting("Explode", this, true, "CrystalAuraExplode"));
-        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 0, 0, 20, true, "CrystalAuraBreakDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(breakRange = new Setting("BreakRange", this, 5.5, 0, 8, false, "CrystalAuraBreakRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(breakRangeWall = new Setting("BreakRangeWall", this, 3.5, 0, 8, false, "CrystalAuraBreakRangeWall"));
+        CousinWare.INSTANCE.settingsManager.rSetting(place = new Setting("Place", this, true, "CrystalAuraPlace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(explode = new Setting("Explode", this, true, "CrystalAuraExplode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 0, 0, 20, true, "CrystalAuraBreakDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakRange = new Setting("BreakRange", this, 5.5, 0, 8, false, "CrystalAuraBreakRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakRangeWall = new Setting("BreakRangeWall", this, 3.5, 0, 8, false, "CrystalAuraBreakRangeWall", true));
 
-        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 0, 0, 20, true, "CrystalAuraPlaceDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(placeRange = new Setting("PlaceRange", this, 5.5, 0, 8, false, "CrystalAuraPlaceRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, true, "CrystalAuraRotate"));
-        CousinWare.INSTANCE.settingsManager.rSetting(minDmg = new Setting("MinDmg", this, 3, 0, 20, false, "CrystalAuraMinDmg"));
-        CousinWare.INSTANCE.settingsManager.rSetting(maxDmg = new Setting("MaxSelfDmg", this, 5, 0, 20, false, "CrystalAuraMaxDmg"));
-        CousinWare.INSTANCE.settingsManager.rSetting(multiPlace = new Setting("MultiPlace", this, false, "CrystalAuraMultiPlace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(fastBreak = new Setting("FastBreak", this, true, "CrystalAuraFastBreak"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, true, "CrystalAuraAutoSwitch"));
-        CousinWare.INSTANCE.settingsManager.rSetting(antiWeakness = new Setting("AntiWeakness", this, true, "CrystalAuraAntiWeakness"));
-        CousinWare.INSTANCE.settingsManager.rSetting(enemyRange = new Setting("EnemyRange", this, 5.5, 0, 8, false, "CrystalAuraEnemyRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(renderPlace = new Setting("RenderPlace", this, true, "CrystalAuraRenderPlace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(renderBreak = new Setting("RenderBreak", this, true, "CrystalAuraRenderBreak"));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 0, 0, 20, true, "CrystalAuraPlaceDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeRange = new Setting("PlaceRange", this, 5.5, 0, 8, false, "CrystalAuraPlaceRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, true, "CrystalAuraRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(minDmg = new Setting("MinDmg", this, 3, 0, 20, false, "CrystalAuraMinDmg", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(maxDmg = new Setting("MaxSelfDmg", this, 5, 0, 20, false, "CrystalAuraMaxDmg", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(multiPlace = new Setting("MultiPlace", this, false, "CrystalAuraMultiPlace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(fastBreak = new Setting("FastBreak", this, true, "CrystalAuraFastBreak", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(spamPlace = new Setting("SpamPlace", this, true, "CrystalAuraSpamPlace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, true, "CrystalAuraAutoSwitch", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(antiWeakness = new Setting("AntiWeakness", this, true, "CrystalAuraAntiWeakness", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(enemyRange = new Setting("EnemyRange", this, 5.5, 0, 8, false, "CrystalAuraEnemyRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(renderPlace = new Setting("RenderPlace", this, true, "CrystalAuraRenderPlace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(renderBreak = new Setting("RenderBreak", this, true, "CrystalAuraRenderBreak", true));
     }
 
     private BlockPos render;
@@ -91,6 +93,7 @@ public class CrystalAura extends Hack {
     private final int oldSlot = -1;
     private int newSlot;
     BlockPos placePos;
+    Entity lastSeen;
     boolean offhand = false;
     int delayBreak = 0;
     int delayPlace = 0;
@@ -106,6 +109,26 @@ public class CrystalAura extends Hack {
         } else {
             mc.player.rotationPitch += 0.0004;
             resetRotation();
+        }
+
+        if (spamPlace.getValBoolean()) {
+            if (place.getValBoolean()) {
+                if (placePos != null) {
+                    if (calculateDamage(placePos.getX(), placePos.getY(), placePos.getZ(), mc.player) <= maxDmg.getValDouble()) {
+                        for (Entity entity : mc.world.loadedEntityList) {
+
+                            if (calculateDamage(entity.posX, entity.posY, entity.posZ, entity) >= minDmg.getValDouble() + 1) {
+                            if (mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL || mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) {
+                                if (rotate.getValBoolean()) isSpoofingAngles = true;
+                                if (rotate.getValBoolean())
+                                    lookAtPacket(placePos.getX(), placePos.getY(), placePos.getZ(), mc.player);
+                                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, EnumFacing.UP, offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         if (mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL) offhand = false;

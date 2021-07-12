@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.command.Command;
-import io.ace.nordclient.hacks.combat.AutoTrapRewrite;
 import io.ace.nordclient.managers.CommandManager;
 import io.ace.nordclient.managers.HackManager;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -80,14 +78,6 @@ public class EventProcessor {
     public void onUpdate(UpdateEvent event) {
         if (mc.player != null || mc.world != null) {
             HackManager.onUpdate();
-        }
-    }
-
-    @SubscribeEvent(priority=EventPriority.LOWEST)
-    public void onTickLowest(TickEvent.ClientTickEvent event) {
-        AutoTrapRewrite t = new AutoTrapRewrite();
-        if (event.phase == TickEvent.Phase.END) {
-            if (HackManager.getHackByName("AutoTrapRewrite").isEnabled() && t.multiThread.getValBoolean()) t.postTick();
         }
     }
 

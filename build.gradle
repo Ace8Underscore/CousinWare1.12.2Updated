@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
         maven {
             name = 'forge'
@@ -11,6 +12,7 @@ buildscript {
         }
     }
     dependencies {
+        classpath 'club.minnced:discord-webhooks:0.5.6'
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
@@ -69,12 +71,21 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
+    compile "club.minnced:discord-webhooks:0.5.6"
+    compile 'club.minnced:java-discord-rpc:2.0.1'
+    compile 'club.minnced:discord-rpc-release:v3.3.0'
     compile "com.github.cabaletta:baritone:1.2.14"
     compile "cabaletta:baritone-api:1.2"
     compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
     compile group: "com.googlecode.json-simple", name: "json-simple", version: "1.1.1"
     compile group: 'com.github.oshi', name: 'oshi-core', version: '5.3.4'
     compile group: "org.slf4j", name : "slf4j-simple", version: "1.6.1"
+    compile group: "org.tinylog", name: "tinylog", version: "1.3.2"
+    compile group: 'org.json', name: 'json', version: '20180813'
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '2.7.5'
+    compile group: 'com.squareup.okio', name: 'okio', version: '1.6.0'
+
+
 
 
 
@@ -102,9 +113,15 @@ processResources {
 shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
+        include(dependency('club.minnced:discord-webhooks:0.5.6'))
+        include(dependency('club.minnced:discord-rpc-release:v3.3.0'))
+        include(dependency('club.minnced:discord-rpc-release:v3.3.0'))
         include(dependency('net.jodah:typetools'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
         include(dependency('cabaletta:baritone-api:1.2'))
+        include(dependency('org.json:json'))
+        include(dependency("com.squareup.okhttp3:okhttp"))
+        include(dependency("com.squareup.okio:okio"))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'

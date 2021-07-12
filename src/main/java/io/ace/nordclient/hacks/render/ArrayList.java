@@ -44,26 +44,25 @@ public class ArrayList extends Hack {
     public ArrayList() {
         super("ArrayList", Category.RENDER, 29700);
         this.drawn = true;
-        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 1, 0, 2000, false, "ArrayListX"));
-        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 3, 0, 2000, false, "ArrayListY"));
+        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("x", this, 1, 0, 2000, false, "ArrayListX", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("y", this, 3, 0, 2000, false, "ArrayListY", true));
 
         java.util.ArrayList<String> sideModes = new java.util.ArrayList<>();
         sideModes.add("Left");
         sideModes.add("Right");
-        CousinWare.INSTANCE.settingsManager.rSetting(sideMode = new Setting("Side", this, "Left", sideModes, "ArrayListSideMode"));
+        CousinWare.INSTANCE.settingsManager.rSetting(sideMode = new Setting("Side", this, "Left", sideModes, "ArrayListSideMode", true));
 
         java.util.ArrayList<String> orderModes = new java.util.ArrayList<>();
         orderModes.add("Up");
         orderModes.add("Down");
-        CousinWare.INSTANCE.settingsManager.rSetting(orderMode = new Setting("Order", this, "Up", orderModes, "ArrayListOrderMode"));
-
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "ArrayListRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "ArrayListGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "ArrayListBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "ArrayListRainbow"));
-        CousinWare.INSTANCE.settingsManager.rSetting(staticc = new Setting("Static", this, true, "ArrayListStatic"));
-        CousinWare.INSTANCE.settingsManager.rSetting(animation = new Setting("Animation", this, true, "ArrayListAnimation"));
-        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("AnimationDelay", this, 1, 1, 20, true, "ArrayListDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(orderMode = new Setting("Order", this, "Up", orderModes, "ArrayListOrderMode", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(staticc = new Setting("Static", this, true, "ArrayListStatic", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, false, "ArrayListRainbow", !staticc.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 255, 0, 255, true, "ArrayListRed", !staticc.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 26, 0, 255, true, "ArrayListGreen", !staticc.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 42, 0, 255, true, "ArrayListBlue", !staticc.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(animation = new Setting("Animation", this, true, "ArrayListAnimation", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("AnimationDelay", this, 1, 1, 20, true, "ArrayListDelay", true));
     }
 
     @SubscribeEvent

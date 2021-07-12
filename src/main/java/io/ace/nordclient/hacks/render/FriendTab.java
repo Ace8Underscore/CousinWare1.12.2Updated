@@ -33,7 +33,7 @@ public class FriendTab extends Hack {
         modes.add("DARK_PURPLE");
         modes.add("LIGHT_PURPLE");
         modes.add("OBFUSCATED");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "FriendTabColorModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "GREEN", modes, "FriendTabColorModes", true));
 
 
     }

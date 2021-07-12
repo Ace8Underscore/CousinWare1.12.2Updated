@@ -1,5 +1,7 @@
 package io.ace.nordclient.hwid;
 
+import net.minecraft.client.Minecraft;
+
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,31 @@ public class UID {
         else if (currentHWID == 17126617096L) return "UID 16";
         else if (currentHWID == 17109893128L) return "UID 4";
         else if (currentHWID == 16972029960L) return "UID 28";
+        else if (currentHWID == 25717571596L) return "UID 26";
+        else if (currentHWID == 34291027976L) return "UID 29";
         else return "Missing";
+
+    }
+
+    public static boolean isCapeUser(String name) {
+            if (name.equalsIgnoreCase("Ace________")) return true;
+            else if (name.equalsIgnoreCase("DiikSuk")) return true;
+            else if (name.equalsIgnoreCase("Shanks_Ace")) return true;
+            else if (name.equalsIgnoreCase("RatSmasher")) return true;
+            else if (name.equalsIgnoreCase("69hr")) return true;
+            else if (name.equalsIgnoreCase("Lence")) return true;
+            else if (name.equalsIgnoreCase("Kildrio")) return true;
+            else if (name.equalsIgnoreCase("Chae")) return true;
+            else if (name.equalsIgnoreCase("InputMc")) return true;
+            else if (name.equalsIgnoreCase("Nicky")) return true;
+            else if (name.equalsIgnoreCase("Takeouts")) return true;
+            else if (name.equalsIgnoreCase("Waveshift")) return true;
+            else if (name.equalsIgnoreCase("Reckinq")) return true;
+            else if (name.equalsIgnoreCase("L1GH7ER")) return true;
+            else if (name.equalsIgnoreCase("Fruit54")) return true;
+            else if (name.equalsIgnoreCase("Balake_")) return true;
+            else if (name.equalsIgnoreCase("XHitsFromTheBong")) return true;
+            else return name.equalsIgnoreCase(Minecraft.getMinecraft().player.getName());
 
     }
 }

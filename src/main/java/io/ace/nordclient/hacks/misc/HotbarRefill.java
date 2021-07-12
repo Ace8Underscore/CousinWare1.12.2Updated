@@ -13,7 +13,7 @@ public class HotbarRefill extends Hack {
 
     public HotbarRefill() {
         super("HotbarRefill", Category.MISC, 8868332);
-        CousinWare.INSTANCE.settingsManager.rSetting(refillAt = new Setting("RefillAt", this, 32, 1, 64, true, "HotbarRefillFillAt"));
+        CousinWare.INSTANCE.settingsManager.rSetting(refillAt = new Setting("RefillAt", this, 32, 1, 64, true, "HotbarRefillFillAt", true));
     }
 
     ItemStack refillItem;

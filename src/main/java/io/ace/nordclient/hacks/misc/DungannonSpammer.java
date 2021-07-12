@@ -15,7 +15,7 @@ public class DungannonSpammer extends Hack {
 
     public DungannonSpammer() {
         super("DungannonSpammer", Category.MISC, 8329630);
-        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("Delay", this, 1, 1, 1000, true, "DungannonSpammerDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(delaySetting = new Setting("Delay", this, 1, 1, 1000, true, "DungannonSpammerDelay", true));
     }
 
     @Override

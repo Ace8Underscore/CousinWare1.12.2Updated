@@ -11,7 +11,7 @@ public class Timer extends Hack {
 
     public Timer() {
         super("Timer", Category.PLAYER, 6816291);
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Timer", this, 3, .1, 10, false, "TimerSpeed"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Timer", this, 3, .1, 10, false, "TimerSpeed", true));
 
     }
 

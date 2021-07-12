@@ -3,6 +3,7 @@ package io.ace.nordclient.cousingui;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.hacks.client.ClickGuiHack;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 import java.io.IOException;
@@ -30,8 +31,9 @@ public class CousinWareGui extends GuiScreen {
     @Override
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         CousinWareGui.color = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.alpha.getValInt()).getRGB();
+        ScaledResolution sr = new ScaledResolution(mc);
         for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
-            frame.renderFrame(this.fontRenderer);
+            frame.renderFrame(this.fontRenderer, frame);
             frame.updatePosition(mouseX, mouseY);
             for (final io.ace.nordclient.cousingui.Component comp : frame.getComponents()) {
                 comp.updateComponent(mouseX, mouseY);
@@ -43,33 +45,34 @@ public class CousinWareGui extends GuiScreen {
                 if (frame.category.equals(Hack.Category.COMBAT)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(75);
+                    frame.setY(95);
                 }
                 if (frame.category.equals(Hack.Category.PLAYER)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(100);
+                    frame.setY(140);
                 }
                 if (frame.category.equals(Hack.Category.MOVEMENT)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(125);
+                    frame.setY(185);
                 }
                 if (frame.category.equals(Hack.Category.MISC)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(150);
+                    frame.setY(230);
                 }
                 if (frame.category.equals(Hack.Category.EXPLOIT)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(175);
+                    frame.setY(275);
                 }
-                if (frame.category.equals(Hack.Category.PLAYER)) {
+                if (frame.category.equals(Hack.Category.RENDER)) {
                     frame.setDrag(false);
                     frame.setX(100);
-                    frame.setY(200);
+                    frame.setY(320);
                 }
+
 
             }
         }
@@ -80,17 +83,31 @@ public class CousinWareGui extends GuiScreen {
     protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
             if (frame.isWithinHeader(mouseX, mouseY) && mouseButton == 0) {
-                frame.setDrag(true);
+                frame.setOpen(true);
+                setFramesClosed(frame);
                 frame.dragX = mouseX - frame.getX();
                 frame.dragY = mouseY - frame.getY();
             }
             if (frame.isWithinHeader(mouseX, mouseY) && mouseButton == 1) {
-                frame.setOpen(!frame.isOpen());
+                if (!frame.isOpen()) {
+                    frame.setOpen(true);
+                    setFramesClosed(frame);
+                } else {
+                    frame.setOpen(false);
+                }
             }
             if (frame.isOpen() && !frame.getComponents().isEmpty()) {
                 for (final io.ace.nordclient.cousingui.Component component : frame.getComponents()) {
                     component.mouseClicked(mouseX, mouseY, mouseButton);
                 }
+            }
+        }
+    }
+
+    private void setFramesClosed(Frame excludeFrame) {
+        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+            if (!frame.equals(excludeFrame)) {
+                frame.setOpen(false);
             }
         }
     }
@@ -104,7 +121,7 @@ public class CousinWareGui extends GuiScreen {
             }
         }
         if (keyCode == 1) {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
     }
 

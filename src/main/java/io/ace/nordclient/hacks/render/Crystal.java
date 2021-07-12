@@ -12,9 +12,9 @@ public class Crystal extends Hack {
 
     public Crystal() {
         super("DjCrystal", Category.RENDER, "Change Size of EndCrystals", 13436958);
-        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("X", this, 1, -1, 1,false,"CrystalX" ));
-        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("Y", this, 1, -1, 1,false,"CrystalY" ));
-        CousinWare.INSTANCE.settingsManager.rSetting(z = new Setting("Z", this, 1, -1, 1,false,"CrystalZ" ));
+        CousinWare.INSTANCE.settingsManager.rSetting(x = new Setting("X", this, 1, -1, 1,false,"CrystalX", true ));
+        CousinWare.INSTANCE.settingsManager.rSetting(y = new Setting("Y", this, 1, -1, 1,false,"CrystalY", true ));
+        CousinWare.INSTANCE.settingsManager.rSetting(z = new Setting("Z", this, 1, -1, 1,false,"CrystalZ", true ));
 
     }
 

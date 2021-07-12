@@ -1,10 +1,7 @@
 package io.ace.nordclient.mixin.mixins;
 
 import io.ace.nordclient.CousinWare;
-import io.ace.nordclient.managers.HackManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.util.text.ITextComponent;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -35,7 +31,7 @@ public abstract class MixinGuiNewChat {
      * @author Ace________
      */
 
-    @Redirect(method = "drawChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawStringWithShadow(Ljava/lang/String;FFI)I"))
+  /*  @Redirect(method = "drawChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawStringWithShadow(Ljava/lang/String;FFI)I"))
     private int drawChatCustom(final FontRenderer fontRenderer, final String m, final float x, final float y, final int color) {
         int returnInt;
         if (HackManager.getHackByName("FancyChat").isEnabled()) {
@@ -44,7 +40,7 @@ public abstract class MixinGuiNewChat {
             returnInt = (int) Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(m, x, y, color);
         }
         return returnInt;
-    }
+    } */
 
     @Inject(method = "drawChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiNewChat;drawChat(I)V"), cancellable = true)
     private void drawChatCustomHeight(CallbackInfo info) {

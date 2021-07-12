@@ -40,11 +40,12 @@ public class AutoBedBombDumb extends Hack {
     Setting breakDelay;
     Setting breakMode;
     Setting debug;
+    Setting rainbow;
     Setting r;
     Setting g;
     Setting b;
     Setting a;
-    Setting rainbow;
+    Setting haleeGay;
 
     private float yaw;
     private int delay = 0;
@@ -60,24 +61,25 @@ public class AutoBedBombDumb extends Hack {
 
     public AutoBedBombDumb() {
         super("AutoBedBomb", Category.COMBAT, 11043230);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 1, 0, 7, false, "AutoBedBombRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(spoofPlace = new Setting("SpoofPlace", this, true, "AutoBedBombSpoofPlace"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, false, "AutoBedBombAutoSwitch"));
-        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, true, "AutoBedBombSilentSwitch"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AutoBedBombRotate"));
-        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 1, 0, 20, false, "AutoBedBombPlaceDelay"));
-        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 1, 0, 10, false, "AutoBedBombBreakDelay"));
+
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 1, 0, 7, false, "AutoBedBombRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(spoofPlace = new Setting("SpoofPlace", this, true, "AutoBedBombSpoofPlace", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, false, "AutoBedBombAutoSwitch", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(haleeGay = new Setting("Haleegay", this, false, "AutoBedBombHaleeGay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, true, "AutoBedBombSilentSwitch", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AutoBedBombRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeDelay = new Setting("PlaceDelay", this, 1, 0, 20, false, "AutoBedBombPlaceDelay", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakDelay = new Setting("BreakDelay", this, 1, 0, 10, false, "AutoBedBombBreakDelay", true));
         ArrayList<String> breaklModes = new ArrayList<>();
         breaklModes.add("Own");
         breaklModes.add("All");
-        CousinWare.INSTANCE.settingsManager.rSetting(breakMode = new Setting("Mode", this, "Own", breaklModes, "AutoBedBombBreakModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(debug = new Setting("Debug", this, false, "AutoBedBombDebug"));
-
-        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 1, 0, 255, false, "BlockHighlightRed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "BlockHighlightGreen"));
-        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 1, 0, 255, false, "BlockHighlightBlue"));
-        CousinWare.INSTANCE.settingsManager.rSetting(a = new Setting("alpha", this, 1, 0, 1, false, "BlockHighlightAlpha"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "BlockHighlightRainbow"));
+        CousinWare.INSTANCE.settingsManager.rSetting(breakMode = new Setting("Mode", this, "Own", breaklModes, "AutoBedBombBreakModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(debug = new Setting("Debug", this, false, "AutoBedBombDebug", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rainbow = new Setting("Rainbow", this, true, "BlockHighlightRainbow", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(r = new Setting("Red", this, 1, 0, 255, false, "BlockHighlightRed", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(g = new Setting("Green", this, 1, 0, 255, false, "BlockHighlightGreen", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(b = new Setting("Blue", this, 1, 0, 255, false, "BlockHighlightBlue", !rainbow.getValBoolean()));
+        CousinWare.INSTANCE.settingsManager.rSetting(a = new Setting("alpha", this, 1, 0, 1, false, "BlockHighlightAlpha", !rainbow.getValBoolean()));
 
     }
 
@@ -99,87 +101,170 @@ public class AutoBedBombDumb extends Hack {
                                 mc.player.connection.sendPacket(new CPacketHeldItemChange(InventoryUtil.findItemInHotbar(Items.BED)));
                             } //
                             placing = eLocation;
-                            if (mc.world.getBlockState(eLocation.south()).getBlock().canPlaceBlockAt(mc.world, eLocation.south()) && mc.world.getBlockState(eLocation.south().down()).getBlock() != Blocks.AIR) {
-                                if (delay >= placeDelay.getValInt()) {
-                                    if (rotate.getValBoolean()) {
-                                        BlockInteractionHelper.placeBlockScaffold(eLocation);
-                                        south = true;
-                                        north = false;
-                                        east = false;
-                                        west = false;
-                                    } else {
-                                        BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
-                                        south = true;
-                                        north = false;
-                                        east = false;
-                                        west = false;
+                            if (!haleeGay.getValBoolean()) {
+                                if (mc.world.getBlockState(eLocation.south()).getBlock().canPlaceBlockAt(mc.world, eLocation.south()) && mc.world.getBlockState(eLocation.south().down()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                            south = true;
+                                            north = false;
+                                            east = false;
+                                            west = false;
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = true;
+                                            north = false;
+                                            east = false;
+                                            west = false;
+                                        }
+                                        yaw = 0;
+                                        delay = 0;
                                     }
-                                    yaw = 0;
-                                    delay = 0;
+                                }
+
+                                if (mc.world.getBlockState(eLocation.north()).getBlock().canPlaceBlockAt(mc.world, eLocation.north()) && mc.world.getBlockState(eLocation.north().down()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                            south = false;
+                                            north = true;
+                                            east = false;
+                                            west = false;
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = true;
+                                            east = false;
+                                            west = false;
+                                        }
+                                        yaw = 180;
+                                        delay = 0;
+                                    }
+                                }
+
+                                if (mc.world.getBlockState(eLocation.east()).getBlock().canPlaceBlockAt(mc.world, eLocation.east()) && mc.world.getBlockState(eLocation.east().down()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            south = false;
+                                            north = false;
+                                            east = true;
+                                            west = false;
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = false;
+                                            east = true;
+                                            west = false;
+                                        }
+                                        delay = 0;
+                                        yaw = 270;
+                                    }
+                                }
+
+                                if (mc.world.getBlockState(eLocation.west()).getBlock().canPlaceBlockAt(mc.world, eLocation.west()) && mc.world.getBlockState(eLocation.west().down()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+
+                                        if (rotate.getValBoolean()) {
+                                            south = false;
+                                            north = false;
+                                            east = false;
+                                            west = true;
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = false;
+                                            east = false;
+                                            west = true;
+                                        }
+                                        delay = 0;
+                                        yaw = 90;
+                                    }
+                                }
+
+                            } else {
+                                if (mc.world.getBlockState(eLocation.south().up()).getBlock().canPlaceBlockAt(mc.world, eLocation.south().up()) && mc.world.getBlockState(eLocation.south()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                            south = true;
+                                            north = false;
+                                            east = false;
+                                            west = false;
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = true;
+                                            north = false;
+                                            east = false;
+                                            west = false;
+                                        }
+                                        yaw = 0;
+                                        delay = 0;
+                                    }
+                                }
+
+                                if (mc.world.getBlockState(eLocation.north().up()).getBlock().canPlaceBlockAt(mc.world, eLocation.north().up()) && mc.world.getBlockState(eLocation.north()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                            south = false;
+                                            north = true;
+                                            east = false;
+                                            west = false;
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = true;
+                                            east = false;
+                                            west = false;
+                                        }
+                                        yaw = 180;
+                                        delay = 0;
+                                    }
+                                }
+
+                                if (mc.world.getBlockState(eLocation.east().up()).getBlock().canPlaceBlockAt(mc.world, eLocation.east().up()) && mc.world.getBlockState(eLocation.east()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+                                        if (rotate.getValBoolean()) {
+                                            south = false;
+                                            north = false;
+                                            east = true;
+                                            west = false;
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = false;
+                                            east = true;
+                                            west = false;
+                                        }
+                                        delay = 0;
+                                        yaw = 270;
+                                    }
+                                }
+
+                                if (mc.world.getBlockState(eLocation.west().up()).getBlock().canPlaceBlockAt(mc.world, eLocation.west().up()) && mc.world.getBlockState(eLocation.west()).getBlock() != Blocks.AIR) {
+                                    if (delay >= placeDelay.getValInt()) {
+
+                                        if (rotate.getValBoolean()) {
+                                            south = false;
+                                            north = false;
+                                            east = false;
+                                            west = true;
+                                            BlockInteractionHelper.placeBlockScaffold(eLocation);
+                                        } else {
+                                            BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
+                                            south = false;
+                                            north = false;
+                                            east = false;
+                                            west = true;
+                                        }
+                                        delay = 0;
+                                        yaw = 90;
+                                    }
                                 }
                             }
-
-                            if (mc.world.getBlockState(eLocation.north()).getBlock().canPlaceBlockAt(mc.world, eLocation.north()) && mc.world.getBlockState(eLocation.north().down()).getBlock() != Blocks.AIR) {
-                                if (delay >= placeDelay.getValInt()) {
-                                    if (rotate.getValBoolean()) {
-                                        BlockInteractionHelper.placeBlockScaffold(eLocation);
-                                        south = false;
-                                        north = true;
-                                        east = false;
-                                        west = false;
-                                    } else {
-                                        BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
-                                        south = false;
-                                        north = true;
-                                        east = false;
-                                        west = false;
-                                    }
-                                    yaw = 180;
-                                    delay = 0;
-                                }
-                            }
-
-                            if (mc.world.getBlockState(eLocation.east()).getBlock().canPlaceBlockAt(mc.world, eLocation.east()) && mc.world.getBlockState(eLocation.east().down()).getBlock() != Blocks.AIR) {
-                                if (delay >= placeDelay.getValInt()) {
-                                    if (rotate.getValBoolean()) {
-                                        south = false;
-                                        north = false;
-                                        east = true;
-                                        west = false;
-                                        BlockInteractionHelper.placeBlockScaffold(eLocation);
-                                    } else {
-                                        BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
-                                        south = false;
-                                        north = false;
-                                        east = true;
-                                        west = false;
-                                    }
-                                    delay = 0;
-                                    yaw = 270;
-                                }
-                            }
-
-                            if (mc.world.getBlockState(eLocation.west()).getBlock().canPlaceBlockAt(mc.world, eLocation.west()) && mc.world.getBlockState(eLocation.west().down()).getBlock() != Blocks.AIR) {
-                                if (delay >= placeDelay.getValInt()) {
-
-                                    if (rotate.getValBoolean()) {
-                                        south = false;
-                                        north = false;
-                                        east = false;
-                                        west = true;
-                                        BlockInteractionHelper.placeBlockScaffold(eLocation);
-                                    } else {
-                                        BlockInteractionHelper.placeBlockScaffoldNoRotate(eLocation);
-                                        south = false;
-                                        north = false;
-                                        east = false;
-                                        west = true;
-                                    }
-                                    delay = 0;
-                                    yaw = 90;
-                                }
-                            }
-
                         }
 
                         if (breakMode.getValString().equalsIgnoreCase("own")) {

@@ -1,13 +1,18 @@
 package io.ace.nordclient.hacks.movement;
 
 import io.ace.nordclient.CousinWare;
+import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.MathUtil;
 import io.ace.nordclient.utilz.Setting;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.math.MathHelper;
+import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 import java.util.ArrayList;
 
@@ -23,24 +28,24 @@ public class ElytraFly extends Hack {
     Setting noGlideAFK;
     Setting boost;
     Setting autoTakeoff;
-    private Setting flyMode;
+    private final Setting flyMode;
     private int sendPacketDelay = 0;
 
     public ElytraFly() {
         super("ElytraFly", Category.MOVEMENT, 16111998);
 
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 2, 0, 10, false, "ElytraFlySpeed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(glide = new Setting("Glide", this, true, "ElytraFlyGlide"));
-        CousinWare.INSTANCE.settingsManager.rSetting(glideSpeed = new Setting("GlideSpeed", this, 1, 0, 2.5, false, "ElytraFlyGlideSpeed"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noGlideAFK = new Setting("NoGlideAFK", this, false, "ElytraFlyNoGlideAFK"));
-        CousinWare.INSTANCE.settingsManager.rSetting(boost = new Setting("Boost", this, true, "ElytraFlyBoost"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoTakeoff = new Setting("AutoTakeOff", this, true, "ElytraFlyAutoTakeOff"));
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, 2, 0, 10, false, "ElytraFlySpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(glide = new Setting("Glide", this, true, "ElytraFlyGlide", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(glideSpeed = new Setting("GlideSpeed", this, 1, 0, 2.5, false, "ElytraFlyGlideSpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noGlideAFK = new Setting("NoGlideAFK", this, false, "ElytraFlyNoGlideAFK", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(boost = new Setting("Boost", this, true, "ElytraFlyBoost", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoTakeoff = new Setting("AutoTakeOff", this, true, "ElytraFlyAutoTakeOff", true));
 
         ArrayList<String> flyModes = new ArrayList<>();
         flyModes.add("2b");
         flyModes.add("Creative");
         flyModes.add("Plane");
-        CousinWare.INSTANCE.settingsManager.rSetting(flyMode = new Setting("FlyModes", this, "2b", flyModes, "ElytraFlyFlyModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(flyMode = new Setting("FlyModes", this, "2b", flyModes, "ElytraFlyFlyModes", true));
 
 
 
@@ -48,6 +53,7 @@ public class ElytraFly extends Hack {
 
     @Override
     public void onUpdate() {
+        if (flyMode.getValString().equalsIgnoreCase("2b")) return;
         if (mc.player.isElytraFlying() && !mc.gameSettings.keyBindSneak.isKeyDown()) {
             final float yaw = GetRotationYawForCalc();
             if (flyMode.getValString().equalsIgnoreCase("2b")) {
@@ -157,4 +163,16 @@ public class ElytraFly extends Hack {
         return "\u00A77[\u00A7f" + flyMode.getValString() + "\u00A77]";
     }
     //
+    @Listener
+    public void onUpdate(PacketEvent.Receive event) {
+        if (flyMode.getValString().equalsIgnoreCase("2b")) {
+            if (event.getPacket() instanceof SPacketPlayerPosLook && mc.player.isElytraFlying()) {
+                for (Entity entity : mc.world.loadedEntityList) {
+                    if (entity instanceof EntityFireworkRocket) {
+                        mc.world.removeEntity(entity);
+                    }
+                }
+            }
+        }
+    }
 }

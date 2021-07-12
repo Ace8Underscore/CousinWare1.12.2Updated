@@ -21,7 +21,7 @@ public class ChatSuffix extends Hack {
         modes.add("CousinWare");
         modes.add("AceHack");
         modes.add("Dungannon");
-        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "2b2t", modes, "ChatSuffixModes"));
+        CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "2b2t", modes, "ChatSuffixModes", true));
 
     }
 

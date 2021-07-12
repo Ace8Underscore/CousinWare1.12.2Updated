@@ -32,18 +32,18 @@ public class HoleFiller extends Hack {
 
     public HoleFiller() {
         super("HoleFiller", Category.COMBAT, 16363613);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5, 1, 8, false, "HoleFillerRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(yRange = new Setting("Y-Range", this, 3, 1, 5, true, "HoleFillerY-Range"));
-        CousinWare.INSTANCE.settingsManager.rSetting(sDelay = new Setting("Delay", this, 1, 0, 20, true, "HoleFillerDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5, 1, 8, false, "HoleFillerRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(yRange = new Setting("Y-Range", this, 3, 1, 5, true, "HoleFillerY-Range", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(sDelay = new Setting("Delay", this, 1, 0, 20, true, "HoleFillerDelay", true));
         ArrayList<String> placeModes = new ArrayList<>();
         placeModes.add("NoRotate");
         placeModes.add("Rotate");
         placeModes.add("Strict");
         placeModes.add("raytrace");
-        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "Strict", placeModes, "HoleFillerPlaceModes"));
-        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "HoleFilleToggleTicks"));
-        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "HoleFillerNoGhostBlocks"));
-        CousinWare.INSTANCE.settingsManager.rSetting(skipFail = new Setting("SkipFail", this, false, "HoleFillerSkipFail"));
+        CousinWare.INSTANCE.settingsManager.rSetting(placeMode = new Setting("PlaceModes", this, "Strict", placeModes, "HoleFillerPlaceModes", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "HoleFilleToggleTicks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "HoleFillerNoGhostBlocks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(skipFail = new Setting("SkipFail", this, false, "HoleFillerSkipFail", false));
 
     }
 

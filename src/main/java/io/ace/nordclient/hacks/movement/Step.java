@@ -23,15 +23,15 @@ public class Step extends Hack {
         blocks.add("2");
         blocks.add("3");
         blocks.add("4");
-        CousinWare.INSTANCE.settingsManager.rSetting(block = new Setting("Height", this, "2", blocks, "StepBlock"));
+        CousinWare.INSTANCE.settingsManager.rSetting(block = new Setting("Height", this, "2", blocks, "StepBlock", true));
 
         ArrayList<String> stepOns = new ArrayList<>();
         stepOns.add("Collide");
         stepOns.add("Jump");
         stepOns.add("Vanilla");
-        CousinWare.INSTANCE.settingsManager.rSetting(stepOn = new Setting("StepOn", this, "Collide", stepOns, "StepStepOns"));
+        CousinWare.INSTANCE.settingsManager.rSetting(stepOn = new Setting("StepOn", this, "Collide", stepOns, "StepStepOns", true));
 
-        CousinWare.INSTANCE.settingsManager.rSetting(toggleOnStep = new Setting("ToggleStep", this, true, "StepToggleOnStop"));
+        CousinWare.INSTANCE.settingsManager.rSetting(toggleOnStep = new Setting("ToggleStep", this, true, "StepToggleOnStop", true));
 
     }
 

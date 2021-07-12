@@ -18,8 +18,8 @@ public class IllegalFinder extends Hack {
 
     public IllegalFinder() {
         super("IllegalFinder", Category.MISC, 15795671);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 60, 15, 100, true, "IllegalFinderRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 100, 0, 200, true, "IllegalFinderDelay"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 60, 15, 100, true, "IllegalFinderRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(delay = new Setting("Delay", this, 100, 0, 200, true, "IllegalFinderDelay", true));
 
     }
 
