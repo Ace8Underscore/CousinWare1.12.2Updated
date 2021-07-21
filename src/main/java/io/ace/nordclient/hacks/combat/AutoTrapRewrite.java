@@ -11,6 +11,7 @@ import io.ace.nordclient.utilz.Setting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +30,7 @@ public class AutoTrapRewrite extends Hack {
     Setting extraHead;
     Setting headFixMode;
     Setting rotate;
+    Setting silentSwitch;
 
     public AutoTrapRewrite() {
         super("AutoTrapRewrite", Category.COMBAT, 679631);
@@ -44,6 +46,8 @@ public class AutoTrapRewrite extends Hack {
         headFixModes.add("Auto");
         CousinWare.INSTANCE.settingsManager.rSetting(headFixMode = new Setting("HeadFix", this, "Auto", headFixModes, "AutoTrapRewriteHeadFixModes", true));
         CousinWare.INSTANCE.settingsManager.rSetting(debug = new Setting("Debug", this, false, "AutoTrapRewriteDebug", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, false, "AutoTrapRewriteSilentSwitch", true));
+
     }
 
     static Thread thread;
@@ -62,7 +66,8 @@ public class AutoTrapRewrite extends Hack {
                     if (BlockInteractionHelper.canBlockBePlaced(closestTarget.getPositionVector().add(vec))) {
                         BlockPos place = new BlockPos(closestTarget.getPositionVector().add(vec).x, closestTarget.getPositionVector().add(vec).y, closestTarget.getPositionVector().add(vec).z);
                         if (mc.world.mayPlace(Blocks.OBSIDIAN, place, false, EnumFacing.UP, mc.player)) {
-                            mc.player.inventory.currentItem = obsidianSlot;
+                            if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obsidianSlot));
+                            else mc.player.inventory.currentItem = obsidianSlot;
                             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
                             if (headFixMode.getValString().equalsIgnoreCase("on")) {
                                 if (vec.equals(new Vec3d(-1, 2, 0)) || vec.equals(new Vec3d(1, 2, 0)) || vec.equals(new Vec3d(0, 2, 1)) || vec.equals(new Vec3d(0, 2, -1))) {
@@ -82,7 +87,8 @@ public class AutoTrapRewrite extends Hack {
                             if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(place);
                             else BlockInteractionHelper.placeBlockScaffoldNoRotate(place);
                             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-                            mc.player.inventory.currentItem = startingHand;
+                            if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                            else mc.player.inventory.currentItem = startingHand;
 
                             t = 0;
                             if (debug.getValBoolean()) Command.sendClientSideMessage("Single");

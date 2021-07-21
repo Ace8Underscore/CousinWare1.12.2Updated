@@ -64,6 +64,35 @@ public class HoleUtil {
 
     }
 
+    public static boolean isDoubleHole(BlockPos pos) {
+        if (mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR)) {
+            if (!mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) return false;
+            if (mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR)) {
+                if (mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) {
+                    return false;
+                }
+                return !mc.world.getBlockState(pos.south().south()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.south().east()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.south().west()).getBlock().equals(Blocks.AIR);
+            } else if (mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR)) {
+                if (mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) {
+                    return false;
+                }
+                return !mc.world.getBlockState(pos.east().east()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.east().north()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.east().south()).getBlock().equals(Blocks.AIR);
+            } else if (mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR)) {
+                if (mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) {
+                    return false;
+                }
+                return !mc.world.getBlockState(pos.north().north()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.north().east()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.north().west()).getBlock().equals(Blocks.AIR);
+            } else if (mc.world.getBlockState(pos.west()).getBlock().equals(Blocks.AIR)) {
+                if (mc.world.getBlockState(pos.east()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.north()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(pos.south()).getBlock().equals(Blocks.AIR)) {
+                    return false;
+                }
+                return !mc.world.getBlockState(pos.south().south()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.south().east()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(pos.south().west()).getBlock().equals(Blocks.AIR);
+            }
+
+        }
+        return true;
+    }
+
     public static boolean isHole(BlockPos pos) {
         boolean retVal = false;
         if (mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR))

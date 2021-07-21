@@ -5,17 +5,18 @@ import io.ace.nordclient.command.Command;
 import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.mixin.accessor.ISPacketPlayerPosLook;
-import io.ace.nordclient.utilz.BlockInteractionHelper;
-import io.ace.nordclient.utilz.InventoryUtil;
-import io.ace.nordclient.utilz.Setting;
+import io.ace.nordclient.utilz.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketConfirmTeleport;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
@@ -42,6 +43,9 @@ public class Burrow extends Hack {
     Setting lagMode;
     Setting noJump;
     Setting rotate;
+    Setting silentSwitch;
+    Setting motionCheck;
+    Setting rat;
 
 
 
@@ -51,6 +55,7 @@ public class Burrow extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(lagBackPower = new Setting("LagBackPower", this,1, .5,10, true, "BurrowLagBack", true));
         CousinWare.INSTANCE.settingsManager.rSetting(noForceRotate = new Setting("NoForceRotate", this, true, "BurrowNoForceRotate", true));
         CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "BurrowRotate", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(motionCheck = new Setting("MotionCheck", this, false, "BurrowMotionCheck", true));
         ArrayList<String> blockModes = new ArrayList<>();
         blockModes.add("Obi");
         blockModes.add("EChest");
@@ -62,42 +67,64 @@ public class Burrow extends Hack {
         lagModes.add("Smart");
         CousinWare.INSTANCE.settingsManager.rSetting(lagMode = new Setting("LagMode", this, "Packet", lagModes, "BurrowLagMode", true));
         CousinWare.INSTANCE.settingsManager.rSetting(noJump = new Setting("NoJump", this, true, "BurrowNoJump", true));
-
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, false, "BurrowSilentSwitch", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rat = new Setting("RatAutoBurrow", this, false, "BurrowRatAutoBurrow", true));
     }
 
     @Override
-    public void onUpdate() {
+    public void doTick() {
         if (mc.player == null || mc.world == null) this.disable();
-        delayPlace++;
-        if (delayPlace >= delay.getValInt() && !noForce) {
-            BlockPos pos = new BlockPos(mc.player.posX, mc.player.posY - 1, mc.player.posZ);
-            if (noJump.getValBoolean()) {
-                mc.player.inventory.currentItem = useItem;
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
-                BlockInteractionHelper.placeBlockScaffold(pos.up());
-                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
-                mc.player.inventory.currentItem = startingHand;
-            } else  {
-                mc.player.inventory.currentItem = useItem;
-                if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(pos);
-                else BlockInteractionHelper.placeBlockScaffoldNoRotate(pos);
-                mc.player.inventory.currentItem = startingHand;
-            }
-            if (lagMode.getValString().equalsIgnoreCase("Fly")) {
-                mc.player.motionY = lagBackPower.getValDouble();
-            } else if (lagMode.getValString().equalsIgnoreCase("Packet")) {
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + lagBackPower.getValDouble(), mc.player.posZ, false));
-            } else if (lagMode.getValString().equalsIgnoreCase("Smart")){
-                if (mc.player.posY >= 118) mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 10, mc.player.posZ, false));
-                else mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, findTpBlocks().getY(), mc.player.posY + 3 , false));
-            }
-            if (!noForceRotate.getValBoolean()) this.disable();
+        if (mc.player.isDead) this.disable();
+        if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(PlayerUtil.getPlayerPos().down()).getBlock().equals(Blocks.AIR)) {
+            if (mc.player.onGround && !mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown()) {
+                if ((mc.world.getBlockState(PlayerUtil.getPlayerPos().up(lagBackPower.getValInt() + 1)).getBlock().equals(Blocks.AIR)) && mc.world.getBlockState(PlayerUtil.getPlayerPos().up(2)).getBlock().equals(Blocks.AIR)) {
+                    if (mc.world.getEntitiesInAABBexcluding(mc.player, new AxisAlignedBB(PlayerUtil.getPlayerPos()), Entity::isEntityAlive).isEmpty()) {
+                        if (blockMode.getValString().equalsIgnoreCase("Obi")) {
+                            if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) {
+                                Command.sendClientSideMessage("No Obsidian Found");
+                                this.disable();
+                            } else {
+                                useItem = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+                                blockPlaced = false;
+                                noForce = false;
+                                if (!noJump.getValBoolean()) mc.player.jump();
+                                delayPlace = 0;
+                            }
+                        }
 
-
+                        if (blockMode.getValString().equalsIgnoreCase("EChest")) {
+                            if (InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST) == -1) {
+                                Command.sendClientSideMessage("No EChest Found");
+                                this.disable();
+                            } else {
+                                useItem = InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST);
+                                blockPlaced = false;
+                                noForce = false;
+                                if (!noJump.getValBoolean()) mc.player.jump();
+                                delayPlace = 0;
+                            }
+                        }
+                        if (blockMode.getValString().equalsIgnoreCase("all")) {
+                            if (InventoryUtil.findBlockInHotbarObiEchestRandom() == -1) {
+                                Command.sendClientSideMessage("No Blocks Found");
+                                this.disable();
+                            } else {
+                                useItem = InventoryUtil.findBlockInHotbarObiEchestRandom();
+                                blockPlaced = false;
+                                noForce = false;
+                                if (!noJump.getValBoolean()) mc.player.jump();
+                                delayPlace = 0;
+                            }
+                        }
+                        startingHand = mc.player.inventory.currentItem;
+                        if (motionCheck.getValBoolean() && !MotionUtil.isMoving()) burrow();
+                        else burrow();
+                    }
+                }
+            }
         }
+        if (mc.gameSettings.keyBindJump.isKeyDown()) this.disable();
+
     }
 
     public void onEnable() {
@@ -139,11 +166,52 @@ public class Burrow extends Hack {
                 delayPlace = 0;
             }
         }
+        }
+        //
+
+
+    public void burrow() {
+        if (mc.player.isDead) this.disable();
+        delayPlace++;
+        if (delayPlace >= delay.getValInt() && !noForce) {
+            BlockPos pos = new BlockPos(mc.player.posX, mc.player.posY - 1, mc.player.posZ);
+            if (noJump.getValBoolean()) {
+                if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(useItem));
+                else mc.player.inventory.currentItem = useItem;
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
+                BlockInteractionHelper.placeBlockScaffold(pos.up());
+                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
+                if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                else mc.player.inventory.currentItem = startingHand;
+            } else  {
+                if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(useItem));
+                else mc.player.inventory.currentItem = useItem;
+                if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(pos);
+                else BlockInteractionHelper.placeBlockScaffoldNoRotate(pos);
+                if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                else mc.player.inventory.currentItem = startingHand;
+            }
+            if (lagMode.getValString().equalsIgnoreCase("Fly")) {
+                mc.player.motionY = lagBackPower.getValDouble();
+            } else if (lagMode.getValString().equalsIgnoreCase("Packet")) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + lagBackPower.getValDouble(), mc.player.posZ, false));
+            } else if (lagMode.getValString().equalsIgnoreCase("Smart")){
+                if (mc.player.posY >= 118) mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 10, mc.player.posZ, false));
+                else mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, findTpBlocks().getY(), mc.player.posY + 3 , false));
+            }
+            if (!noForceRotate.getValBoolean() && !rat.getValBoolean()) this.disable();
+
+
+        }
     }
     @Listener
     public void onUpdate(PacketEvent.Receive event) {
         if (mc.world == null || mc.player == null)
             this.disable();
+        if (mc.player.isDead) this.disable();
         if (noForceRotate.getValBoolean()) {
             Packet packet = event.getPacket();
 
@@ -176,7 +244,7 @@ public class Burrow extends Hack {
                 mc.player.setPosition(d0, d1, d2);
                 mc.getConnection().sendPacket(new CPacketConfirmTeleport(((ISPacketPlayerPosLook) event.getPacket()).getTeleportId()));
                 mc.getConnection().sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.getEntityBoundingBox().minY, ((ISPacketPlayerPosLook) event.getPacket()).getZ(), ((ISPacketPlayerPosLook) event.getPacket()).getYaw(), ((ISPacketPlayerPosLook) event.getPacket()).getPitch(), false));
-                this.disable();
+                if (!rat.getValBoolean()) this.disable();
             }
         }
     }

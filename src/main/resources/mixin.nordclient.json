@@ -5,7 +5,6 @@
   "refmap": "mixin.nordclient.refmap.json",
   "mixins": [
     "MixinAbstractClientPlayer",
-    "MixinBlockRendererDispatcher",
     "MixinCPacketPlayer",
     "MixinCPacketUseEntity",
     "MixinEntity",
@@ -13,6 +12,7 @@
     "MixinEntityRenderer",
     "MixinGuiNewChat",
     "MixinGuiPlayerTabOverlay",
+    "MixinGuiScreen",
     "MixinItemRenderer",
     "MixinLayerArmorBase",
     "MixinLayerBipedArmor",

@@ -4,7 +4,6 @@ import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketPlayer;
 
 import java.util.ArrayList;
 
@@ -38,10 +37,8 @@ public class ReverseStep extends Hack {
             mc.player.motionY = y;
         }
 
-        if (mc.player.fallDistance > .1 && !mc.player.isInWater() && !mc.player.isInLava() && fallMode.getValString().equalsIgnoreCase("2b")) {
-            mc.player.connection.sendPacket(new CPacketPlayer(mc.player.onGround));
-            mc.player.motionY *= 1.75;
-            mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
+        if (!mc.player.isInWater() && !mc.player.isInLava() && fallMode.getValString().equalsIgnoreCase("2b") && mc.player.onGround) {
+            mc.player.motionY *= .125;
 
         }
 

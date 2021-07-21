@@ -6,13 +6,12 @@ import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.event.RenderEvent;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketEntityStatus;
-import net.minecraft.server.management.PlayerInteractionManager;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,32 +47,42 @@ public class PopRender extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(red = new Setting("Red", this, 255, 0, 255, true, "PopRenderRed", true));
         CousinWare.INSTANCE.settingsManager.rSetting(green = new Setting("Green", this, 26, 0, 255, true, "PopRenderGreen", true));
         CousinWare.INSTANCE.settingsManager.rSetting(blue = new Setting("Blue", this, 42, 0, 255, true, "PopRenderBlue", true));
-        CousinWare.INSTANCE.settingsManager.rSetting(alpha = new Setting("Allpha", this, 255, 0, 255, true, "PopRenderAlpha", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(alpha = new Setting("Alpha", this, 255, 0, 255, true, "PopRenderAlpha", true));
 
     }
 
+    EntityPlayer entity;
+
     @Override
     public void onUpdate() {
-
     }
 
     @Override
     public void onWorldRender(RenderEvent event) {
+        RenderPlayer re = new RenderPlayer(mc.getRenderManager(), false);
+        if (entity != null) {
+
+            ////////
+        }
+
 
     }
 
-    @Listener
     public void onTotemPop(EntityPlayer eventTotemPop) {
             int pops = this.popMap.getOrDefault(eventTotemPop, 0) + 1;
             this.popMap.put(eventTotemPop, pops);
             java.util.Random r = new Random();
             int id = r.nextInt(10000000);
-            EntityPlayer entity;
-            entity = new EntityPlayerMP(Objects.requireNonNull(mc.world.getMinecraftServer()), mc.world.getMinecraftServer().getWorld(mc.player.dimension), new GameProfile(UUID.fromString("d8d5a923-7b20-43d8-883b-1150148d6955"), "Test"), new PlayerInteractionManager(mc.world));
+            entity = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.fromString("d8d5a923-7b20-43d8-883b-1150148d6955"), "Test"));
             entity.copyLocationAndAnglesFrom(eventTotemPop);
             entity.rotationYaw = eventTotemPop.rotationYaw;
             entity.rotationYawHead = eventTotemPop.rotationYawHead;
             mc.world.addEntityToWorld(id, entity);
+            //RenderLivingBase.renderOffsetAABB(new AxisAlignedBB(entity.getPosition()), entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ());
+            mc.entityRenderer.loadEntityShader(entity);
+//            RenderPlayer.renderOffsetAABB(new AxisAlignedBB(entity.getPosition()), entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ());
+       // RenderPlayer re = new RenderPlayer(mc.renderManager, false);
+          //  re.doRenderShadowAndFire(entity, entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(), entity.rotationYaw, mc.getRenderPartialTicks());
     }
 
 

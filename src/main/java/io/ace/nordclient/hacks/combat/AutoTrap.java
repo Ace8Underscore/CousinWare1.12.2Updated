@@ -63,7 +63,7 @@ public class AutoTrap extends Hack {
     }
 
     @Override
-    public void onUpdate() {
+    public void doTick() {
         if (closestTarget == null) return;
         BlockPos posc = new BlockPos(closestTarget.getPositionVector());
         delay++;
@@ -138,7 +138,7 @@ public class AutoTrap extends Hack {
                 ((ICPacketPlayer) event.getPacket()).setPitch((float) pitch);
             }
         } else if (isSpoofingAngles) {
-        packetsBeingSent = false;
+            packetsBeingSent = false;
 
         }
     }

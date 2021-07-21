@@ -122,7 +122,7 @@ public class CrystalAura extends Hack {
                                 if (rotate.getValBoolean()) isSpoofingAngles = true;
                                 if (rotate.getValBoolean())
                                     lookAtPacket(placePos.getX(), placePos.getY(), placePos.getZ(), mc.player);
-                                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, EnumFacing.UP, offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+                                    mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, EnumFacing.UP, offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
                                 }
                             }
                         }
@@ -250,6 +250,7 @@ public class CrystalAura extends Hack {
                 && mc.world.getBlockState(boost).getBlock() == Blocks.AIR
                 && mc.world.getBlockState(boost2).getBlock() == Blocks.AIR
                 && mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(boost)).isEmpty();
+
     }
 
     public static BlockPos getPlayerPos() {

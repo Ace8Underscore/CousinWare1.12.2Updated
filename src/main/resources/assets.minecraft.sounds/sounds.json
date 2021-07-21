@@ -1,0 +1,10 @@
+{
+  "neverlose": {
+    "category" : "player",
+    "sounds": [{
+      "name": "cousinware:sounds/neverlose",
+      "stream": false
+    }
+    ]
+  }
+}

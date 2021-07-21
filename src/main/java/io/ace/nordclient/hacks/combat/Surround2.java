@@ -7,10 +7,12 @@ import io.ace.nordclient.utilz.InventoryUtil;
 import io.ace.nordclient.utilz.Setting;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ public class Surround2 extends Hack {
 
     Setting noGhostBlocks;
     Setting placeDelay;
+
+    BlockPos failedPlace;
 
     ArrayList<BlockPos> placePos;
     int delay = 0;
@@ -34,28 +38,36 @@ public class Surround2 extends Hack {
 
     private final Vec3d[] placeLocation = new Vec3d[] {new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0 , 0), new Vec3d(0, 0, -1), new Vec3d(1, -1, 0), new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1) };
 
-    @Override
-    public void onUpdate() {
+    @Listener
+    public void doTick() {
         delay++;
         if (!mc.player.onGround) this.disable();
         int obiSlot = -1;
         int startingSlot = mc.player.inventory.currentItem;
+        if (failedPlace != null && !mc.world.getBlockState(failedPlace).getBlock().equals(Blocks.AIR)) failedPlace = null;
         if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) this.disable();
         else obiSlot = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
         if (delay >= placeDelay.getValInt()) {
-            block++;
-            if (block >= 8) block = 0;
-            BlockPos placePos = new BlockPos(mc.player.getPositionVector().add(placeLocation[block]).x, mc.player.getPositionVector().add(placeLocation[block]).y, mc.player.getPositionVector().add(placeLocation[block]).z);
-                if (mc.world.mayPlace(Blocks.OBSIDIAN, placePos, false, EnumFacing.UP, mc.player)) {
-                        if (obiSlot != -1) mc.player.inventory.currentItem = obiSlot;
-                        mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
-                        BlockInteractionHelper.placeBlockScaffold(placePos);
-                        mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-                        mc.player.inventory.currentItem = startingSlot;
-                        if (noGhostBlocks.getValBoolean()) {
-                            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, placePos, EnumFacing.SOUTH));
-                            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, placePos, EnumFacing.SOUTH));
-                        }
+            for (Vec3d pos : placeLocation) {
+                BlockPos placePos = new BlockPos(mc.player.getPositionVector().add(pos.x, pos.y, pos.z).x, mc.player.getPositionVector().add(pos.x, pos.y, pos.z).y, mc.player.getPositionVector().add(pos.x, pos.y, pos.z).z);
+                if (mc.world.mayPlace(Blocks.OBSIDIAN, placePos, true, EnumFacing.UP, mc.player)) {
+                    if (obiSlot != -1) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiSlot));
+                    if (failedPlace != null) {
+                        //mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(failedPlace, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
+                        //Command.sendClientSideMessage("fastplace");
+                        BlockInteractionHelper.placeBlockScaffoldNoRotate(placePos);
+                    }
+                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+                    BlockInteractionHelper.placeBlockScaffoldNoRotate(placePos);
+                    BlockInteractionHelper.placeBlockScaffoldNoRotate(placePos);
+                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+                    mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
+                    if (mc.world.getBlockState(placePos).getBlock().equals(Blocks.AIR)) failedPlace = placePos;
+                    if (noGhostBlocks.getValBoolean()) {
+                        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, placePos, EnumFacing.SOUTH));
+                        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, placePos, EnumFacing.SOUTH));
+                    }
+                }
                     delay = 0;
                     }
                 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
  *  @author HeroCode
  */
 public class Setting {
+    //
 
     private final String displayName;
     private final String id;

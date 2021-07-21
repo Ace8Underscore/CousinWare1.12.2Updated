@@ -55,6 +55,8 @@ public class Hack {
 
     public void onUpdate(){}
 
+    public void doTick(){}
+
     public void onWorldRender(RenderEvent event) {}
 
     protected void onEnable(){

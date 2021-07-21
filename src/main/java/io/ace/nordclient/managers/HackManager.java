@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class HackManager {
     public static ArrayList<Hack> hacks;
-    private static String allHackNames = "Hacks: ";
+    private static final String allHackNames = "Hacks: ";
     private static String officialAllHackNames;
 
     public static void addHack(Hack h){
@@ -36,6 +36,10 @@ public class HackManager {
     public static void onUpdate() {
         hacks.stream().filter(Hack::isEnabled).forEach(Hack::onUpdate);
     }
+    public static void doTick() {
+        hacks.stream().filter(Hack::isEnabled).forEach(Hack::doTick);
+    }
+
 
     public static String getAllHackList() {
         HackManager.getHacks()

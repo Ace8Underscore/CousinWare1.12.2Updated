@@ -72,6 +72,7 @@ public class Overlay extends Hack {
             double distTraveledLastTickX = mc.player.posX - mc.player.prevPosX;
             double distTraveledLastTickZ = mc.player.posZ - mc.player.prevPosZ;
             speedometerCurrentSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
+        //
         }
     }
 

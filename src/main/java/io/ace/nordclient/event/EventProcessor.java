@@ -14,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,6 +40,14 @@ public class EventProcessor {
     public void init() {
         CousinWare.INSTANCE.getEventManager().addEventListener(this);
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (mc.world == null || mc.player == null) {
+            return;
+        }
+        HackManager.doTick();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -114,12 +123,3 @@ public class EventProcessor {
         return null;
     }
 }
-
-
-
-
-
-
-
-
-

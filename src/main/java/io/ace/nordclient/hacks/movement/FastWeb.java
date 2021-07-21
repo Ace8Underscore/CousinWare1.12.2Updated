@@ -99,7 +99,7 @@ public class FastWeb extends Hack {
 
     }
     @Listener
-    public void AddCollisionToBlock(AddCollisionBoxToListEvent event) {
+    public void onUpdate(AddCollisionBoxToListEvent event) {
     if (downMode.getValString().equalsIgnoreCase("float")) {
         if (event.getBlock().equals(Blocks.WEB)) {
             AxisAlignedBB axisalignedbb = webFloat.offset(event.getPos());

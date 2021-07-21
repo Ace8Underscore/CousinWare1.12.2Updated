@@ -26,9 +26,9 @@ public class AntiRegear extends Hack {
 
     public AntiRegear() {
         super("AntiRegear", Category.MISC, 9681786);
-        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 0, 8, false, "AntiRegearRange"));
-        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, true, "AntiRegearAutoSwitch"));
-        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AntiReagearRotate"));
+        CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5.5, 0, 8, false, "AntiRegearRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(autoSwitch = new Setting("AutoSwitch", this, true, "AntiRegearAutoSwitch", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(rotate = new Setting("Rotate", this, false, "AntiReagearRotate", true));
     }
 
     float yaw;

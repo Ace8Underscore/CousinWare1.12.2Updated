@@ -117,14 +117,14 @@ public class Spammer extends Hack {
         }
     }
 
-        @Listener
-        public void onPlayerMovement(PlayerMoveEvent event) {
+    @Listener
+    public void onUpdate(PlayerMoveEvent event) {
             getMovement();
 
         }
 
-        @Listener
-        public void playerJoinEvent(PlayerJoinEvent event) {
+    @Listener
+    public void onUpdate(PlayerJoinEvent event) {
             if (joinLeaveMsg > 30) {
                 if (!FriendManager.isFriend(event.getName())) {
                     mc.player.sendChatMessage("> Welcome " + event.getName() + " To " + mc.getCurrentServerData().serverIP);
@@ -136,7 +136,7 @@ public class Spammer extends Hack {
         }
 
     @Listener
-    public void playerLeaveEvent(PlayerLeaveEvent event) {
+    public void onUpdate(PlayerLeaveEvent event) {
         if (joinLeaveMsg > 30) {
             if (!FriendManager.isFriend(event.getName())) {
                 mc.player.sendChatMessage("> Fuck You " + event.getName() + " Im Glad you Left!");

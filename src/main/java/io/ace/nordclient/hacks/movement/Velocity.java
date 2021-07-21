@@ -18,18 +18,23 @@ public class Velocity extends Hack {
     public void onUpdate(PacketEvent.Receive event) {
         if (mc.player == null || mc.world == null) return;
         if (event.getPacket() instanceof SPacketEntityVelocity) {
-            if (((SPacketEntityVelocity) event.getPacket() == null)) return;
-            if(((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId())
+            if ((event.getPacket() == null)) return;
+            if (((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId())
                 event.setCanceled(true);
         }
-        if(event.getPacket() instanceof SPacketExplosion)
+        if (event.getPacket() instanceof SPacketExplosion)
             event.setCanceled(true);
 
     }
+
     @Listener
     public void onUpdate(EventPlayerApplyCollision event) {
         event.setCanceled(true);
     }
     @Listener
-    public void onUpdate(EventPlayerSPPushOutOfBlocksEvent event) {event.setCanceled(true);}
+    public void onUpdate(EventPlayerSPPushOutOfBlocksEvent event) {
+        {
+            event.setCanceled(true);
+        }
+    }
 }

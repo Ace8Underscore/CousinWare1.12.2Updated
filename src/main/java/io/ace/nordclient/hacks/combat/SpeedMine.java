@@ -96,7 +96,7 @@ public class SpeedMine extends Hack {
 
 
     @Listener
-    public void setReset(EventPlayerResetBlockRemoving event) {
+    public void onUpdate(EventPlayerResetBlockRemoving event) {
         if (this.reset.getValBoolean()) {
             event.setCanceled(true);
         }
@@ -104,7 +104,7 @@ public class SpeedMine extends Hack {
 
 
     @Listener
-    public void clickBlock(EventPlayerClickBlock event) {
+    public void onUpdate(EventPlayerClickBlock event) {
         if (this.reset.getValBoolean()) {
             if (((IPlayerControllerMP) mc.playerController).getCurBlockDamageMP() > 0.1f) {
                 ((IPlayerControllerMP) mc.playerController).setIsHittingBlock(true);
@@ -114,7 +114,7 @@ public class SpeedMine extends Hack {
     }
 
     @Listener
-    public void damageBlock(EventPlayerDamageBlock event) {
+    public void onUpdate(EventPlayerDamageBlock event) {
 
         if (canBreak(event.getPos())) {
             if (breakPos != event.getPos()) {

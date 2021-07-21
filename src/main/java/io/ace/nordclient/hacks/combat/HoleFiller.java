@@ -3,11 +3,14 @@ package io.ace.nordclient.hacks.combat;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.command.Command;
 import io.ace.nordclient.hacks.Hack;
+import io.ace.nordclient.managers.FriendManager;
 import io.ace.nordclient.utilz.BlockInteractionHelper;
 import io.ace.nordclient.utilz.HoleUtil;
 import io.ace.nordclient.utilz.InventoryUtil;
 import io.ace.nordclient.utilz.Setting;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -18,12 +21,15 @@ import java.util.List;
 public class HoleFiller extends Hack {
 
     Setting range;
+    Setting playerDistance;
+    Setting distanceCheck;
     Setting yRange;
     Setting sDelay;
     Setting placeMode;
     Setting toggleTicks;
     Setting noGhostBlocks;
     Setting skipFail;
+    Setting silentSwitch;
 
     int delay = 0;
     int delayT = 0;
@@ -34,6 +40,8 @@ public class HoleFiller extends Hack {
         super("HoleFiller", Category.COMBAT, 16363613);
         CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 5, 1, 8, false, "HoleFillerRange", true));
         CousinWare.INSTANCE.settingsManager.rSetting(yRange = new Setting("Y-Range", this, 3, 1, 5, true, "HoleFillerY-Range", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(playerDistance = new Setting("HoleDistance", this, 3, 1, 8, false, "HoleFillerRange", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(distanceCheck = new Setting("DistanceCheck", this, true, "HoleFillerDistanceCheck", true));
         CousinWare.INSTANCE.settingsManager.rSetting(sDelay = new Setting("Delay", this, 1, 0, 20, true, "HoleFillerDelay", true));
         ArrayList<String> placeModes = new ArrayList<>();
         placeModes.add("NoRotate");
@@ -44,13 +52,21 @@ public class HoleFiller extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "HoleFilleToggleTicks", true));
         CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "HoleFillerNoGhostBlocks", true));
         CousinWare.INSTANCE.settingsManager.rSetting(skipFail = new Setting("SkipFail", this, false, "HoleFillerSkipFail", false));
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, false, "HoleFillerSilentSwitch", true));
 
     }
 
     ArrayList<String> placeBlocks = new ArrayList<>();
 
     @Override
-    public void onUpdate() {
+    public void doTick() {
+        if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) {
+            Command.sendClientSideMessage("No Obi");
+            this.disable();
+        } else {
+            obiHand = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+        }
+        startingHand = mc.player.inventory.currentItem;
         delayT++;
         delay++;
         double x = mc.player.posX;
@@ -64,30 +80,104 @@ public class HoleFiller extends Hack {
                         continue;
                 }
 
-                 if (HoleUtil.isHole(block)) {
-                    if (!block.equals(playerPos)) {
-                        if (delay >= sDelay.getValInt()) {
-                            mc.player.inventory.currentItem = obiHand;
-                        if (placeMode.getValString().equalsIgnoreCase("raytrace")) {
-                            BlockInteractionHelper.placeBlockScaffoldStrictRaytrace(block);
-                        }
-                        if (placeMode.getValString().equalsIgnoreCase("strict")) BlockInteractionHelper.placeBlockScaffoldStrict(block);
-                        if (placeMode.getValString().equalsIgnoreCase("rotate")) BlockInteractionHelper.placeBlockScaffold(block);
-                        if (placeMode.getValString().equalsIgnoreCase("norotate")) BlockInteractionHelper.placeBlockScaffoldNoRotate(block);
+                 if (HoleUtil.isHole(block) || HoleUtil.isDoubleHole(block)) {
+                     if (!block.equals(playerPos)) {
+                         if (delay >= sDelay.getValInt()) {
+                             if (mc.world.mayPlace(Blocks.OBSIDIAN, block, false, EnumFacing.UP, mc.player)) {
+                                 if (placeMode.getValString().equalsIgnoreCase("raytrace")) {
+                                     if (distanceCheck.getValBoolean()) {
+                                         for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+                                             if (!entityPlayer.getName().equalsIgnoreCase(mc.player.getName()) && !FriendManager.isFriend(entityPlayer.getName()))
+                                                 if (entityPlayer.getDistance(block.getX(), block.getY(), block.getZ()) <= playerDistance.getValDouble()) {
+                                                     if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                                     BlockInteractionHelper.placeBlockScaffoldStrictRaytrace(block);
+                                                     if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                                 }
+                                         }
+                                     } else {
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                         BlockInteractionHelper.placeBlockScaffoldStrictRaytrace(block);
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                     }
+                                 }
+                                 if (placeMode.getValString().equalsIgnoreCase("strict")) {
+                                     if (distanceCheck.getValBoolean()) {
+                                         for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+                                             if (!entityPlayer.getName().equalsIgnoreCase(mc.player.getName()) && !FriendManager.isFriend(entityPlayer.getName()))
+                                                 if (entityPlayer.getDistance(block.getX(), block.getY(), block.getZ()) <= playerDistance.getValDouble()) {
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                                     BlockInteractionHelper.placeBlockScaffoldStrict(block);
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                                 }
+                                         }
+                                     } else {
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                         BlockInteractionHelper.placeBlockScaffoldStrict(block);
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                     }
+                                 }
+                                 if (placeMode.getValString().equalsIgnoreCase("rotate")) {
+                                     if (distanceCheck.getValBoolean()) {
+                                         for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+                                             if (!entityPlayer.getName().equalsIgnoreCase(mc.player.getName()) && !FriendManager.isFriend(entityPlayer.getName()))
+                                                 if (entityPlayer.getDistance(block.getX(), block.getY(), block.getZ()) <= playerDistance.getValDouble()) {
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                                     BlockInteractionHelper.placeBlockScaffold(block);
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                                 }
+                                         }
+                                     } else {
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                         BlockInteractionHelper.placeBlockScaffold(block);
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                     }
+                                 }
+                                 if (placeMode.getValString().equalsIgnoreCase("norotate")) {
+                                     if (distanceCheck.getValBoolean()) {
+                                         for (EntityPlayer entityPlayer : mc.world.playerEntities) {
+                                             if (!entityPlayer.getName().equalsIgnoreCase(mc.player.getName()) && !FriendManager.isFriend(entityPlayer.getName()))
+                                                 if (entityPlayer.getDistance(block.getX(), block.getY(), block.getZ()) <= playerDistance.getValDouble()) {
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                                     BlockInteractionHelper.placeBlockScaffoldNoRotate(block);
+                                                   if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                                 }
+                                         }
+                                     } else {
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(obiHand));
+                                                     else mc.player.inventory.currentItem = obiHand;
+                                         BlockInteractionHelper.placeBlockScaffoldNoRotate(block);
+                                       if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(startingHand));
+                                                         else mc.player.inventory.currentItem = startingHand;
+                                     }
+                                 }
 
-                        mc.player.inventory.currentItem = startingHand;
-                        if (noGhostBlocks.getValBoolean()) {
-                            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, block, EnumFacing.SOUTH));
-                            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, block, EnumFacing.SOUTH));
-                            delay = 0;
-                        }
-                        if (skipFail.getValBoolean()) placeBlocks.add(String.valueOf(block));
-                    }
-                }
-            }
+                                 if (noGhostBlocks.getValBoolean()) {
+                                     mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, block, EnumFacing.SOUTH));
+                                     mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, block, EnumFacing.SOUTH));
+                                     delay = 0;
+                                 }
+                                 if (skipFail.getValBoolean()) placeBlocks.add(String.valueOf(block));
+                             }
+                         }
+                     }
+                 }
 
         }
-        if (delayT > toggleTicks.getValInt() + 1) {
+        if (delayT > toggleTicks.getValInt() + 1 && toggleTicks.getValInt() != 0) {
             this.disable();
         }
 

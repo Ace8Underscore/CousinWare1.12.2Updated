@@ -1,16 +1,13 @@
 package io.ace.nordclient.hacks.combat;
 
 import io.ace.nordclient.CousinWare;
+import io.ace.nordclient.command.Command;
 import io.ace.nordclient.hacks.Hack;
-import io.ace.nordclient.utilz.BlockInteractionHelper;
 import io.ace.nordclient.utilz.InventoryUtil;
 import io.ace.nordclient.utilz.Setting;
 import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 public class Surround extends Hack {
 
@@ -31,28 +28,10 @@ public class Surround extends Hack {
 
     private final Vec3d[] placeLocation = new Vec3d[]{new Vec3d(1, 0, 0), new Vec3d(0, 0, 1), new Vec3d(-1, 0, 0), new Vec3d(0, 0, -1), new Vec3d(1, -1, 0), new Vec3d(0, -1, 1), new Vec3d(-1, -1, 0), new Vec3d(0, -1, -1)};
 
-    @Override
-    public void onUpdate() {
+    @Listener
+    public void doTick() {
         delay++;
-        //if (!mc.player.onGround) this.disable();
-        for (Vec3d vec3d : placeLocation) {
-            if (delay >= placeDelay.getValInt()) {
-                BlockPos pos = new BlockPos(mc.player.getPositionVector().add(vec3d));
-                if (mc.world.mayPlace(Blocks.OBSIDIAN, pos, false, EnumFacing.UP, mc.player)) {
-                    mc.player.inventory.currentItem = obiSlot;
-                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
-                    BlockInteractionHelper.placeBlockScaffold(pos);
-                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-                    mc.player.inventory.currentItem = startingSlot;
-                    if (noGhostBlocks.getValBoolean()) {
-                        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, pos, EnumFacing.SOUTH));
-                        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, pos, EnumFacing.SOUTH));
-                    }
-
-                }
-                delay = 0;
-            }
-        }
+        Command.sendClientSideMessage(String.valueOf(delay));
 
     }
 

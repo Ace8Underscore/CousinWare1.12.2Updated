@@ -71,6 +71,6 @@ public abstract class MixinPlayerControllerMP implements IPlayerControllerMP {
             p_Info.setReturnValue(false);
             p_Info.cancel();
         }
-    }
+    } //
 
 }

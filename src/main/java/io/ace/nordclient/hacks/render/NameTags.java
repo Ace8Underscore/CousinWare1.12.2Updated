@@ -517,7 +517,7 @@ public class NameTags extends Hack {
 
 
     }
-    @Listener
+
     public void onTotemPop(EntityPlayer eventTotemPop) {
         if (totemPop.getValBoolean()) {
             int pops = this.popMap.getOrDefault(eventTotemPop, 0) + 1;
@@ -538,8 +538,6 @@ public class NameTags extends Hack {
         }
         }
     }
-
-
 }
 
 

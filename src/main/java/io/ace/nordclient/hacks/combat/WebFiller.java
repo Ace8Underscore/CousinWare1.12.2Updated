@@ -29,6 +29,7 @@ public class WebFiller extends Hack {
     Setting webMode;
     Setting toggleTicks;
     Setting noGhostBlocks;
+    Setting silentSwitch;
 
     int webSlot = -1;
     int startingSlot = 0;
@@ -55,6 +56,7 @@ public class WebFiller extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(webMode = new Setting("WebModes", this, "HoleFill", webModes, "WebFillerModes", true));
         CousinWare.INSTANCE.settingsManager.rSetting(toggleTicks = new Setting("ToggleTicks", this, 10, 0, 60, true, "WebFilleToggleTicks", true));
         CousinWare.INSTANCE.settingsManager.rSetting(noGhostBlocks = new Setting("NoGhostBlocks", this, true, "WebFillerNoGhostBlocks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, false, "WebFillerSilentSwitch", true));
 
     }
 

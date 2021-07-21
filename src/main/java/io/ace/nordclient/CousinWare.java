@@ -28,6 +28,7 @@ import io.ace.nordclient.utilz.TpsUtils;
 import io.ace.nordclient.utilz.configz.ConfigUtils;
 import io.ace.nordclient.utilz.configz.ShutDown;
 import io.ace.nordclient.utilz.font.CFontRenderer;
+import io.ace.nordclient.utilz.sound.SoundRegisterListener;
 import io.ace.nordclient.utilz.target.TrackerManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -52,19 +53,19 @@ public class CousinWare
 {
     public static final String MODID = "cousinware";
     public static final String NAME = "CousinWare";
-    public static final String VERSION = "v1.7.3";
+    public static final String VERSION = "v1.7.6";
 
     public static final Logger log = LogManager.getLogger(NAME);
     private EventManager eventManager;
     EventProcessor eventProcessor;
     private final DiscordRP discordRP;
+    public SoundRegisterListener soundRegisterListener;
     public HackManager hackManager;
     public HudManager hudManager;
     public FileManager fileManager;
     public ConfigUtils configUtils;
     public FriendManager friends;
     public SettingsManager settingsManager;
-    public RotationManager rotationManager;
     public CousinWareGui cousinWareGui;
     public ClickGUI2 clickGui2;
     public ClickGuiHUD clickGuiHUD;
@@ -92,8 +93,8 @@ public class CousinWare
         this.discordRP.start();
         eventProcessor = new EventProcessor();
         eventProcessor.init();
+        soundRegisterListener = new SoundRegisterListener();
         loadClientCommands();
-        rotationManager = new RotationManager();
         TpsUtils tpsUtils = new TpsUtils();
         settingsManager = new SettingsManager();
         friends = new FriendManager();
@@ -114,15 +115,6 @@ public class CousinWare
     public void inits(FMLInitializationEvent event) throws URISyntaxException {
         EventLaunch.init();
     }
-    //
-
-    public EventManager getEventManager() {
-        if (this.eventManager == null) {
-            this.eventManager = new AnnotatedEventManager();
-        }
-
-        return this.eventManager;
-    }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
@@ -139,6 +131,14 @@ public class CousinWare
         //ConfigUtils.loadAll();
         //
 
+    }
+
+    public EventManager getEventManager() {
+        if (this.eventManager == null) {
+            this.eventManager = new AnnotatedEventManager();
+        }
+
+        return this.eventManager;
     }
 
     public void loadClientCommands() {
@@ -257,6 +257,7 @@ public class CousinWare
         HackManager.addHack(new ShulkerMod());
         HackManager.addHack(new Spammer());
         HackManager.addHack(new ToggleMsgs());
+        //HackManager.addHack(new TotemPopNoise());
         HackManager.addHack(new VisualRange());
         //HackManager.addHack(new TwoBeePacketLogger());
         //movement
@@ -302,6 +303,7 @@ public class CousinWare
         HackManager.addHack(new PlayerESP());
         HackManager.addHack(new PopRender());
         HackManager.addHack(new SelfParticle());
+        HackManager.addHack(new ShulkerPreview());
         HackManager.addHack(new SkyColor());
         HackManager.addHack(new StorageESP());
         HackManager.addHack(new Swing());

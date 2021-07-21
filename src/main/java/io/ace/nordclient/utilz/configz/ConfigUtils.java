@@ -171,7 +171,7 @@ public class ConfigUtils {
 
             while (var3.hasNext()) {
                 Hack hack = (Hack) var3.next();
-                if (hack.isEnabled() && !hack.getName().equalsIgnoreCase("crystalaura") && !hack.getName().equalsIgnoreCase("AutoEGapFinder") && !hack.getName().equalsIgnoreCase("fly") && !hack.getName().equalsIgnoreCase("FakePlayer") && !hack.getName().equalsIgnoreCase("ChunkScanner")) {
+                if (hack.isEnabled() && !hack.getName().equalsIgnoreCase("crystalaura") && !hack.getName().equalsIgnoreCase("AutoEGapFinder") && !hack.getName().equalsIgnoreCase("fly") && !hack.getName().equalsIgnoreCase("FakePlayer") && !hack.getName().equalsIgnoreCase("ChunkScanner") && !hack.getName().equalsIgnoreCase("HoleFiller")) {
                     out.write(hack.getName());
                     out.write("\r\n");
                 }

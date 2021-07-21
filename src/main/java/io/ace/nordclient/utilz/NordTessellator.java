@@ -721,8 +721,10 @@ public class NordTessellator
         buffer.pos(x, y, z).color(r, g, b, a).endVertex();
     }
 
-    public static void drawBoxBottom(BlockPos blockPos, int r, int g, int b, int a) {
-        drawBoxBottom(INSTANCE.getBuffer(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0f, 1.0f, r, g, b, a);
+    public static void drawBoxBottom(BlockPos bp, int r, int g, int b, int a) {
+        prepare(7);
+        drawBoxBottom(INSTANCE.getBuffer(), bp.getX(), bp.getY(), bp.getZ(), 1.0f, 1.0f, r, g, b, a);
+        release();
     }
 
     public static void drawFace(final BlockPos blockPos, final int r, final int g, final int b, final int a, final int sides) {
