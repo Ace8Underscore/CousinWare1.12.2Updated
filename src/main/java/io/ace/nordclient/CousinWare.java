@@ -220,9 +220,6 @@ public class CousinWare
         HackManager.addHack(new AutoMinecartRefill());
         HackManager.addHack(new AntiDesync());
         HackManager.addHack(new Blink());
-        HackManager.addHack(new ChunkScanner());
-        HackManager.addHack(new ModuleDLSpiral());
-        HackManager.addHack(new CoordExploit());
         HackManager.addHack(new LagBar());
         HackManager.addHack(new Lagger());
         HackManager.addHack(new NoBreakLoss());
