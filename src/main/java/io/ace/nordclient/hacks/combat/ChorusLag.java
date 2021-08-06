@@ -30,7 +30,9 @@ public class ChorusLag extends Hack {
     boolean ateChorus = false;
     boolean hackPacket = false;
     boolean posTp = false;
-    BlockPos pos;
+    double posX;
+    double posY;
+    double posZ;
 
     Queue<CPacketPlayer> packets = new LinkedList<>();
     Queue<CPacketConfirmTeleport> packetss = new LinkedList<>();
@@ -46,9 +48,9 @@ public class ChorusLag extends Hack {
         if (ateChorus) {
             delay++;
             delay2++;
-            if (mc.player.getPosition() != pos && !posTp) {
-                if (mc.player.getDistance(pos.getX(), pos.getY(), pos.getZ()) > 1) {
-                    mc.player.setPosition(pos.getX(), pos.getY(), pos.getZ());
+            if (!mc.player.getPosition().equals(new BlockPos(posX, posY, posZ)) && !posTp) {
+                if (mc.player.getDistance(posX, posY, posZ) > 1) {
+                    mc.player.setPosition(posX, posY, posZ);
                     posTp = true;
                 }
             }
@@ -90,7 +92,9 @@ public class ChorusLag extends Hack {
     public void finishEating(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() == mc.player) {
             if (event.getResultStack().getItem().equals(Items.CHORUS_FRUIT)) {
-                pos = mc.player.getPosition();
+                posX = mc.player.posX;
+                posY = mc.player.posY;
+                posZ = mc.player.posZ;
                 posTp = false;
                 ateChorus = true;
             }
