@@ -3,7 +3,7 @@ package io.ace.nordclient.mixin.mixins;
 import io.ace.nordclient.hacks.render.BlockHighlight;
 import io.ace.nordclient.hacks.render.SkyColor;
 import io.ace.nordclient.managers.HackManager;
-import io.ace.nordclient.utilz.NordTessellator;
+import io.ace.nordclient.utilz.render.NordTessellator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.multiplayer.WorldClient;

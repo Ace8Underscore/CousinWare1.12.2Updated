@@ -53,7 +53,7 @@ public class CousinWare
 {
     public static final String MODID = "cousinware";
     public static final String NAME = "CousinWare";
-    public static final String VERSION = "v1.7.6";
+    public static final String VERSION = "v1.7.7";
 
     public static final Logger log = LogManager.getLogger(NAME);
     private EventManager eventManager;
@@ -215,6 +215,7 @@ public class CousinWare
         HackManager.addHack(new io.ace.nordclient.hacks.combat.SpeedMine());
         HackManager.addHack(new Surround());
         HackManager.addHack(new Surround2());
+        HackManager.addHack(new TotemPopCounter());
         HackManager.addHack(new WebFiller());
         //exploit
         HackManager.addHack(new AutoMinecartRefill());
@@ -263,6 +264,7 @@ public class CousinWare
         HackManager.addHack(new FastSwim());
         HackManager.addHack(new FastWeb());
         HackManager.addHack(new Fly());
+        HackManager.addHack(new InventoryMove());
         HackManager.addHack(new Jesus());
         HackManager.addHack(new ReverseStep());
         HackManager.addHack(new Sprint());
@@ -298,6 +300,7 @@ public class CousinWare
         HackManager.addHack(new NoRender());
         HackManager.addHack(new Overlay());
         HackManager.addHack(new PlayerESP());
+        HackManager.addHack(new PopCham());
         HackManager.addHack(new PopRender());
         HackManager.addHack(new SelfParticle());
         HackManager.addHack(new ShulkerPreview());

@@ -18,7 +18,7 @@ public class RainbowUtil {
         int blue = rgb & 0xFF;
 
         Color c = new Color(red, green, blue);
-        return c;
+        return c; //
 
     }
 

@@ -9,10 +9,7 @@ import io.ace.nordclient.utilz.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketConfirmTeleport;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -75,54 +72,104 @@ public class Burrow extends Hack {
     public void doTick() {
         if (mc.player == null || mc.world == null) this.disable();
         if (mc.player.isDead) this.disable();
-        if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(PlayerUtil.getPlayerPos().down()).getBlock().equals(Blocks.AIR)) {
-            if (mc.player.onGround && !mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown()) {
-                if ((mc.world.getBlockState(PlayerUtil.getPlayerPos().up(lagBackPower.getValInt() + 1)).getBlock().equals(Blocks.AIR)) && mc.world.getBlockState(PlayerUtil.getPlayerPos().up(2)).getBlock().equals(Blocks.AIR)) {
-                    if (mc.world.getEntitiesInAABBexcluding(mc.player, new AxisAlignedBB(PlayerUtil.getPlayerPos()), Entity::isEntityAlive).isEmpty()) {
-                        if (blockMode.getValString().equalsIgnoreCase("Obi")) {
-                            if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) {
-                                Command.sendClientSideMessage("No Obsidian Found");
-                                this.disable();
-                            } else {
-                                useItem = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
-                                blockPlaced = false;
-                                noForce = false;
-                                if (!noJump.getValBoolean()) mc.player.jump();
-                                delayPlace = 0;
+        if (rat.getValBoolean()) {
+            if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.AIR) && !mc.world.getBlockState(PlayerUtil.getPlayerPos().down()).getBlock().equals(Blocks.AIR)) {
+                if (mc.player.onGround && !mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown()) {
+                    if ((mc.world.getBlockState(PlayerUtil.getPlayerPos().up(lagBackPower.getValInt() + 1)).getBlock().equals(Blocks.AIR)) && mc.world.getBlockState(PlayerUtil.getPlayerPos().up(2)).getBlock().equals(Blocks.AIR)) {
+                        if (mc.world.getEntitiesInAABBexcluding(mc.player, new AxisAlignedBB(PlayerUtil.getPlayerPos()), Entity::isEntityAlive).isEmpty()) {
+                            if (blockMode.getValString().equalsIgnoreCase("Obi")) {
+                                if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) {
+                                    Command.sendClientSideMessage("No Obsidian Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
                             }
-                        }
 
-                        if (blockMode.getValString().equalsIgnoreCase("EChest")) {
-                            if (InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST) == -1) {
-                                Command.sendClientSideMessage("No EChest Found");
-                                this.disable();
-                            } else {
-                                useItem = InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST);
-                                blockPlaced = false;
-                                noForce = false;
-                                if (!noJump.getValBoolean()) mc.player.jump();
-                                delayPlace = 0;
+                            if (blockMode.getValString().equalsIgnoreCase("EChest")) {
+                                if (InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST) == -1) {
+                                    Command.sendClientSideMessage("No EChest Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST);
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
                             }
-                        }
-                        if (blockMode.getValString().equalsIgnoreCase("all")) {
-                            if (InventoryUtil.findBlockInHotbarObiEchestRandom() == -1) {
-                                Command.sendClientSideMessage("No Blocks Found");
-                                this.disable();
-                            } else {
-                                useItem = InventoryUtil.findBlockInHotbarObiEchestRandom();
-                                blockPlaced = false;
-                                noForce = false;
-                                if (!noJump.getValBoolean()) mc.player.jump();
-                                delayPlace = 0;
+                            if (blockMode.getValString().equalsIgnoreCase("all")) {
+                                if (InventoryUtil.findBlockInHotbarObiEchestRandom() == -1) {
+                                    Command.sendClientSideMessage("No Blocks Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbarObiEchestRandom();
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
                             }
+                            startingHand = mc.player.inventory.currentItem;
+                            if (motionCheck.getValBoolean() && !MotionUtil.isMoving()) burrow();
+                            else burrow();
                         }
-                        startingHand = mc.player.inventory.currentItem;
-                        if (motionCheck.getValBoolean() && !MotionUtil.isMoving()) burrow();
-                        else burrow();
                     }
                 }
             }
-        }
+        } else {
+            if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.AIR) || mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST) && !mc.world.getBlockState(PlayerUtil.getPlayerPos().down()).getBlock().equals(Blocks.AIR)) {
+                if (mc.player.onGround && !mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown()) {
+                        if (mc.world.getEntitiesInAABBexcluding(mc.player, new AxisAlignedBB(PlayerUtil.getPlayerPos()), Entity::isEntityAlive).isEmpty()) {
+                            if (blockMode.getValString().equalsIgnoreCase("Obi")) {
+                                if (InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN) == -1) {
+                                    Command.sendClientSideMessage("No Obsidian Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbar(Blocks.OBSIDIAN);
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
+                            }
+
+                            if (blockMode.getValString().equalsIgnoreCase("EChest")) {
+                                if (InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST) == -1) {
+                                    Command.sendClientSideMessage("No EChest Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbar(Blocks.ENDER_CHEST);
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
+                            }
+                            if (blockMode.getValString().equalsIgnoreCase("all")) {
+                                if (InventoryUtil.findBlockInHotbarObiEchestRandom() == -1) {
+                                    Command.sendClientSideMessage("No Blocks Found");
+                                    this.disable();
+                                } else {
+                                    useItem = InventoryUtil.findBlockInHotbarObiEchestRandom();
+                                    blockPlaced = false;
+                                    noForce = false;
+                                    if (!noJump.getValBoolean()) mc.player.jump();
+                                    delayPlace = 0;
+                                }
+                            }
+                            startingHand = mc.player.inventory.currentItem;
+                            if (motionCheck.getValBoolean() && !MotionUtil.isMoving()) burrow();
+                            else burrow();
+                        }
+                    }
+                }
+            }
+
         if (mc.gameSettings.keyBindJump.isKeyDown()) this.disable();
 
     }
@@ -178,12 +225,17 @@ public class Burrow extends Hack {
             if (noJump.getValBoolean()) {
                 if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(useItem));
                 else mc.player.inventory.currentItem = useItem;
+                if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.2710926093821D, mc.player.posZ, true));
+
                 BlockInteractionHelper.placeBlockScaffold(pos.up());
-                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
+                if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+                if (!mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
+                else mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos.up(), EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
                 if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
                 else mc.player.inventory.currentItem = startingHand;
             } else  {

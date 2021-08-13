@@ -3,7 +3,7 @@ package io.ace.nordclient.managers;
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hwid.HWID;
 import io.ace.nordclient.utilz.FriendUtil;
-import io.ace.nordclient.utilz.NordTessellator;
+import io.ace.nordclient.utilz.render.NordTessellator;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.lang.management.ManagementFactory;

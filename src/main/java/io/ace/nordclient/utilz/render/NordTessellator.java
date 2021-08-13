@@ -1,4 +1,4 @@
-package io.ace.nordclient.utilz;
+package io.ace.nordclient.utilz.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;

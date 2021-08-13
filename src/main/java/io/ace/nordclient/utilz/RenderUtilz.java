@@ -20,7 +20,8 @@ public class RenderUtilz {
         GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) / 2.0), 0.0, 0.0);
         mc.fontRenderer.drawStringWithShadow(text, 0.0f, 0.0f, -5592406);
         GlStateManager.popMatrix();
-    }
+    } //
+
 
     public static void drawTextCustom(final float x, final float y, final float z, final String text) {
         GlStateManager.pushMatrix();

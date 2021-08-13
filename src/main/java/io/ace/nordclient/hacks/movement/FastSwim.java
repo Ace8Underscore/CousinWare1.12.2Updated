@@ -12,11 +12,15 @@ import net.minecraft.util.math.MathHelper;
 public class FastSwim extends Hack {
 
     Setting speed;
+    Setting tickBoost;
+    Setting shiftTicks;
+    int delay = 0;
 
     public FastSwim() {
         super("FastSwim", Category.MOVEMENT, 4264952);
-        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .7, 0, 1, false, "FastSwimSpeed", true));
-
+        CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .75, 0, 2, false, "FastSwimSpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(tickBoost = new Setting("BoostSpeed", this, .8, 0, 2, false, "FastSwimBoostSpeed", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(shiftTicks = new Setting("ShiftTicks", this, 3, 1, 5, true, "FastSwimShiftTicks", true));
     }
     int divider = 5;
     boolean only2b = false;
@@ -28,6 +32,7 @@ public class FastSwim extends Hack {
 
     @Override
     public void onUpdate() {
+        delay++;
             if (only2b) {
                 if (!mc.isSingleplayer()) {
                     if (mc.getCurrentServerData().serverIP.equalsIgnoreCase("2b2t.org")) {
@@ -104,8 +109,15 @@ public class FastSwim extends Hack {
                 if (mc.player.isInLava() && lava && !mc.player.onGround) {
                     if (mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {
                         final float yaw = GetRotationYawForCalc();
-                        mc.player.motionX -= MathHelper.sin(yaw) * speed.getValDouble() / 10;
-                        mc.player.motionZ += MathHelper.cos(yaw) * speed.getValDouble() / 10;
+                        if (delay <= shiftTicks.getValInt()) {
+                            mc.player.motionX -= MathHelper.sin(yaw) * speed.getValDouble() / 10;
+                            mc.player.motionZ += MathHelper.cos(yaw) * speed.getValDouble() / 10;
+                        }
+                        if (delay > shiftTicks.getValInt()) {
+                            mc.player.motionX -= MathHelper.sin(yaw) * tickBoost.getValDouble() / 10;
+                            mc.player.motionZ += MathHelper.cos(yaw) * tickBoost.getValDouble() / 10;
+                            delay = 0;
+                        }
                     }
                 }
 
