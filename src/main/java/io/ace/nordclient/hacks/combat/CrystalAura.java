@@ -263,7 +263,7 @@ public class CrystalAura extends Hack {
         return positions;
     }
 
-    public List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {
+    public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {
         List<BlockPos> circleblocks = new ArrayList<>();
         int cx = loc.getX();
         int cy = loc.getY();

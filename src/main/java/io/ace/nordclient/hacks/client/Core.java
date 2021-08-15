@@ -1,7 +1,6 @@
 package io.ace.nordclient.hacks.client;
 
 import io.ace.nordclient.CousinWare;
-import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.Setting;
 
@@ -33,10 +32,6 @@ public class Core extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(fractionalMetrics = new Setting("FractionalMetrics", this, true, "CoreFractionalMetrics", true));
         CousinWare.INSTANCE.settingsManager.rSetting(capes = new Setting("Capes", this, true, "CoreCapes", true));
         CousinWare.INSTANCE.settingsManager.rSetting(essentials = new Setting("Essentials", this, false, "CoreEssentials", true));
-
-    }
-
-    public void onUpdate(PacketEvent.Send event) {
 
     }
 

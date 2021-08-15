@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Ace________/Ace_#1233
@@ -62,6 +63,7 @@ public class Burrow extends Hack {
         lagModes.add("Packet");
         lagModes.add("Fly");
         lagModes.add("Smart");
+        lagModes.add("NeverFail");
         CousinWare.INSTANCE.settingsManager.rSetting(lagMode = new Setting("LagMode", this, "Packet", lagModes, "BurrowLagMode", true));
         CousinWare.INSTANCE.settingsManager.rSetting(noJump = new Setting("NoJump", this, true, "BurrowNoJump", true));
         CousinWare.INSTANCE.settingsManager.rSetting(silentSwitch = new Setting("SilentSwitch", this, false, "BurrowSilentSwitch", true));
@@ -226,16 +228,25 @@ public class Burrow extends Hack {
                 if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(useItem));
                 else mc.player.inventory.currentItem = useItem;
                 if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.2710926093821D, mc.player.posZ, true));
+                if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) {
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.2710926093821D, mc.player.posZ, true));
+                } else {
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
 
+                }
                 BlockInteractionHelper.placeBlockScaffold(pos.up());
-                if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
                 if (!mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
                 else mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos.up(), EnumFacing.UP, EnumHand.MAIN_HAND, 0, 0, 0));
+                mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+                if (mc.world.getBlockState(PlayerUtil.getPlayerPos()).getBlock().equals(Blocks.ENDER_CHEST)) mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+
                 if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
                 else mc.player.inventory.currentItem = startingHand;
             } else  {
@@ -243,6 +254,7 @@ public class Burrow extends Hack {
                 else mc.player.inventory.currentItem = useItem;
                 if (rotate.getValBoolean()) BlockInteractionHelper.placeBlockScaffold(pos);
                 else BlockInteractionHelper.placeBlockScaffoldNoRotate(pos);
+
                 if (silentSwitch.getValBoolean()) mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
                 else mc.player.inventory.currentItem = startingHand;
             }
@@ -253,10 +265,25 @@ public class Burrow extends Hack {
             } else if (lagMode.getValString().equalsIgnoreCase("Smart")){
                 if (mc.player.posY >= 118) mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 10, mc.player.posZ, false));
                 else mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, findTpBlocks().getY(), mc.player.posY + 3 , false));
+            } else if (lagMode.getValString().equalsIgnoreCase("NeverFail")) {
+                if (playerPosMod() != null) {
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(getCenterModX(Objects.requireNonNull(playerPosMod())), Objects.requireNonNull(playerPosMod()).getY(), getCenterModZ(Objects.requireNonNull(playerPosMod())), false));
+                } else {
+                    for (BlockPos e : CrystalAura.getSphere(PlayerUtil.getPlayerPos().up(), 1, lagBackPower.getValInt(), false, false, 0)) {
+                        if (e.getY() > mc.player.posY + 2) {
+                            if (canTpBlock(e)) {
+                                mc.player.connection.sendPacket(new CPacketPlayer.Position(getCenterModX(e), e.getY(), getCenterModZ(e), false));
+                                //mc.player.setPosition(getCenterModX(e), e.getY() + 1, getCenterModZ(e));
+                                //Command.sendClientSideMessage(getCenterModX(e) + " " + e.up().getY() + " " + getCenterModZ(e));
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             if (!noForceRotate.getValBoolean() && !rat.getValBoolean()) this.disable();
 
-
+//
         }
     }
     @Listener
@@ -301,6 +328,21 @@ public class Burrow extends Hack {
         }
     }
 
+    private BlockPos playerPosMod() {
+        BlockPos pos = new BlockPos(0, 0,0);
+        for (int i = 2; i < 6; i++) {
+            if (!(mc.player.posY + i <= 0)) {
+                pos = new BlockPos(mc.player.posX, mc.player.posY + i, mc.player.posZ);
+                if (canTpBlock(pos)) return new BlockPos(mc.player.posX, mc.player.posY + i, mc.player.posZ);
+                Command.sendClientSideMessage(String.valueOf(mc.player.posY + i));
+
+            }
+
+
+        }
+        return null;
+    }
+
     private float getCenterModX(BlockPos pos) {
         float mod = 0;
         if (pos.getX() > 0) mod = (float) (pos.getX() + .5);
@@ -315,12 +357,10 @@ public class Burrow extends Hack {
     }
 
     private boolean canTpBlock(BlockPos blockPos) {
-        BlockPos boost = blockPos.add(0, 1, 0);
-        BlockPos boost2 = blockPos.add(0, 2, 0);
-        return mc.world.getBlockState(boost).getBlock() == Blocks.AIR
-                && mc.world.getBlockState(boost2).getBlock() == Blocks.AIR;
+        BlockPos boost = blockPos.add(0, 0, 0);
+        BlockPos boost2 = blockPos.add(0, 1, 0);
+        return (mc.world.getBlockState(boost).getBlock() == Blocks.AIR && mc.world.getBlockState(boost2).getBlock() == Blocks.AIR);
     }
-
     public static BlockPos getPlayerPos() {
         return new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ));
     }

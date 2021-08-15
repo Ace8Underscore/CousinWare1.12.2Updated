@@ -20,7 +20,7 @@ public class FastSwim extends Hack {
         super("FastSwim", Category.MOVEMENT, 4264952);
         CousinWare.INSTANCE.settingsManager.rSetting(speed = new Setting("Speed", this, .75, 0, 2, false, "FastSwimSpeed", true));
         CousinWare.INSTANCE.settingsManager.rSetting(tickBoost = new Setting("BoostSpeed", this, .8, 0, 2, false, "FastSwimBoostSpeed", true));
-        CousinWare.INSTANCE.settingsManager.rSetting(shiftTicks = new Setting("ShiftTicks", this, 3, 1, 5, true, "FastSwimShiftTicks", true));
+        CousinWare.INSTANCE.settingsManager.rSetting(shiftTicks = new Setting("ShiftTicks", this, 3, 1, 20, true, "FastSwimShiftTicks", true));
     }
     int divider = 5;
     boolean only2b = false;
