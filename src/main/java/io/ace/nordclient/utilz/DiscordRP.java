@@ -61,7 +61,7 @@ public class DiscordRP
                 try {
                     Thread.sleep(2000L);
                 }
-                catch (InterruptedException ex) {}
+                catch (InterruptedException ignored) {}
             }
         }, "RPC-Callback-Handler").start();
     }

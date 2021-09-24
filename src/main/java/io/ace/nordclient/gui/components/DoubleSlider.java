@@ -16,8 +16,8 @@ import java.math.RoundingMode;
 public class DoubleSlider extends Component
 {
     private boolean hovered;
-    private Setting set;
-    private Button parent;
+    private final Setting set;
+    private final Button parent;
     private int offset;
     private int x;
     private int y;
@@ -37,17 +37,17 @@ public class DoubleSlider extends Component
     public void renderComponent() {
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset + 1, this.parent.parent.getX() + this.parent.parent.getWidth(), this.parent.parent.getY() + this.offset + 16, this.hovered ? new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         final int drag = (int)(this.set.getValDouble() / this.set.getMax() * this.parent.parent.getWidth() + 15);
-        Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset + 15, this.parent.parent.getX() + (int)this.renderWidth, this.parent.parent.getY() + this.offset + 16, this.hovered ?new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), 255).getRGB() : new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), 255).getRGB());
+        Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset + 15, this.parent.parent.getX() + (int)this.renderWidth, this.parent.parent.getY() + this.offset + 16, new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255).getRGB());
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset, this.parent.parent.getX() + this.parent.parent.getWidth(), this.parent.parent.getY() + this.offset + 1, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValue(), this.set.getName() + " " + ChatFormatting.GRAY + this.set.getValue(), (int)(this.parent.parent.getX() + 2), this.parent.parent.getY() + this.offset + 4, -1);
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset, this.parent.parent.getX() + 1, this.parent.parent.getY() + this.offset + 16, new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255).getRGB());
 
 
-        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(this.set.getDisplayName(), (int)(this.parent.parent.getX() + 2), this.parent.parent.getY() + this.offset + 4, -1);
-        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.set.getDisplayName(), (int)(this.parent.parent.getX() + 2), this.parent.parent.getY() + this.offset + 4, -1);
+        if (!Core.customFont.getValBoolean()) mc.fontRenderer.drawStringWithShadow(this.set.getDisplayName(), this.parent.parent.getX() + 2, this.parent.parent.getY() + this.offset + 4, -1);
+        else CousinWare.INSTANCE.fontRenderer.drawStringWithShadow(this.set.getDisplayName(), this.parent.parent.getX() + 2, this.parent.parent.getY() + this.offset + 4, -1);
 
-        if (!Core.customFont.getValBoolean()) FontRenderUtil.drawLeftStringWithShadow(ChatFormatting.GRAY + String.valueOf(this.set.getValDouble()), (int)(this.parent.parent.getX() + 95), this.parent.parent.getY() + this.offset + 4, -1);
-        else FontRenderUtil.drawLeftStringWithShadowCustom(ChatFormatting.GRAY + String.valueOf(this.set.getValDouble()), (int)(this.parent.parent.getX() + 94), this.parent.parent.getY() + this.offset + 4, -1);
+        if (!Core.customFont.getValBoolean()) FontRenderUtil.drawLeftStringWithShadow(ChatFormatting.GRAY + String.valueOf(this.set.getValDouble()), this.parent.parent.getX() + 95, this.parent.parent.getY() + this.offset + 4, -1);
+        else FontRenderUtil.drawLeftStringWithShadowCustom(ChatFormatting.GRAY + String.valueOf(this.set.getValDouble()), this.parent.parent.getX() + 94, this.parent.parent.getY() + this.offset + 4, -1);
 
     }
     

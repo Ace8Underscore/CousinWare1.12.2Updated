@@ -29,7 +29,7 @@ public class SelfParticle extends Hack {
     }
 
     public void onEnable() {
-        this.thread = new Thread(SelfParticle.TSelfParticle.getInstance(this));
+        this.thread = new Thread(TSelfParticle.getInstance(this));
         this.thread.start();
     }
 
@@ -41,12 +41,12 @@ public class SelfParticle extends Hack {
     private static class TSelfParticle
             implements Runnable {
 
-        private static SelfParticle.TSelfParticle instance;
+        private static TSelfParticle instance;
         private SelfParticle selfParticle;
 
-        public static SelfParticle.TSelfParticle getInstance(SelfParticle selfParticle) {
+        public static TSelfParticle getInstance(SelfParticle selfParticle) {
             if (instance == null) {
-                instance = new SelfParticle.TSelfParticle();
+                instance = new TSelfParticle();
                 TSelfParticle.instance.selfParticle = selfParticle;
             }
             return instance;

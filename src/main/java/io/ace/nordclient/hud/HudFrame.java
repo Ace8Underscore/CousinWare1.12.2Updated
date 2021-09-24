@@ -18,17 +18,17 @@ public class HudFrame
     public ArrayList<HudComponent> components;
     public Hud.Category category;
     private boolean open;
-    private int width;
+    private final int width;
     private int y;
     private int x;
-    private int barHeight;
+    private final int barHeight;
     private boolean isDragging;
     public int dragX;
     public int dragY;
     private int height;
     //ClickGuiHack hack = ((ClickGuiHack) HackManager.getHackByName("ClickGuiModule"));
     public HudFrame(final Hud.Category cat) {
-        this.components = new ArrayList<HudComponent>();
+        this.components = new ArrayList <>();
         this.category = cat;
         this.width = 95;
         this.x = 5;

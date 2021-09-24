@@ -12,8 +12,8 @@ import java.awt.*;
 public class CheckBox extends Component
 {
     private boolean hovered;
-    private Setting op;
-    private io.ace.nordclient.gui.components.Button parent;
+    private final Setting op;
+    private final Button parent;
     private int offset;
     private int x;
     private int y;
@@ -32,9 +32,7 @@ public class CheckBox extends Component
 
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset + 1, this.parent.parent.getX() + this.parent.parent.getWidth(), this.parent.parent.getY() + this.offset + 16, this.hovered ? (this.op.getValBoolean() ?
                 new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() :
-                new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().getRGB()) : (this.op.getValBoolean() ?
-                new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB() :
-                new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
+                new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().getRGB()) : (new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset, this.parent.parent.getX() + this.parent.parent.getWidth(), this.parent.parent.getY() + this.offset + 1, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.op.getName(), this.parent.parent.getX() + 2, this.parent.parent.getY() + this.offset + 4, -1);
         Gui.drawRect(this.parent.parent.getX(), this.parent.parent.getY() + this.offset, this.parent.parent.getX() + 1, this.parent.parent.getY() + this.offset + 16, new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255).getRGB());

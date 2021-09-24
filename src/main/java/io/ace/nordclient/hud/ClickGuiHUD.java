@@ -14,7 +14,7 @@ public class ClickGuiHUD extends GuiScreen
 
 
     public ClickGuiHUD() {
-        ClickGuiHUD.frames = new ArrayList<HudFrame>();
+        ClickGuiHUD.frames = new ArrayList <>();
         int frameX = 5;
         for (final Hud.Category category : Hud.Category.values()) {
             final HudFrame frame = new HudFrame(category);
@@ -68,7 +68,7 @@ public class ClickGuiHUD extends GuiScreen
             }
         }
         if (keyCode == 1) {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
     }
 

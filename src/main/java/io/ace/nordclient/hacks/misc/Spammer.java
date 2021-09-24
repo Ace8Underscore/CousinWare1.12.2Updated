@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Mouse;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -127,7 +128,7 @@ public class Spammer extends Hack {
     public void onUpdate(PlayerJoinEvent event) {
             if (joinLeaveMsg > 30) {
                 if (!FriendManager.isFriend(event.getName())) {
-                    mc.player.sendChatMessage("> Welcome " + event.getName() + " To " + mc.getCurrentServerData().serverIP);
+                    mc.player.sendChatMessage("> Welcome " + event.getName() + " To " + Objects.requireNonNull(mc.getCurrentServerData()).serverIP);
                 } else {
                     mc.player.sendChatMessage("> My Friend " + event.getName() + " Has Just Joined!");
                 }

@@ -2,6 +2,8 @@ package io.ace.nordclient.command.commands;
 
 import io.ace.nordclient.command.Command;
 
+import java.util.Objects;
+
 public class Ping extends Command{
 
     /**
@@ -17,7 +19,7 @@ public class Ping extends Command{
     @Override
     public void onClientCommand(String command, String[] args) throws Exception {
         if (!mc.isSingleplayer()) {
-            long ping = mc.getCurrentServerData().pingToServer;
+            long ping = Objects.requireNonNull(mc.getCurrentServerData()).pingToServer;
             Command.sendClientSideMessage(String.valueOf(ping));
         } else {
             Command.sendClientSideMessage("You're In Singleplayer");

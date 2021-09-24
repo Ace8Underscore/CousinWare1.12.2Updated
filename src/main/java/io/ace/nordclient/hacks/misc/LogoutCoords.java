@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.Objects;
 
 /**
  * @author Ace________/Ace_#1233
@@ -21,7 +22,7 @@ public class LogoutCoords extends Hack {
     @SubscribeEvent
     public void onPlayerLeaveEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
         if (!mc.isSingleplayer()) {
-            if (!mc.getCurrentServerData().serverIP.equalsIgnoreCase("2b2tpvp.net") && mc.player.dimension != 1) {
+            if (!Objects.requireNonNull(mc.getCurrentServerData()).serverIP.equalsIgnoreCase("2b2tpvp.net") && mc.player.dimension != 1) {
 
                 int x = (int) mc.player.posX;
                 int y = (int) mc.player.posY;

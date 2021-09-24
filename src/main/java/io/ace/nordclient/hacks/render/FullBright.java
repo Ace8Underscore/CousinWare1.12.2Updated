@@ -7,6 +7,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Ace________/Ace_#1233
@@ -18,7 +19,7 @@ public class FullBright extends Hack {
 
     public FullBright() {
         super("FullBright", Category.RENDER, 11658243);
-        java.util.ArrayList<String> modes = new ArrayList<>();
+        ArrayList<String> modes = new ArrayList<>();
         modes.add("Gamma");
         modes.add("NightVision");
         CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("Mode", this, "Gamma", modes, "FullBrightModes", true));
@@ -31,7 +32,7 @@ public class FullBright extends Hack {
             mc.player.removeActivePotionEffect(Potion.getPotionById(16));
         } else {
             mc.gameSettings.gammaSetting = 0;
-            mc.player.addPotionEffect(new PotionEffect(Potion.getPotionById(16), 1000, 1));
+            mc.player.addPotionEffect(new PotionEffect(Objects.requireNonNull(Potion.getPotionById(16)), 1000, 1));
         }
     }
 

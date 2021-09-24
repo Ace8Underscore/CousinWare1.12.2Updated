@@ -4,6 +4,8 @@ import io.ace.nordclient.command.Command;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumParticleTypes;
 
+import java.util.Objects;
+
 public class Summon extends Command{
 
 
@@ -31,7 +33,7 @@ public class Summon extends Command{
             double y = mc.player.posY;
             double z = mc.player.posZ;
 
-            mc.world.spawnParticle(EnumParticleTypes.getParticleFromId(Integer.parseInt(args[1])), x, y + 2, z, 0, .5, 0, 10000);
+            mc.world.spawnParticle(Objects.requireNonNull(EnumParticleTypes.getParticleFromId(Integer.parseInt(args[1]))), x, y + 2, z, 0, .5, 0, 10000);
         }
 
         if (!args[0].equalsIgnoreCase("helditem") && !args[0].equalsIgnoreCase("entity") && !args[0].equalsIgnoreCase("particle")) {

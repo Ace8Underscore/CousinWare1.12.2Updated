@@ -58,10 +58,10 @@ public class PistonAura2 extends Hack {
 
     public PistonAura2() {
         super("PistonAura", Category.COMBAT, 13632022);
-        ArrayList<String> modes = new ArrayList<String>();
+        ArrayList<String> modes = new ArrayList <>();
         modes.add("RedstoneBlock");
         modes.add("RedstoneTorch");
-        ArrayList<String> pistonModes = new ArrayList<String>();
+        ArrayList<String> pistonModes = new ArrayList <>();
         pistonModes.add("Piston");
         pistonModes.add("StickyPiston");
         CousinWare.INSTANCE.settingsManager.rSetting(mode = new Setting("PowerMode", this, "RedstoneBlock", modes, "PistonAura2Modes", true));

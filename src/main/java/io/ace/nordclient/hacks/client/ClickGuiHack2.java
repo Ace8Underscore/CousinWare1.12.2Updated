@@ -2,6 +2,7 @@ package io.ace.nordclient.hacks.client;
 
 import io.ace.nordclient.CousinWare;
 import io.ace.nordclient.hacks.Hack;
+import io.ace.nordclient.utilz.configz.ConfigUtils;
 
 public class ClickGuiHack2 extends Hack {
 
@@ -16,8 +17,8 @@ public class ClickGuiHack2 extends Hack {
             if (CousinWare.INSTANCE.fontRenderer.getFontName().equalsIgnoreCase("null")) {
                 CousinWare.INSTANCE.fontRenderer.setFontName("Arial");
                 CousinWare.INSTANCE.fontRenderer.setFontSize(18);
-                CousinWare.INSTANCE.configUtils.saveFont();
-                CousinWare.INSTANCE.configUtils.loadFont();
+                ConfigUtils.saveFont();
+                ConfigUtils.loadFont();
             }
         } catch (Exception ignored) {
 

@@ -28,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Ace________/Ace_#1233
@@ -274,7 +275,7 @@ public class AutoBedBombDumb extends Hack {
                         if (breakMode.getValString().equalsIgnoreCase("own")) {
                             if (mc.world.getBlockState(eLocation).getBlock().equals(Blocks.BED)) {
                                 if (delayBreak >= breakDelay.getValInt()) {
-                                    mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(eLocation, EnumFacing.SOUTH, EnumHand.MAIN_HAND, 0, 0, 0));
+                                    Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketPlayerTryUseItemOnBlock(eLocation, EnumFacing.SOUTH, EnumHand.MAIN_HAND, 0, 0, 0));
                                     delayBreak = 0;
                                 }
                             }
@@ -282,7 +283,7 @@ public class AutoBedBombDumb extends Hack {
                             for (TileEntity bedloc : mc.world.loadedTileEntityList) {
                                 if (bedloc instanceof  TileEntityBed) {
                                     if (delayBreak >= breakDelay.getValInt()) {
-                                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(bedloc.getPos(), EnumFacing.SOUTH, EnumHand.MAIN_HAND, 0, 0, 0));
+                                        Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketPlayerTryUseItemOnBlock(bedloc.getPos(), EnumFacing.SOUTH, EnumHand.MAIN_HAND, 0, 0, 0));
                                         delayBreak = 0;
                                     }
                                 }

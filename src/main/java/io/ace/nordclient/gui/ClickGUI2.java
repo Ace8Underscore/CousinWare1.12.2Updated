@@ -11,15 +11,15 @@ import java.util.ArrayList;
 
 public class ClickGUI2 extends GuiScreen
 {
-    public static ArrayList<io.ace.nordclient.gui.Frame> frames;
+    public static ArrayList<Frame> frames;
     public static int color;
 
 
     public ClickGUI2() {
-        ClickGUI2.frames = new ArrayList<io.ace.nordclient.gui.Frame>();
+        ClickGUI2.frames = new ArrayList <>();
         int frameX = 5;
         for (final Hack.Category category : Hack.Category.values()) {
-            final io.ace.nordclient.gui.Frame frame = new io.ace.nordclient.gui.Frame(category);
+            final Frame frame = new Frame(category);
             frame.setX(frameX);
             ClickGUI2.frames.add(frame);
             frameX += frame.getWidth() + 10;
@@ -34,7 +34,7 @@ public class ClickGUI2 extends GuiScreen
         ScaledResolution sr = new ScaledResolution(mc);
         drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 0).getRGB(), new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.gradiant.getValInt()).getRGB());
         ClickGUI2.color = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.alpha.getValInt()).getRGB();
-        for (final io.ace.nordclient.gui.Frame frame : ClickGUI2.frames) {
+        for (final Frame frame : ClickGUI2.frames) {
             frame.renderFrame(this.fontRenderer);
             frame.updatePosition(mouseX, mouseY);
             for (final Component comp : frame.getComponents()) {
@@ -47,7 +47,7 @@ public class ClickGUI2 extends GuiScreen
 
 
     protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
-        for (final io.ace.nordclient.gui.Frame frame : ClickGUI2.frames) {
+        for (final Frame frame : ClickGUI2.frames) {
             if (frame.isWithinHeader(mouseX, mouseY) && mouseButton == 0) {
                 frame.setDrag(true);
                 frame.dragX = mouseX - frame.getX();
@@ -65,7 +65,7 @@ public class ClickGUI2 extends GuiScreen
     }
 
     protected void keyTyped(final char typedChar, final int keyCode) {
-        for (final io.ace.nordclient.gui.Frame frame : ClickGUI2.frames) {
+        for (final Frame frame : ClickGUI2.frames) {
             if (frame.isOpen() && keyCode != 1 && !frame.getComponents().isEmpty()) {
                 for (final Component component : frame.getComponents()) {
                     component.keyTyped(typedChar, keyCode);
@@ -78,7 +78,7 @@ public class ClickGUI2 extends GuiScreen
     }
 
     protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
-        for (final io.ace.nordclient.gui.Frame frame : ClickGUI2.frames) {
+        for (final Frame frame : ClickGUI2.frames) {
             frame.setDrag(false);
         }
         for (final Frame frame : ClickGUI2.frames) {

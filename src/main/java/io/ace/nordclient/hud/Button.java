@@ -16,16 +16,16 @@ public class Button extends HudComponent {
     public HudFrame parent;
     public int offset;
     private boolean isHovered;
-    private ArrayList<HudComponent> subcomponents;
+    private final ArrayList<HudComponent> subcomponents;
     public boolean open;
-    private int height;
+    private final int height;
     public static Boolean opened;
 
     public Button(final Hud hud, final HudFrame parent, final int offset) {
         this.hud = hud;
         this.parent = parent;
         this.offset = offset;
-        this.subcomponents = new ArrayList<HudComponent>();
+        this.subcomponents = new ArrayList <>();
         this.open = false;
         this.height = 16;
         int opY = offset + 16;
@@ -50,7 +50,7 @@ public class Button extends HudComponent {
     public void renderComponent() {
 
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
-        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + 16 + this.offset, this.isHovered ? (this.hud.isEnabled() ? new Color(29, 37,48, 255).getRGB() : new Color(29, 37, 48, 255).darker().darker().getRGB()) : (this.hud.isEnabled() ? new Color(29, 37,48, 255).getRGB() : new Color(29, 37, 48, 255).getRGB()));
+        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + 16 + this.offset, this.isHovered ? (this.hud.isEnabled() ? new Color(29, 37,48, 255).getRGB() : new Color(29, 37, 48, 255).darker().darker().getRGB()) : (new Color(29, 37, 48, 255).getRGB()));
         Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + this.offset + 1, new Color(29, 37, 48, 255).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.mod.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
 
@@ -83,8 +83,7 @@ public class Button extends HudComponent {
                 //Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + 1, this.parent.getY() + this.offset + 16, new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), ClickGuiHack.alpha.getValInt()).getRGB());
             }
         }
-        if (this.open) opened = true;
-        else opened = false;
+        opened = this.open;
     }
 
     @Override

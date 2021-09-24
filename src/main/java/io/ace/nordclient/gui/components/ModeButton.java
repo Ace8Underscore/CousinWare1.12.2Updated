@@ -14,12 +14,12 @@ import java.awt.*;
 public class ModeButton extends Component
 {
     private boolean hovered;
-    private Button parent;
-    private Setting set;
+    private final Button parent;
+    private final Setting set;
     private int offset;
     private int x;
     private int y;
-    private Hack hack;
+    private final Hack hack;
     private int modeIndex;
     
     public ModeButton(final Setting set, final Button button, final Hack hack, final int offset) {

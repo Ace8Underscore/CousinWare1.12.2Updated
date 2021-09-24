@@ -52,7 +52,7 @@ public class TrackerManager extends Hack {
 //        System.out.println("There are " + Integer.toString(player_trackers.size()) + " active Trackers.");
 
         // Uses an arraylist to remember what to remove. remove() is async.
-        ArrayList<Tracker> trackers_to_remove = new ArrayList<Tracker>();
+        ArrayList<Tracker> trackers_to_remove = new ArrayList <>();
         for (Tracker follower : player_trackers){
             // Only does anything if all requests were computed on.
             follower.update();
@@ -93,7 +93,7 @@ public class TrackerManager extends Hack {
 
         /* If 1 second has passed, mark the request as unloaded and remove it from the list.
            The purpose of the second arraylist is to remove packets, due to remove() being async */
-        ArrayList<TrackerRequest> packets_to_remove = new ArrayList<TrackerRequest>();
+        ArrayList<TrackerRequest> packets_to_remove = new ArrayList <>();
         for (TrackerRequest request : incoming_packets) {
             // If a chunk got no response for 1000 milliseconds,
             boolean chunk_unloaded = request.timeout(1000);
@@ -128,7 +128,7 @@ public class TrackerManager extends Hack {
 
             // For every request, if that request matches this event,
             // set its result to loaded and remove it from the list.
-            ArrayList<TrackerRequest> packets_to_remove = new ArrayList<TrackerRequest>();
+            ArrayList<TrackerRequest> packets_to_remove = new ArrayList <>();
             for (TrackerRequest request : incoming_packets) {
                 int REQ_X = request.getPosition().getX();
                 int REQ_Z = request.getPosition().getZ();
@@ -152,8 +152,8 @@ public class TrackerManager extends Hack {
     public TrackerManager() {
         super("TrackerManager", Category.EXPLOIT, -1);
 
-        this.player_trackers = new ArrayList<Tracker>();
-        this.outgoing_packets = new ArrayDeque<TrackerRequest>();
-        this.incoming_packets = new ArrayList<TrackerRequest>();
+        this.player_trackers = new ArrayList <>();
+        this.outgoing_packets = new ArrayDeque <>();
+        this.incoming_packets = new ArrayList <>();
     }
 }

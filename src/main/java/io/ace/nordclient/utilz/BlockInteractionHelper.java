@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class BlockInteractionHelper
 {
@@ -82,7 +83,7 @@ public class BlockInteractionHelper
 
         }
         double y = 0;
-        if (neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) < 1) y = .95;
+        if (Objects.requireNonNull(neighbor).getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) < 1) y = .95;
         if (neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) > 1 && neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) < 2) y = .85;
         if (neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) > 2 && neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) < 3) y = .75;
         if (neighbor.getDistance((int)mc.player.posX, (int)mc.player.posY, (int)mc.player.posZ) > 3) y = .65;
@@ -90,7 +91,7 @@ public class BlockInteractionHelper
 
         RayTraceResult result = mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double) mc.player.getEyeHeight(), mc.player.posZ), new Vec3d((double) neighbor.getX() + .5, (double) pos.north().getY() + y, (double) neighbor.getZ() + .5));
 
-            final Vec3d hitVec = new Vec3d(neighbor).add(.5, y, .5).add(new Vec3d(result.sideHit.getDirectionVec()).scale(0.5));
+            final Vec3d hitVec = new Vec3d(neighbor).add(.5, y, .5).add(new Vec3d(Objects.requireNonNull(result).sideHit.getDirectionVec()).scale(0.5));
             faceVectorPacketInstant(hitVec);
             processRightClickBlock(neighbor, side2, hitVec);
             mc.player.swingArm(EnumHand.MAIN_HAND);
@@ -122,7 +123,7 @@ public class BlockInteractionHelper
             side2 = EnumFacing.NORTH;
 
         }
-        final Vec3d hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+        final Vec3d hitVec = new Vec3d(Objects.requireNonNull(neighbor)).add(0.5, 0.5, 0.5).add(new Vec3d(Objects.requireNonNull(side2).getDirectionVec()).scale(0.5));
         faceVectorPacketInstant(hitVec);
         processRightClickBlock(neighbor, side2, hitVec);
         mc.player.swingArm(EnumHand.MAIN_HAND);
@@ -380,7 +381,7 @@ public class BlockInteractionHelper
     }
 
     public static List<BlockPos> getSphere(final BlockPos loc, final float r, final int h, final boolean hollow, final boolean sphere, final int plus_y) {
-        final List<BlockPos> circleblocks = new ArrayList<BlockPos>();
+        final List<BlockPos> circleblocks = new ArrayList <>();
         final int cx = loc.getX();
         final int cy = loc.getY();
         final int cz = loc.getZ();
@@ -399,7 +400,7 @@ public class BlockInteractionHelper
     }
 
     public static List<BlockPos> getCircle(final BlockPos loc, final int y, final float r, final boolean hollow) {
-        final List<BlockPos> circleblocks = new ArrayList<BlockPos>();
+        final List<BlockPos> circleblocks = new ArrayList <>();
         final int cx = loc.getX();
         final int cz = loc.getZ();
         for (int x = cx - (int)r; x <= cx + r; ++x) {

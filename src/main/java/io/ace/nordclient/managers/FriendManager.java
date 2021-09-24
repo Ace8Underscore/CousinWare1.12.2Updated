@@ -1,12 +1,7 @@
 package io.ace.nordclient.managers;
 
-import io.ace.nordclient.CousinWare;
-import io.ace.nordclient.hwid.HWID;
 import io.ace.nordclient.utilz.FriendUtil;
-import io.ace.nordclient.utilz.render.NordTessellator;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +15,6 @@ public class  FriendManager {
     private static String friened;
     public FriendManager(){
         friends = new ArrayList<>();
-        String currentHWID = String.valueOf(Runtime.getRuntime().availableProcessors() +
-                //System.getenv("PROCESSOR_IDENTIFIER") +
-                //System.getenv("PROCESSOR_ARCHITECTURE") +
-                //System.getenv("PROCESSOR_ARCHITEW6432") +
-                ////System.getenv("NUMBER_OF_PROCESSORS") +
-                ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize());
-        if (!HWID.isGoodHWID(currentHWID)) {
-            FMLCommonHandler.instance().exitJava(0, true);
-            NordTessellator.prepare(1);
-            NordTessellator.drawBox(null, 1, 1, 1, 1, 1);
-            NordTessellator.release();
-            CousinWare.log.info("Invalid Hwid!");
-        }
-
     }
 
     public static List<FriendUtil> getFriends() {
