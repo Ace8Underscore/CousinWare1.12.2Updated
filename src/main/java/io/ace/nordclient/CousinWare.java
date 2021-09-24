@@ -111,27 +111,6 @@ public class CousinWare
         Runtime.getRuntime().addShutdownHook(new ShutDown());
 
     }
-    @Mod.EventHandler
-    public void inits(FMLInitializationEvent event) throws URISyntaxException {
-        EventLaunch.init();
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        String currentHWID = String.valueOf(Runtime.getRuntime().availableProcessors() +
-                //System.getenv("PROCESSOR_IDENTIFIER") +
-                //System.getenv("PROCESSOR_ARCHITECTURE") +
-                //System.getenv("PROCESSOR_ARCHITEW6432") +
-                ////System.getenv("NUMBER_OF_PROCESSORS") +
-                ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize());
-        if (!HWID.isGoodHWID(currentHWID)) {
-            FMLCommonHandler.instance().exitJava(0, true);
-            log.info("Invalid Hwid!");
-        }
-        //ConfigUtils.loadAll();
-        //
-
-    }
 
     public EventManager getEventManager() {
         if (this.eventManager == null) {
