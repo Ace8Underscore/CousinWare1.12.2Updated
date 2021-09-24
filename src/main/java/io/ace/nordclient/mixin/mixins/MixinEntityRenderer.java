@@ -1,7 +1,6 @@
 package io.ace.nordclient.mixin.mixins;
 
 import com.google.common.base.Predicate;
-import io.ace.nordclient.hacks.misc.NoEntityTrace;
 import io.ace.nordclient.hacks.render.NoRender;
 import io.ace.nordclient.managers.HackManager;
 import net.minecraft.client.Minecraft;
