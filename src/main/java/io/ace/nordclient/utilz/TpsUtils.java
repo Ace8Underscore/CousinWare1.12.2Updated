@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author 086
  */
 public class TpsUtils {
-    private static float[] tickRates = new float[20];
+    private static final float[] tickRates = new float[20];
     private int nextIndex = 0;
     private long timeLastTimeUpdate;
 
@@ -49,5 +49,8 @@ public class TpsUtils {
         if (event.getPacket() instanceof SPacketTimeUpdate) {
             onTimeUpdate();
         }
+    }
+    public void voids() {
+
     }
 }

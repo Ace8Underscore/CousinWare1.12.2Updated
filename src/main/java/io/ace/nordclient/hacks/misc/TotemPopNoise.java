@@ -3,8 +3,6 @@ package io.ace.nordclient.hacks.misc;
 import io.ace.nordclient.event.PacketEvent;
 import io.ace.nordclient.hacks.Hack;
 import io.ace.nordclient.utilz.sound.Neverlose;
-import io.ace.nordclient.utilz.sound.SoundPlayer;
-import io.ace.nordclient.utilz.sound.SoundRegistrator;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
@@ -34,8 +32,7 @@ public class TotemPopNoise extends Hack {
 
     public void onEnable() {
         if (mc.world == null) return;
-        mc.world.playSound(mc.player, mc.player.posX, mc.player.posY, mc.player.posZ, new SoundEvent(new ResourceLocation("sounds/neverlose.ogg")), SoundCategory.VOICE, 100, 100 );
-        SoundPlayer.playSound(SoundRegistrator.NEVERLOSE, mc.player.posX, mc.player.posY, mc.player.posZ);
+        mc.world.playSound(mc.player, mc.player.posX, mc.player.posY, mc.player.posZ, new SoundEvent(new ResourceLocation("custom/totem.ogg")), SoundCategory.PLAYERS, 100, 100 );
         mc.soundHandler.playSound(sound);
     }
 }

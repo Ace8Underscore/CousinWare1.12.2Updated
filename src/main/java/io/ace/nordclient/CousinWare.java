@@ -197,6 +197,7 @@ public class CousinWare
         HackManager.addHack(new AutoBedBombDumb());
         HackManager.addHack(new AutoHeadCrystal());
         HackManager.addHack(new AutoOffHand());
+        HackManager.addHack(new AutoPVP());
         HackManager.addHack(new AutoTntMinecart());
         HackManager.addHack(new AutoTotem());
         HackManager.addHack(new AutoTrap());
@@ -255,7 +256,7 @@ public class CousinWare
         HackManager.addHack(new ShulkerMod());
         HackManager.addHack(new Spammer());
         HackManager.addHack(new ToggleMsgs());
-        //HackManager.addHack(new TotemPopNoise());
+        HackManager.addHack(new TotemPopNoise());
         HackManager.addHack(new VisualRange());
         //HackManager.addHack(new TwoBeePacketLogger());
         //movement

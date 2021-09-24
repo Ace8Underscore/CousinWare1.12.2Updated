@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 public class Neverlose {
 
     public static final ISound sound;
-    private static final String song = "neverlose";
-    private static final ResourceLocation loc = new ResourceLocation("sounds/" + song + ".ogg");
+    private static final String song = "totem";
+    private static final ResourceLocation loc = new ResourceLocation("custom/sounds/" + song + ".ogg");
 
     static {
         sound = new ISound() {
@@ -31,7 +31,7 @@ public class Neverlose {
 
             @Nullable
             public SoundEventAccessor createAccessor(SoundHandler soundHandler) {
-                return new SoundEventAccessor(loc, "neverlose");
+                return new SoundEventAccessor(loc, "totem");
             }
 
             @Override
