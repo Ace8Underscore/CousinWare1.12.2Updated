@@ -39,3 +39,7 @@ And an extra special thanks to the following CousinWare users for their support:
 - **Hero code** - for the settings and the file manager
 - **Memeszz** - for letting me use and modify the aurora gui
 - **Osiris dev** - for the command system
+
+
+
+Cant remember whats new but its got pop chams, choruslag, and some other things i cant remember 
