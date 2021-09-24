@@ -35,7 +35,7 @@ public class PopRender extends Hack {
 
     public PopRender() {
         super("PopRender", Category.RENDER, 1123108);
-        popMap = new ConcurrentHashMap<EntityPlayer, Integer>();
+        popMap = new ConcurrentHashMap <>();
         CousinWare.INSTANCE.settingsManager.rSetting(colorSync = new Setting("Sync", this, false, "PopRenderSync", true));
         CousinWare.INSTANCE.settingsManager.rSetting(colored = new Setting("Colored", this, false, "PopRenderColored", true));
         CousinWare.INSTANCE.settingsManager.rSetting(textured = new Setting("Textured", this, false, "PopRenderTextured", true));
@@ -71,7 +71,7 @@ public class PopRender extends Hack {
     public void onTotemPop(EntityPlayer eventTotemPop) {
             int pops = this.popMap.getOrDefault(eventTotemPop, 0) + 1;
             this.popMap.put(eventTotemPop, pops);
-            java.util.Random r = new Random();
+            Random r = new Random();
             int id = r.nextInt(10000000);
             entity = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.fromString("d8d5a923-7b20-43d8-883b-1150148d6955"), "Test"));
             entity.copyLocationAndAnglesFrom(eventTotemPop);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Frame
 {
-    public ArrayList<io.ace.nordclient.cousingui.Component> components;
+    public ArrayList<Component> components;
     public Hack.Category category;
     private boolean open;
     private final int width;
@@ -27,7 +27,7 @@ public class Frame
     private int height;
     //ClickGuiHack hack = ((ClickGuiHack) HackManager.getHackByName("ClickGuiModule"));
     public Frame(final Hack.Category cat) {
-        this.components = new ArrayList<io.ace.nordclient.cousingui.Component>();
+        this.components = new ArrayList <>();
         this.category = cat;
         this.width = 95;
         this.x = 5;
@@ -45,7 +45,7 @@ public class Frame
         this.refresh();
     }
 
-    public ArrayList<io.ace.nordclient.cousingui.Component> getComponents() {
+    public ArrayList<Component> getComponents() {
         return this.components;
     }
 
@@ -88,7 +88,7 @@ public class Frame
         if (!Core.customFont.getValBoolean()) FontRenderUtil.drawCenteredStringWithShadow(this.category.name(), (float) (this.x + 47.5), this.y + 3, -1);
         else FontRenderUtil.drawCenteredStringWithShadowCustom(this.category.name(), (float) (this.x + 47.5), this.y + 3, -1);
         if (this.open && !this.components.isEmpty()) {
-            for (final io.ace.nordclient.cousingui.Component component : this.components) {
+            for (final Component component : this.components) {
                 component.renderComponent();
             }
         }

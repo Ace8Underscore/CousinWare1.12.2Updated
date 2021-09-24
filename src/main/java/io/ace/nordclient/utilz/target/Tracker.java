@@ -122,7 +122,7 @@ public class Tracker {
     public Tracker(TrackerManager pointer, String new_name, int X, int Z) {
         this.manager_pointer = pointer;
         this.name = new_name;
-        this.sent_requests = new ArrayList<TrackerRequest>(4);
+        this.sent_requests = new ArrayList <>(4);
         this.PREV_POS = new BlockPos(X, 0, Z);
         this.CUR_POS = new BlockPos(X, 0, Z);
 

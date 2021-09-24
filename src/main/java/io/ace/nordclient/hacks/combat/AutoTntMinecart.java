@@ -19,6 +19,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Objects;
+
 /**
  * @author Ace________/Ace_#1233
  */
@@ -116,7 +118,7 @@ public class AutoTntMinecart extends Hack {
                             } else {
                                 mc.player.inventory.currentItem = tntSlot;
                                 //BlockInteractionHelper.placeBlockScaffold(placeLocation.up());
-                                mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placeLocation, EnumFacing.NORTH, EnumHand.MAIN_HAND, 0, 0, 0));
+                                Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketPlayerTryUseItemOnBlock(placeLocation, EnumFacing.NORTH, EnumHand.MAIN_HAND, 0, 0, 0));
 
                                 delay = 0;
                             }

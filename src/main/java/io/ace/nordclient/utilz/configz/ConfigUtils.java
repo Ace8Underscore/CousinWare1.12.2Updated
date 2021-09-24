@@ -90,7 +90,7 @@ public class ConfigUtils {
             out.write(s);
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -130,7 +130,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -178,7 +178,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -196,7 +196,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -238,7 +238,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -413,7 +413,7 @@ public class ConfigUtils {
             out.write(Command.getClientPrefix());
             out.write("\r\n");
             out.close();
-        } catch (Exception var3) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -445,7 +445,7 @@ public class ConfigUtils {
             out.write(CousinWare.INSTANCE.fontRenderer.getFontName() + ":" + CousinWare.INSTANCE.fontRenderer.getFontSize());
             out.write("\r\n");
             out.close();
-        } catch (Exception var3) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -498,7 +498,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -574,7 +574,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -625,7 +625,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var7) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -641,7 +641,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var6) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -657,7 +657,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -673,7 +673,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var7) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -804,7 +804,7 @@ public class ConfigUtils {
             }
 
             out.close();
-        } catch (Exception var5) {
+        } catch (Exception ignored) {
         }
 
     }

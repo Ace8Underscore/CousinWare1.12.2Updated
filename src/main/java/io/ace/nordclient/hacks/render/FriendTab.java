@@ -15,7 +15,7 @@ public class FriendTab extends Hack {
     public FriendTab() {
         super("FriendTab", Category.RENDER, 2189725);
 
-        java.util.ArrayList<String> modes = new ArrayList<>();
+        ArrayList<String> modes = new ArrayList<>();
         modes.add("BLACK");
         modes.add("RED");
         modes.add("AQUA");

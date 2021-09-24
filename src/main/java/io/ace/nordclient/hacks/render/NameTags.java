@@ -60,7 +60,7 @@ public class NameTags extends Hack {
 
     public NameTags() {
         super("NameTags", Category.RENDER, 10955851);
-        popMap = new ConcurrentHashMap<EntityPlayer, Integer>();
+        popMap = new ConcurrentHashMap <>();
         CousinWare.INSTANCE.settingsManager.rSetting(range = new Setting("Range", this, 100, 0, 1000, false, "NameTagsRange", true));
         CousinWare.INSTANCE.settingsManager.rSetting(reversed = new Setting("Reversed", this, false, "NametagsReversed", true));
         CousinWare.INSTANCE.settingsManager.rSetting(armor = new Setting("Armor", this, true, "NametagsArmor", true));
@@ -68,7 +68,7 @@ public class NameTags extends Hack {
         CousinWare.INSTANCE.settingsManager.rSetting(gamemode = new Setting("Gamemode", this, true, "NametagsGamemode", true));
         CousinWare.INSTANCE.settingsManager.rSetting(ping = new Setting("Ping", this, true, "NametagsPing", true));
         CousinWare.INSTANCE.settingsManager.rSetting(health = new Setting("Health", this, true, "NametagsHealth", true));
-        java.util.ArrayList<String> friendColors = new ArrayList<>();
+        ArrayList<String> friendColors = new ArrayList<>();
         friendColors.add("BLACK");
         friendColors.add("RED");
         friendColors.add("AQUA");
@@ -132,7 +132,7 @@ public class NameTags extends Hack {
 
     public void renderName(EntityPlayer entityPlayer, double x, double y, double z) {
             GlStateManager.pushMatrix();
-            int ping = this.ping.getValBoolean() ? ((mc.getConnection() != null && mc.player != null && mc.getConnection().getPlayerInfo(entityPlayer.getUniqueID()) != null) ? Integer.valueOf(mc.getConnection().getPlayerInfo(entityPlayer.getGameProfile().getId()).getResponseTime()) : -1) : 0;
+            int ping = this.ping.getValBoolean() ? ((mc.getConnection() != null && mc.player != null && mc.getConnection().getPlayerInfo(entityPlayer.getUniqueID()) != null) ? mc.getConnection().getPlayerInfo(entityPlayer.getGameProfile().getId()).getResponseTime() : -1) : 0;
             int health = this.health.getValBoolean() ? getHealth(entityPlayer) : 0;
             String nameTag = (burrowed.getValBoolean() ? (isBurrowed(entityPlayer) ? ChatFormatting.GREEN + "B " : ChatFormatting.RED + "B ") : "") + getFriendColor(entityPlayer.getName()) + (gamemode.getValBoolean() ? getGamemode(entityPlayer) + " " : "") + entityPlayer.getName() + " " + (this.ping.getValBoolean() ? (getPingColor(ping) + "" + ping + "ms ") : "") + (this.health.getValBoolean() ? getHealthColor(health) + "" + health : "") + ((popMap.containsKey(entityPlayer) && totemPop.getValBoolean()) ? (" " + ChatFormatting.DARK_RED + "-" + popMap.get(entityPlayer)) : "");
             final float distance = mc.player.getDistance(entityPlayer);

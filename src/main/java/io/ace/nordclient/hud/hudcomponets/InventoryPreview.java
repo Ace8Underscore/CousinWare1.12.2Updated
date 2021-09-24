@@ -48,7 +48,7 @@ public class InventoryPreview extends Hud {
         if (mc.world == null || mc.player == null)
             return;
         if (Mouse.isButtonDown(0)) mouseClicked(Mouse.getX(), Mouse.getY(), 0);
-        final NonNullList<ItemStack> items = (NonNullList<ItemStack>)mc.player.inventory.mainInventory;
+        final NonNullList<ItemStack> items = mc.player.inventory.mainInventory;
         itemrender(items, ((sr.getScaledWidth() - ((this.getX() - 1000) * -1)) / 2) , ((sr.getScaledHeight() - this.getY() / 2)));
         //Gui.drawRect(this.getX()  - 60, this.getY() + 60,  this.getX() + 60, this.getY() - 60, 8421504); ((sr.getScaledHeight() - ((this.getY() - 500))) / 2));
         //Command.sendClientSideMessage(String.valueOf(((sr.getScaledWidth() - this.getX()) / 2)));
@@ -84,8 +84,8 @@ public class InventoryPreview extends Hud {
             final int slotx = x + 1 + item % 9 * 18;
             final int sloty = y + 1 + (item / 9 - 1) * 18;
             preitemrender();
-            mc.getRenderItem().renderItemAndEffectIntoGUI((ItemStack)items.get(item), slotx, sloty);
-            mc.getRenderItem().renderItemOverlays(mc.fontRenderer, (ItemStack)items.get(item), slotx, sloty);
+            mc.getRenderItem().renderItemAndEffectIntoGUI(items.get(item), slotx, sloty);
+            mc.getRenderItem().renderItemOverlays(mc.fontRenderer, items.get(item), slotx, sloty);
             postitemrender();
         }
     }

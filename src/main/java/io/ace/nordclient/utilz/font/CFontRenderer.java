@@ -104,7 +104,7 @@ public class CFontRenderer extends CFont {
                     int colorIndex = 21;
                     try {
                         colorIndex = "0123456789abcdefklmnor".indexOf(text.charAt(i + 1));
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     if (colorIndex < 16) {
                         bold = false;
@@ -303,7 +303,7 @@ public class CFontRenderer extends CFont {
                 currentWord = currentWord + c;
             } else {
                 finalWords.add(currentWord);
-                currentWord = "\u00A7" + lastColorCode + String.valueOf(c);
+                currentWord = "\u00A7" + lastColorCode + c;
             }
         }
 

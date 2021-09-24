@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 public class CousinWareGui extends GuiScreen {
 
-    public static ArrayList<io.ace.nordclient.cousingui.Frame> frames;
+    public static ArrayList<Frame> frames;
     public static int color;
 
     public CousinWareGui() {
-        CousinWareGui.frames = new ArrayList<io.ace.nordclient.cousingui.Frame>();
+        CousinWareGui.frames = new ArrayList <>();
         int frameX = 5;
         for (final Hack.Category category : Hack.Category.values()) {
-            final io.ace.nordclient.cousingui.Frame frame = new io.ace.nordclient.cousingui.Frame(category);
+            final Frame frame = new Frame(category);
             frame.setX(frameX);
             CousinWareGui.frames.add(frame);
             frameX += frame.getWidth() + 10;
@@ -32,10 +32,10 @@ public class CousinWareGui extends GuiScreen {
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         CousinWareGui.color = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(),ClickGuiHack.blue.getValInt(), ClickGuiHack.alpha.getValInt()).getRGB();
         ScaledResolution sr = new ScaledResolution(mc);
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             frame.renderFrame(this.fontRenderer, frame);
             frame.updatePosition(mouseX, mouseY);
-            for (final io.ace.nordclient.cousingui.Component comp : frame.getComponents()) {
+            for (final Component comp : frame.getComponents()) {
                 comp.updateComponent(mouseX, mouseY);
                 if (frame.category.equals(Hack.Category.CLIENT)) {
                     frame.setDrag(false);
@@ -81,7 +81,7 @@ public class CousinWareGui extends GuiScreen {
 
 
     protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             if (frame.isWithinHeader(mouseX, mouseY) && mouseButton == 0) {
                 frame.setOpen(true);
                 setFramesClosed(frame);
@@ -97,7 +97,7 @@ public class CousinWareGui extends GuiScreen {
                 }
             }
             if (frame.isOpen() && !frame.getComponents().isEmpty()) {
-                for (final io.ace.nordclient.cousingui.Component component : frame.getComponents()) {
+                for (final Component component : frame.getComponents()) {
                     component.mouseClicked(mouseX, mouseY, mouseButton);
                 }
             }
@@ -105,7 +105,7 @@ public class CousinWareGui extends GuiScreen {
     }
 
     private void setFramesClosed(Frame excludeFrame) {
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             if (!frame.equals(excludeFrame)) {
                 frame.setOpen(false);
             }
@@ -113,9 +113,9 @@ public class CousinWareGui extends GuiScreen {
     }
 
     protected void keyTyped(final char typedChar, final int keyCode) {
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             if (frame.isOpen() && keyCode != 1 && !frame.getComponents().isEmpty()) {
-                for (final io.ace.nordclient.cousingui.Component component : frame.getComponents()) {
+                for (final Component component : frame.getComponents()) {
                     component.keyTyped(typedChar, keyCode);
                 }
             }
@@ -126,10 +126,10 @@ public class CousinWareGui extends GuiScreen {
     }
 
     protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             frame.setDrag(false);
         }
-        for (final io.ace.nordclient.cousingui.Frame frame : CousinWareGui.frames) {
+        for (final Frame frame : CousinWareGui.frames) {
             if (frame.isOpen() && !frame.getComponents().isEmpty()) {
                 for (final Component component : frame.getComponents()) {
                     component.mouseReleased(mouseX, mouseY, state);

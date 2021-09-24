@@ -27,7 +27,7 @@ public class Button extends io.ace.nordclient.cousingui.Component
         this.hack = hack;
         this.parent = parent;
         this.offset = offset;
-        this.subcomponents = new ArrayList<io.ace.nordclient.cousingui.Component>();
+        this.subcomponents = new ArrayList <>();
         this.open = false;
         this.height = 16;
         int opY = offset + 16;
@@ -79,7 +79,7 @@ public class Button extends io.ace.nordclient.cousingui.Component
     public void renderComponent() {
 
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
-        Gui.drawRect(this.parent.getX() + 95, this.offset + 1 + 5, this.parent.getX() + 95 + this.parent.getWidth(),  16 + this.offset + 5, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
+        Gui.drawRect(this.parent.getX() + 95, this.offset + 1 + 5, this.parent.getX() + 95 + this.parent.getWidth(),  16 + this.offset + 5, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
         Gui.drawRect(this.parent.getX() + 95, this.offset + 5, this.parent.getX() + 95 + this.parent.getWidth(), this.offset + 1 + 5, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.mod.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
 

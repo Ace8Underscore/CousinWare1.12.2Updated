@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityDonkey;
 import net.minecraft.network.play.client.CPacketEntityAction;
 
+import java.util.Objects;
+
 public class RideEntity extends Command {
     @Override
     public String[] getClientAlias() {
@@ -21,7 +23,7 @@ public class RideEntity extends Command {
         for (Entity entity : mc.world.loadedEntityList)
             if (entity instanceof EntityDonkey) {
                 //mc.getConnection().sendPacket(new CPacketUseEntity(CPacketUseEntity.Action.INTERACT, entity, EnumHand.MAIN_HAND, entity.getPositionVector()));
-                mc.getConnection().sendPacket(new CPacketEntityAction(entity, CPacketEntityAction.Action.START_RIDING_JUMP, entity.getEntityId()));
+                Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketEntityAction(entity, CPacketEntityAction.Action.START_RIDING_JUMP, entity.getEntityId()));
                 Command.sendClientSideMessage(String.valueOf(entity.getEntityId()));
 
             }

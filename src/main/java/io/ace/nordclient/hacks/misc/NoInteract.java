@@ -11,6 +11,8 @@ import net.minecraft.util.EnumHand;
 import org.lwjgl.input.Mouse;
 import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 
+import java.util.Objects;
+
 /**
  * @author Ace________/Ace_#1233
  */
@@ -32,7 +34,7 @@ public class NoInteract extends Hack {
                         if (mc.objectMouseOver.getBlockPos().equals(entity.getPos())) {
                             if (Mouse.isButtonDown(1)) {
                                 event.setCanceled(true);
-                                mc.getConnection().sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                                Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
 
 
                             }
@@ -42,7 +44,7 @@ public class NoInteract extends Hack {
                 if (mc.world.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock().equals(Blocks.ANVIL)) {
                     if (Mouse.isButtonDown(1)) {
                         event.setCanceled(true);
-                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                        Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
 
 
                     }

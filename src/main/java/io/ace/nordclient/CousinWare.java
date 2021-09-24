@@ -3,7 +3,6 @@ package io.ace.nordclient;
 import io.ace.nordclient.command.commands.Xray;
 import io.ace.nordclient.command.commands.*;
 import io.ace.nordclient.cousingui.CousinWareGui;
-import io.ace.nordclient.event.EventLaunch;
 import io.ace.nordclient.event.EventProcessor;
 import io.ace.nordclient.gui.ClickGUI2;
 import io.ace.nordclient.hacks.client.ClickGuiHack;
@@ -19,7 +18,6 @@ import io.ace.nordclient.hacks.render.Crystal;
 import io.ace.nordclient.hacks.render.*;
 import io.ace.nordclient.hud.ClickGuiHUD;
 import io.ace.nordclient.hud.hudcomponets.*;
-import io.ace.nordclient.hwid.HWID;
 import io.ace.nordclient.hwid.UID;
 import io.ace.nordclient.managers.*;
 import io.ace.nordclient.utilz.DiscordRP;
@@ -30,11 +28,9 @@ import io.ace.nordclient.utilz.configz.ShutDown;
 import io.ace.nordclient.utilz.font.CFontRenderer;
 import io.ace.nordclient.utilz.sound.SoundRegisterListener;
 import io.ace.nordclient.utilz.target.TrackerManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,9 +39,6 @@ import team.stiff.pomelo.EventManager;
 import team.stiff.pomelo.impl.annotated.AnnotatedEventManager;
 
 import java.awt.Font;
-import java.lang.management.ManagementFactory;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 @Mod(modid = CousinWare.MODID, name = CousinWare.NAME, version = CousinWare.VERSION)
@@ -70,7 +63,6 @@ public class CousinWare
     public ClickGUI2 clickGui2;
     public ClickGuiHUD clickGuiHUD;
     public CFontRenderer fontRenderer;
-    public HWID hwid;
 
     @Mod.Instance
     public static CousinWare INSTANCE;
@@ -81,14 +73,11 @@ public class CousinWare
 
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) throws MalformedURLException {
+    public void preInit(FMLPreInitializationEvent event) {
         Display.setTitle("CousinWare " + VERSION + " - " + UID.getUID());
-        hwid = new HWID();
-
-//
     }
 
-    @Mod.EventHandler
+    @EventHandler
     public void init(FMLInitializationEvent event) {
         this.discordRP.start();
         eventProcessor = new EventProcessor();
@@ -105,39 +94,13 @@ public class CousinWare
         clickGui2 = new ClickGUI2();
         clickGuiHUD = new ClickGuiHUD();
         ConfigUtils.startUp();
-
-
-
         Runtime.getRuntime().addShutdownHook(new ShutDown());
-
-    }
-    @Mod.EventHandler
-    public void inits(FMLInitializationEvent event) throws URISyntaxException {
-        EventLaunch.init();
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        String currentHWID = String.valueOf(Runtime.getRuntime().availableProcessors() +
-                //System.getenv("PROCESSOR_IDENTIFIER") +
-                //System.getenv("PROCESSOR_ARCHITECTURE") +
-                //System.getenv("PROCESSOR_ARCHITEW6432") +
-                ////System.getenv("NUMBER_OF_PROCESSORS") +
-                ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize());
-        if (!HWID.isGoodHWID(currentHWID)) {
-            FMLCommonHandler.instance().exitJava(0, true);
-            log.info("Invalid Hwid!");
-        }
-        //ConfigUtils.loadAll();
-        //
-
     }
 
     public EventManager getEventManager() {
         if (this.eventManager == null) {
             this.eventManager = new AnnotatedEventManager();
         }
-
         return this.eventManager;
     }
 
@@ -168,12 +131,10 @@ public class CousinWare
         CommandManager.addCommand(new SaveConfig());
         CommandManager.addCommand(new LoadConfig());
         CommandManager.addCommand(new ConfigFolder());
-
     }
 
     public void loadHuds() {
         HudManager.hudElement = new ArrayList<>();
-
         HudManager.addHud(new ArmorHud());
         HudManager.addHud(new io.ace.nordclient.hud.hudcomponets.Crystal());
         HudManager.addHud(new Exp());
@@ -182,7 +143,6 @@ public class CousinWare
         HudManager.addHud(new InventoryPreview());
         HudManager.addHud(new Obsidian());
         HudManager.addHud(new Totem());
-
     }
 
     public void loadHacks() {
@@ -213,7 +173,7 @@ public class CousinWare
         HackManager.addHack(new KeyPearl());
         HackManager.addHack(new PacketXp());
         HackManager.addHack(new PistonAura2());
-        HackManager.addHack(new io.ace.nordclient.hacks.combat.SpeedMine());
+        HackManager.addHack(new SpeedMine());
         HackManager.addHack(new Surround());
         HackManager.addHack(new Surround2());
         HackManager.addHack(new TotemPopCounter());
@@ -222,6 +182,7 @@ public class CousinWare
         HackManager.addHack(new AutoMinecartRefill());
         HackManager.addHack(new AntiDesync());
         HackManager.addHack(new Blink());
+        HackManager.addHack(new CoordExploit());
         HackManager.addHack(new LagBar());
         HackManager.addHack(new Lagger());
         HackManager.addHack(new NoBreakLoss());
@@ -229,12 +190,12 @@ public class CousinWare
         HackManager.addHack(new PhaseWalk());
         HackManager.addHack(new SecretMine());
         HackManager.addHack(new TrackerManager());
+        HackManager.addHack(new ModuleDLSpiral());
         //misc
-        //
         HackManager.addHack(new AntiRegear());
         HackManager.addHack(new AutoWither());
         //HackManager.addHack(new BedrockFinder());
-        //HackManager.addHack(new BoatBypass());
+        HackManager.addHack(new BoatBypass());
         HackManager.addHack(new ChatSuffix());
         HackManager.addHack(new ChestStealer());
         HackManager.addHack(new ChestSwap());
@@ -243,14 +204,14 @@ public class CousinWare
         HackManager.addHack(new DungannonSpammer());
         HackManager.addHack(new EnchantColor());
         HackManager.addHack(new FakePlayer());
-        //HackManager.addHack(new HotbarRefill());
+        HackManager.addHack(new HotbarRefill());
         HackManager.addHack(new FancyChat());
         HackManager.addHack(new IllegalFinder());
         HackManager.addHack(new LogoutCoords());
         HackManager.addHack(new MCF());
         HackManager.addHack(new NoEntityTrace());
         HackManager.addHack(new NotResponding());
-       // HackManager.addHack(new PlayerEffects());
+        HackManager.addHack(new PlayerEffects());
         HackManager.addHack(new NoInteract());
         HackManager.addHack(new QuickDrop());
         HackManager.addHack(new ShulkerMod());
@@ -269,7 +230,6 @@ public class CousinWare
         HackManager.addHack(new Jesus());
         HackManager.addHack(new ReverseStep());
         HackManager.addHack(new Sprint());
-
         HackManager.addHack(new Step());
         HackManager.addHack(new Strafe());
         HackManager.addHack(new Velocity());
@@ -312,6 +272,4 @@ public class CousinWare
         HackManager.addHack(new Welcomer());
         HackManager.addHack(new io.ace.nordclient.hacks.render.Xray());
     }
-
 }
-

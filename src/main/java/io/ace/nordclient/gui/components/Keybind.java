@@ -14,7 +14,7 @@ public class Keybind extends Component
 {
     private boolean hovered;
     private boolean binding;
-    private Button parent;
+    private final Button parent;
     private int offset;
     private int x;
     private int y;

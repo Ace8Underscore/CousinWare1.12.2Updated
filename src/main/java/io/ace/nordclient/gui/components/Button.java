@@ -21,22 +21,22 @@ public class Button extends Component
     public Frame parent;
     public int offset;
     private boolean isHovered;
-    private ArrayList<Component> subcomponents;
+    private final ArrayList<Component> subcomponents;
     public boolean open;
-    private int height;
+    private final int height;
 
     public Button(final Hack hack, final Frame parent, final int offset) {
         this.hack = hack;
         this.parent = parent;
         this.offset = offset;
-        this.subcomponents = new ArrayList<Component>();
+        this.subcomponents = new ArrayList <>();
         this.open = false;
         this.height = 16;
         int opY = offset + 16;
         if (CousinWare.INSTANCE.settingsManager.getSettingsByMod(hack) != null && !CousinWare.INSTANCE.settingsManager.getSettingsByMod(hack).isEmpty()) {
             for (final Setting s : CousinWare.INSTANCE.settingsManager.getSettingsByMod(hack)) {
                     if (s.isCombo()) {
-                        this.subcomponents.add(new ModeButton((Setting)s, this, hack, opY));
+                        this.subcomponents.add(new ModeButton(s, this, hack, opY));
                         opY += 16;
                         continue;
                     }
@@ -46,12 +46,12 @@ public class Button extends Component
                         continue;
                     } */
                     else if (s.isCheck()) {
-                        this.subcomponents.add(new CheckBox((Setting)s, this, opY));
+                        this.subcomponents.add(new CheckBox(s, this, opY));
                         opY += 16;
                         continue;
                     }
                     else if (s.isSlider()) {
-                        this.subcomponents.add(new DoubleSlider((Setting)s, this, opY));
+                        this.subcomponents.add(new DoubleSlider(s, this, opY));
                         opY += 16;
                         continue;
                     }
@@ -81,7 +81,7 @@ public class Button extends Component
     public void renderComponent() {
 
         Color c = new Color(ClickGuiHack.red.getValInt(), ClickGuiHack.green.getValInt(), ClickGuiHack.blue.getValInt(), 255);
-        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + 16 + this.offset, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
+        Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset + 1, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + 16 + this.offset, this.isHovered ? (this.hack.isEnabled() ? new Color(29, 37,48, ClickGuiHack.alpha.getValInt()).getRGB() : new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).darker().darker().getRGB()) : (new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB()));
         Gui.drawRect(this.parent.getX(), this.parent.getY() + this.offset, this.parent.getX() + this.parent.getWidth(), this.parent.getY() + this.offset + 1, new Color(29, 37, 48, ClickGuiHack.alpha.getValInt()).getRGB());
         //FontUtils.drawStringWithShadow(((ClickGuiModule) ModuleManager.getModuleByName("ClickGui")).customFont.getValInt(), this.mod.getName(), this.parent.getX() + 2, this.parent.getY() + this.offset + 2 + 2, -1);
 

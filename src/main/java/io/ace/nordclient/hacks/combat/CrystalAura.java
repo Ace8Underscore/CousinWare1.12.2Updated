@@ -37,6 +37,7 @@ import team.stiff.pomelo.impl.annotated.handler.annotation.Listener;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CrystalAura extends Hack {
@@ -337,7 +338,7 @@ public class CrystalAura extends Hack {
             final int k = EnchantmentHelper.getEnchantmentModifierDamage(ep.getArmorInventoryList(), ds);
             final float f = MathHelper.clamp((float)k, 0.0f, 20.0f);
             damage *= 1.0f - f / 25.0f;
-            if (entity.isPotionActive(Potion.getPotionById(11))) {
+            if (entity.isPotionActive(Objects.requireNonNull(Potion.getPotionById(11)))) {
                 damage -= damage / 4.0f;
             }
             return damage;
